@@ -16,15 +16,17 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         registerUserData: (state, action) => {
-            return {...state, ...action.payload}
+            return { ...state, ...action.payload };
         },
+        logoutUser: () =>{
+            
+        },
+        updateUsername: () => {},
+        updateProfession: () => {},
+        updateProfilePic: () => {},
+        addWorkspace: () => {},
+        removeWorkspace: () => {},
     },
-    updateUsername: () => {},
-    updateProfession: () => {},
-    updateProfilePic: () => {},
-    updateIsVerified: () => {},
-    addWorkspace: () => {},
-    removeWorkspace: () => {},
 });
 
 export const {
@@ -32,7 +34,6 @@ export const {
     updateUsername,
     updateProfession,
     updateProfilePic,
-    updateIsVerified,
     addWorkspace,
     removeWorkspace,
 } = userSlice.actions;

@@ -6,14 +6,15 @@ import { useSelector } from 'react-redux'
 
 const HomePage = () => {
 
-    const user = useSelector(state => state.userReducer)
+    const user = useSelector(state => state.user)
 
     console.log(user)
 
     const navigate = useNavigate()
 
-    const handleClick = ()=>{
-        logoutUser()
+    const handleClick = async()=>{
+       const res = await logoutUser()
+       console.log(res)
     }
 
   return (

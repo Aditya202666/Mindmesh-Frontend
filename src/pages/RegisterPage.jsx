@@ -2,18 +2,16 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import avatarImage from '../assets/avatar.png'
 import { FaEye, FaEyeSlash, FaKey, FaMailBulk, FaUser } from "react-icons/fa";
-import mindmeshLogo from "../assets/mindmeshLogo.png";
 import { FaClipboardUser } from "react-icons/fa6";
 import { BiCamera } from "react-icons/bi";
 import { registerUser } from "../api/user/authApi";
-import { registerUserData } from "../store/features/user/userSlice";
+import { registerUserData } from "../store/features/userSlice";
 import { useDispatch } from "react-redux";
 import { ImCross } from "react-icons/im";
 import { FcOk } from "react-icons/fc";
 import { toast } from "react-toastify";
 import { checkUsername } from "../api/user/userApi";
 
-//todo add avatar functionality
 
 const RegisterPage = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -50,7 +48,7 @@ const RegisterPage = () => {
         const res = await registerUser(formData);
         if (res && res.success) {
             dispatch(registerUserData(res.data));
-            navigate("/");
+            navigate("/verify-account");
         }
         setIsRegistering(false);
     };
@@ -93,17 +91,14 @@ const RegisterPage = () => {
 
     return (
         <div className="flex flex-col items-center justify-center my-8 gap-6 w-full h-full">
-            <div className="absolute top-2 left-2 flex items-center">
-                <img className="h-8 lg:h-10" src={mindmeshLogo} alt="" />
-            </div>
-            <h1 className="font-bold fixed top-15 z-10 text-2xl md:text-4xl">
+            <h1 className="font-bold text-2xl md:text-4xl">
                 Register Account
             </h1>
 
             {/* form */}
             <form
                 onSubmit={handleRegisterSubmit}
-                className="flex flex-col justify-center items-center "
+                className="flex flex-col justify-center items-center w-full "
             >
                 {" "}
                 {/* avatar */}
@@ -135,7 +130,7 @@ const RegisterPage = () => {
                     </label>
                 </div>
                 {/* fullname */}
-                <label className="input validator rounded-xl w-full">
+                <label className="input validator rounded-xl ">
                     <FaClipboardUser />
                     <input
                         type="text"
@@ -215,7 +210,7 @@ const RegisterPage = () => {
                     Must be 8-25 characters
                 </p>
                 <button
-                    className="btn rounded-xl w-4/5 btn-primary"
+                    className="btn rounded-xl btn-wide btn-secondary"
                     disabled={isRegistering}
                 >
                     {isRegistering ? (

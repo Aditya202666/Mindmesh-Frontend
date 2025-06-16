@@ -1,4 +1,4 @@
-const getHeaderToken = () => {
+const   getHeaderToken = () => {
     const cookie = document.cookie.split("=")[1] || "No cookie";
     return {
         headers: {
