@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import {
     createBrowserRouter,
@@ -20,9 +20,9 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import RootLayout from "./Layouts/RootLayout";
 
 const App = () => {
-    const [lightTheme, setLightTheme] = useState(true);
-
     const user = useSelector((state) => state.user);
+    const theme = useSelector((state) => state.theme.theme);
+    console.log(theme)
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -74,8 +74,8 @@ const App = () => {
                     </Route>
                 </Route>
                 <Route element={<ProtectedRoutes />}>
-                    <Route element={<RootLayout/>}>
-                    <Route path="/" element={<HomePage />} />
+                    <Route element={<RootLayout />}>
+                        <Route path="/" element={<HomePage />} />
                     </Route>
                 </Route>
             </>
@@ -84,18 +84,11 @@ const App = () => {
 
     return (
         <div
-            data-theme={lightTheme ? "light" : "dark"}
+            data-theme={theme}
             className="transition-colors h-screen duration-500"
         >
             <RouterProvider router={router} />
             <ToastContainer />
-            <button
-                type="button"
-                className="btn btn-secondary absolute bottom-0 right-0"
-                onClick={() => setLightTheme((prev) => !prev)}
-            >
-                change
-            </button>
         </div>
     );
 };

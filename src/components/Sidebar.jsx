@@ -47,13 +47,13 @@ const Sidebar = () => {
     //todo: add modal for crate new workspace
     //todo:
     return (
-        <div className="hidden lg:block bg-base-300 h-[calc(100vh-3.5rem)] w-3xs px-4">
+        <div className="hidden lg:block bg-base-300 h-[calc(100vh-3.5rem)] w-3xs px-4 transition-all duration-300">
             {/* select workspace */}
             <div className="relative">
                 <fieldset className="fieldset ">
                     <legend className="fieldset-legend  ">Workspace</legend>
 
-                    <FaPlus className="absolute top-2.5 right-4 cursor-pointer hover:scale-110 active:scale-90" />
+                    <FaPlus className="absolute bg-primary p-1 size-4 rounded-full text-primary-content top-2.5 right-0 cursor-pointer hover:bg-secondary active:scale-90" />
                     <select
                         value={selectedWorkspace}
                         onChange={handleSelectWorkspace}
@@ -94,6 +94,40 @@ const Sidebar = () => {
                     <></>
                 )}
             </ul>
+            {/* divider */}
+                <div className="divider mb-0"></div>
+            {/* projects */}
+            <fieldset className="relative fieldset">
+                <legend className="fieldset-legend">
+                    <div className="flex items-center gap-2">
+                        <FaPlus className="absolute bg-primary p-1 size-4 rounded-full text-primary-content top-2 right-0 cursor-pointer hover:bg-secondary active:scale-90" />
+                        Projects
+                    </div>
+                </legend>
+                <ul className="overflow-y-auto h-64">
+                    {user.projects && user.projects.length > 0 ? (
+                        user.projects.map((project) => (
+                            <NavLink
+                                key={project.id}
+                                to={`/${workspaceId}/project/${project.id}`}
+                                className={({ isActive }) =>
+                                    "flex items-center gap-2 font-semibold px-2 py-1 rounded-full " +
+                                    (isActive
+                                        ? " text-secondary-content bg-secondary shadow "
+                                        : " hover:bg-secondary/65")
+                                }
+                            >
+                                <GoTasklist />
+                                {truncate(project.name)}
+                            </NavLink>
+                        ))
+                    ) : (
+                        <p className="text-center text-sm text-gray-500">
+                            No projects available
+                        </p>
+                    )}
+                </ul>
+            </fieldset>
             <span className="absolute bottom-5 shadow bg-base-100 px-2 py-1 rounded-full ">
                 {user.email}
             </span>
