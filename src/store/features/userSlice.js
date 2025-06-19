@@ -18,8 +18,8 @@ export const userSlice = createSlice({
         registerUserData: (state, action) => {
             return { ...state, ...action.payload };
         },
-        logoutUser: () =>{
-            
+        removeUserData: () =>{
+            return initialState;
         },
         updateUsername: () => {},
         updateProfession: () => {},
@@ -31,6 +31,7 @@ export const userSlice = createSlice({
 
 export const {
     registerUserData,
+    removeUserData,
     updateUsername,
     updateProfession,
     updateProfilePic,

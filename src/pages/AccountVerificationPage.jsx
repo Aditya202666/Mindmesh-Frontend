@@ -25,7 +25,7 @@ const AccountVerificationPage = () => {
         console.log(res);
         if (res && res.success) {
             dispatch(registerUserData(res.data));
-            navigate("/");
+            navigate("/my-tasks");
         }
 
         setIsVerifying(false);

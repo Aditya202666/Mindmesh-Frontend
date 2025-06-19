@@ -18,11 +18,12 @@ import { refreshToken } from "./api/user/authApi";
 import { registerUserData } from "./store/features/userSlice";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import RootLayout from "./Layouts/RootLayout";
+import MyTasksPage from "./pages/MyTasksPage";
 
 const App = () => {
     const user = useSelector((state) => state.user);
     const theme = useSelector((state) => state.theme.theme);
-    console.log(theme)
+    console.log(theme);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -49,7 +50,7 @@ const App = () => {
 
     const RedirectFromLogin = () => {
         if (user.id && user.isVerified) {
-            return <Navigate to={"/"} replace />;
+            return <Navigate to={"/my-tasks"} replace />;
         } else if (user.id && !user.isVerified) {
             return <Navigate to={"/verify-account"} replace />;
         }
@@ -73,9 +74,10 @@ const App = () => {
                         />
                     </Route>
                 </Route>
+                <Route path="/" element={<HomePage />} />
                 <Route element={<ProtectedRoutes />}>
                     <Route element={<RootLayout />}>
-                        <Route path="/" element={<HomePage />} />
+                        <Route path="my-tasks" element={<MyTasksPage />} />
                     </Route>
                 </Route>
             </>
