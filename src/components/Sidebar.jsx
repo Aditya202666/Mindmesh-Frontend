@@ -14,8 +14,9 @@ import { MdLogout, MdSpaceDashboard } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { toggleTheme } from "../store/features/themeSlice";
-import { logoutUser } from "../api/user/authApi";
+import { logoutUser } from "../api/apiCalls/authApi";
 import { removeUserData } from "../store/features/userSlice";
+import mindmeshLogo from "../assets/mindmeshLogo.png";
 
 const truncate = (text, maxChars = 25) =>
     text.length > maxChars ? text.slice(0, maxChars) + "..." : text;
@@ -26,10 +27,11 @@ const Sidebar = () => {
     const workspaceId = user.id;
     const workspaces = user.workspaces;
     const TABS = [
-        { name: "My Tasks", link: "/my-tasks", icon: <FaTasks /> },
+        { name: "My Tasks", link: "/my-tasks/overview", icon: <FaTasks /> },
         {
             name: "Dashboard",
-            link: `/${workspaceId}/dashboard`,
+            // link: `/${workspaceId}/dashboard`,
+            link: `/my-tasks/overview/pending`,
             icon: <MdSpaceDashboard />,
         },
         {
@@ -71,18 +73,24 @@ const Sidebar = () => {
 
     //todo: add modal for crate new workspace
     //todo:
+    // h-[calc(100vh-2.5rem)] 
     return (
-        <div className="hidden lg:flex flex-col bg-base-300 h-screen w-2xs px-4 transition-all duration-300">
+        <div className="hidden lg:flex flex-col bg-base-300 h-screen w-3xs px-4 transition-all duration-300">
+            <div className="flex items-center w-2xs h-10 gap-0">
+                <img className="h-10" src={mindmeshLogo} alt="" />
+                <h1 className="text-lg font-semibold ">MindMesh</h1>
+            </div>
+
             {/* select workspace */}
-            <div className="relative">
+            <div className="relative mt-2">
                 <fieldset className="fieldset ">
                     <legend className="fieldset-legend  ">Workspace</legend>
 
-                    <FaPlus className="absolute bg-primary p-1 size-4 rounded-full text-primary-content top-2.5 right-0 cursor-pointer hover:bg-secondary active:scale-90" />
+                    <FaPlus className="absolute bg-primary p-1 size-4 rounded-xl text-primary-content top-2.5 right-0 cursor-pointer hover:bg-secondary active:scale-90" />
                     <select
                         value={selectedWorkspace}
                         onChange={handleSelectWorkspace}
-                        className="select rounded-full h-8 cursor-pointer shadow"
+                        className="select rounded-xl h-8 cursor-pointer shadow"
                     >
                         <option disabled={true} value={""}>
                             Pick Workspace
@@ -105,7 +113,7 @@ const Sidebar = () => {
                             key={index}
                             to={tab.link}
                             className={({ isActive }) =>
-                                "flex items-center gap-2 font-semibold px-2 py-1  rounded-full " +
+                                "flex items-center gap-2 font-semibold px-2 py-1  rounded-xl " +
                                 (isActive
                                     ? " text-secondary-content bg-secondary shadow "
                                     : " hover:bg-secondary/65")
@@ -125,7 +133,7 @@ const Sidebar = () => {
             <fieldset className="relative fieldset ">
                 <legend className="fieldset-legend">
                     <div className="flex items-center gap-2">
-                        <FaPlus className="absolute bg-primary p-1 size-4 rounded-full text-primary-content top-2 right-0 cursor-pointer hover:bg-secondary active:scale-90" />
+                        <FaPlus className="absolute bg-primary p-1 size-4 rounded-xl text-primary-content top-2 right-0 cursor-pointer hover:bg-secondary active:scale-90" />
                         Projects
                     </div>
                 </legend>
@@ -136,7 +144,7 @@ const Sidebar = () => {
                                 key={project.id}
                                 to={`/${workspaceId}/project/${project.id}`}
                                 className={({ isActive }) =>
-                                    "flex items-center gap-2 font-semibold px-2 py-1 rounded-full " +
+                                    "flex items-center gap-2 font-semibold px-2 py-1 rounded-xl " +
                                     (isActive
                                         ? " text-secondary-content bg-secondary shadow "
                                         : " hover:bg-secondary/65")
@@ -155,13 +163,13 @@ const Sidebar = () => {
             </fieldset>
             {/* bottom user tab */}
             <div
-                className="flex gap-2 mt-auto mb-4 dropdown dropdown-top bg-base-100 border border-base-300 rounded-full shadow cursor-pointer hover:bg-base-200 transition-all"
+                className="flex gap-2 mt-auto mb-4 dropdown dropdown-top bg-base-100 rounded-xl shadow cursor-pointer hover:bg-base-200 transition-all"
                 tabIndex={0}
                 role="button"
             >
                 {/* profile pic */}
                 <div className="btn btn-ghost btn-circle avatar h-9 w-9 ">
-                    <div className="w-8 rounded-full">
+                    <div className="w-8 rounded-xl">
                         <img
                             alt="Tailwind CSS Navbar component"
                             src={user.profilePic}
@@ -176,7 +184,7 @@ const Sidebar = () => {
 
                 <ul
                     tabIndex={0}
-                    className="menu text-xs font-semibold menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+                    className="menu text-xs font-semibold menu-sm dropdown-content bg-base-100 border-r-base-300 rounded-box z-1 mb-2 w-52 p-2 shadow-lg"
                 >
                     <li>
                         <Link

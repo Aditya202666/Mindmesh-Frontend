@@ -14,20 +14,21 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { useDispatch, useSelector } from "react-redux";
 import AccountVerificationPage from "./pages/AccountVerificationPage";
-import { refreshToken } from "./api/user/authApi";
 import { registerUserData } from "./store/features/userSlice";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import RootLayout from "./Layouts/RootLayout";
-import MyTasksPage from "./pages/MyTasksPage";
+import MyTasksLayout from "./Layouts/MyTasksLayout";
+import { refreshToken } from "./api/apiCalls/authApi";
 
 const App = () => {
     const user = useSelector((state) => state.user);
     const theme = useSelector((state) => state.theme.theme);
-    console.log(theme);
+    // console.log(theme);
     const dispatch = useDispatch();
 
     useEffect(() => {
         const getUser = async () => {
+            // console.log("getting user data");
             const res = await refreshToken();
             if (res && res.success) {
                 dispatch(registerUserData(res.data));
@@ -37,7 +38,7 @@ const App = () => {
         getUser();
     }, [dispatch]);
 
-    console.log("rendering");
+    // console.log("rendering");
 
     const ProtectedRoutes = () => {
         if (!user.id) {
@@ -50,7 +51,7 @@ const App = () => {
 
     const RedirectFromLogin = () => {
         if (user.id && user.isVerified) {
-            return <Navigate to={"/my-tasks"} replace />;
+            return <Navigate to={"/my-tasks/overview"} replace />;
         } else if (user.id && !user.isVerified) {
             return <Navigate to={"/verify-account"} replace />;
         }
@@ -75,9 +76,30 @@ const App = () => {
                     </Route>
                 </Route>
                 <Route path="/" element={<HomePage />} />
+
                 <Route element={<ProtectedRoutes />}>
                     <Route element={<RootLayout />}>
-                        <Route path="my-tasks" element={<MyTasksPage />} />
+                        <Route path="my-tasks" element={<MyTasksLayout />}>
+                            <Route path="overview">
+                                <Route index element={<>overview</>} />
+                                <Route
+                                    path="all-tasks"
+                                    element={<>all-tasks</>}
+                                />
+                                <Route
+                                    path="completed-tasks"
+                                    element={<>completed-tasks</>}
+                                />
+                                <Route
+                                    path="pending-tasks"
+                                    element={<>pending-tasks</>}
+                                />
+                                <Route
+                                    path="overdue-tasks"
+                                    element={<>overdue- tasks</>}
+                                />
+                            </Route>
+                        </Route>
                     </Route>
                 </Route>
             </>

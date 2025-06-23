@@ -34,7 +34,7 @@ const getAccountVerificationOtp = async () => {
         const cookie = getHeaderToken();
         // console.log(cookie)
         const res = await axiosInstance.get("/auth/account-otp", cookie);
-        console.log(res);
+        // console.log(res);
         if (res) {
             toast(res.data.message);
             return res.data;
@@ -52,7 +52,7 @@ const verifyAccount = async (otp) => {
             otp,
             cookie
         );
-        console.log(res);
+        // console.log(res);
         if (res) {
             toast(res.data.message);
             return res.data;
@@ -65,7 +65,7 @@ const verifyAccount = async (otp) => {
 const refreshToken = async () => {
     try {
         const res = await axiosInstance.post("/auth/refresh-token");
-        console.log(res);
+        // console.log(res);
         if (res) {
             toast(res.data.message);
             return res.data;

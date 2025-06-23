@@ -1,7 +1,7 @@
 import {  useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { getForgotPasswordOtp, verifyForgotPasswordOtp } from "../api/user/authApi";
+import { getForgotPasswordOtp, verifyForgotPasswordOtp } from "../api/apiCalls/authApi";
 import { registerUserData } from "../store/features/userSlice";
 import { useDispatch } from "react-redux";
 import { FaKey, FaMailBulk } from "react-icons/fa";

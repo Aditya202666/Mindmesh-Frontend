@@ -1,11 +1,37 @@
-import React from 'react'
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+    const location = useLocation();
+    console.log(location.pathname);
+    const pathname = location.pathname.split("/").slice(2);
 
-export default Navbar
+    return (
+        <div className="lg:flex items-center px-4 hidden lg:w-[calc(100vw-16rem)] h-10 bg-base-200">
+            {pathname.length > 0 &&
+                pathname.map((path, index) => {
+                    const fullPath =
+                        "/my-tasks/" + pathname.slice(0, index + 1).join("/");
+                    const label = isNaN(path)
+                        ? path.charAt(0).toUpperCase() + path.slice(1)
+                        : path; // Skip capitalizing IDs
+
+                    return (
+                        <span
+                            key={index}
+                            className=" font-semibold"
+                        >
+                            <Link to={fullPath}>
+                             {label}
+                             </Link>
+                            {index < pathname.length - 1 && (
+                                <span className="mx-1">{">"}</span>
+                            )}
+                        </span>
+                    );
+                })}
+        </div>
+    );
+};
+
+export default Navbar;

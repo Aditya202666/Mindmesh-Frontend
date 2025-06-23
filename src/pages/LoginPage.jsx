@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { FaEye, FaEyeSlash, FaKey } from "react-icons/fa";
 import { FaClipboardUser } from "react-icons/fa6";
-import { loginUser } from "../api/user/authApi";
+import { loginUser } from "../api/apiCalls/authApi";
 import { registerUserData } from "../store/features/userSlice";
 import { useDispatch } from "react-redux";
 

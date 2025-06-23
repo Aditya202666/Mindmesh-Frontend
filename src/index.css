@@ -14,33 +14,27 @@
   --color-base-content: oklch(20% 0.03 240); /* deep gray for text */
 
   /* Sticky note inspired colors with soft, pastel tones for notes */
-  --color-primary: oklch(90% 0.2 250); /* pastel blue for primary notes */
-  --color-primary-content: oklch(20% 0.03 250); /* deep text color for contrast */
+  --color-primary: oklch(100% 0.15 250); /* pastel blue for primary notes */
+  --color-primary-content: oklch(15% 0.03 250); /* deep text color for contrast */
 
-  --color-secondary: oklch(92% 0.17 100); /* pastel yellow to mimic sticky notes */
-  --color-secondary-content: oklch(20% 0.03 100); /* dark enough for readability */
+  --color-secondary: oklch(100% 0.15 100); /* pastel yellow to mimic sticky notes */
+  --color-secondary-content: oklch(15% 0.03 100); /* dark enough for readability */
 
-  --color-accent: oklch(90% 0.2 140); /* pastel green for accent or highlighting */
-  --color-accent-content: oklch(20% 0.03 140);
+  --color-accent: oklch(95% 0.15 330); /* pastel green for accent or highlighting */
+  --color-accent-content: oklch(15% 0.03 330);
 
-  --color-neutral: oklch(85% 0.05 240); /* soft gray for backgrounds or less prominent elements */
-  --color-neutral-content: oklch(25% 0.04 240); /* contrast text */
+  --color-neutral: oklch(90% 0.01 240); /* soft gray for backgrounds or less prominent elements */
+  --color-neutral-content: oklch(15% 0.01 240); /* contrast text */
 
-  /* Additional pastel shades for variety */
-  --color-extra1: oklch(88% 0.16 330); /* soft lavender */
-  --color-extra1-content: oklch(20% 0.03 330);
-
-  --color-extra2: oklch(87% 0.15 40); /* pastel coral */
-  --color-extra2-content: oklch(20% 0.03 40); 
 
   /* Status colors kept subtle and pleasing */
-  --color-info: oklch(90% 0.18 220); /* light cyan */
-  --color-info-content: oklch(20% 0.03 220);
-  --color-success: oklch(90% 0.22 140); /* minty */
-  --color-success-content: oklch(20% 0.03 140);
-  --color-warning: oklch(93% 0.25 85); /* light orange/yellow */
-  --color-warning-content: oklch(30% 0.05 85);
-  --color-error: oklch(88% 0.28 25); /* soft coral/red */
+  --color-info: oklch(95% 1.2 220); /* light cyan */
+  --color-info-content: oklch(15% 0.03 220);
+  --color-success: oklch(90% 0.25 140); /* minty */
+  --color-success-content: oklch(15% 0.03 140);
+  --color-warning: oklch(90% 0.25 45); /* light orange/yellow */
+  --color-warning-content: oklch(15% 0.01 45);
+  --color-error: oklch(90% 0.25 25); /* soft coral/red */
   --color-error-content: oklch(10% 0.05 25);
 
   /* Border and spacing for a soft look */
@@ -64,37 +58,32 @@
   prefersdark: true;
   color-scheme: dark;
 
-  --color-base-100: oklch(28% 0.02 240); /* very dark gray with a cool tone */
+  --color-base-300: oklch(28% 0.02 240); /* very dark gray with a cool tone */
   --color-base-200: oklch(25% 0.025 240);
-  --color-base-300: oklch(20% 0.03 240);
+  --color-base-100: oklch(20% 0.03 240);
   --color-base-content: oklch(100% 0.02 240); /* darker for readability */
 
 
-  --color-primary: oklch(85% 0.3 250); /* lively blue */
+  --color-primary: oklch(95% 0.15 250); /* lively blue */
   --color-primary-content: oklch(20% 0.08 250); /* near black for contrast */
 
-  --color-secondary: oklch(80% 0.2 100); /* bright pastel yellow */
+  --color-secondary: oklch(95% 0.1 100); /* bright pastel yellow */
   --color-secondary-content: oklch(20% 0.08 100); /* near black */
 
-  --color-accent: oklch(80% 0.3 140); /* vivid pastel green */
-  --color-accent-content: oklch(20% 0.08 140); /* near black */
+  --color-accent: oklch(95% 0.15 330); /* vivid pastel green */
+  --color-accent-content: oklch(20% 0.08 330); /* near black */
 
-  --color-extra1: oklch(80% 0.22 330); /* soft lavender */
-  --color-extra1-content: oklch(20% 0.08 330); /* darker for contrast */
   
-  --color-extra2: oklch(85% 0.25 40); /* pastel sea green */
-  --color-extra2-content: oklch(20% 0.08 40); /* darker for contrast */
-
-  --color-neutral: oklch(85% 0.07 220); /* cool muted gray */
+  --color-neutral: oklch(95% 0.06 220); /* cool muted gray */
   --color-neutral-content: oklch(20% 0.08 220); /* near black */
 
-  --color-info: oklch(85% 0.3 220);
-  --color-info-content: oklch(20% 0.08 220);
-  --color-success: oklch(85% 0.3 140);
+  --color-info: oklch(95% 3 200);
+  --color-info-content: oklch(10% 0.08 220);
+  --color-success: oklch(95% 0.2 140);
   --color-success-content: oklch(20% 0.08 140);
-  --color-warning: oklch(75% 0.4 85);
-  --color-warning-content: oklch(20% 0.08 85);
-  --color-error: oklch(70% 0.3 25);
+  --color-warning: oklch(95% 0.2 45);
+  --color-warning-content: oklch(20% 0.08 45);
+  --color-error: oklch(70% 0.2 25);
   --color-error-content: oklch(20% 0.08 25);
 
   /* Rounded corners and sizes for aesthetic softness */

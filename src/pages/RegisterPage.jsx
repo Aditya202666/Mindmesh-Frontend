@@ -4,13 +4,13 @@ import avatarImage from '../assets/avatar.png'
 import { FaEye, FaEyeSlash, FaKey, FaMailBulk, FaUser } from "react-icons/fa";
 import { FaClipboardUser } from "react-icons/fa6";
 import { BiCamera } from "react-icons/bi";
-import { registerUser } from "../api/user/authApi";
+import { registerUser } from "../api/apiCalls/authApi";
 import { registerUserData } from "../store/features/userSlice";
 import { useDispatch } from "react-redux";
 import { ImCross } from "react-icons/im";
 import { FcOk } from "react-icons/fc";
 import { toast } from "react-toastify";
-import { checkUsername } from "../api/user/userApi";
+import { checkUsername } from "../api/apiCalls/userApi";
 
 
 const RegisterPage = () => {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { logoutUser } from '../api/user/authApi'
+import { logoutUser } from '../api/apiCalls/authApi'
 import { useSelector } from 'react-redux'
 
 
@@ -20,7 +20,7 @@ const HomePage = () => {
   return (
     <div>
         <button onClick={handleClick} className='btn btn-secondary'>Click me</button>
-      <button onClick={()=>navigate("/register")} className='btn-primary btn'>Register</button>
+      <button onClick={()=>navigate("/my-tasks/overview")} className='btn-primary btn'>Register</button>
     </div>
   )
 }

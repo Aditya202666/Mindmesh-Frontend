@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { getAccountVerificationOtp, verifyAccount } from "../api/user/authApi";
+import { getAccountVerificationOtp, verifyAccount } from "../api/apiCalls/authApi";
 import { registerUserData } from "../store/features/userSlice";
 import { useDispatch } from "react-redux";
 import { FaKey } from "react-icons/fa";
