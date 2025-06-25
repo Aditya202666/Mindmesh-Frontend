@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    tasks: [],
+    allTasks: [],
+    dueInSevenDays: [],
+    overdueLastMonth: [],
+    recentTask: [],
 };
 
 const personalTaskSlice = createSlice({
@@ -12,7 +15,7 @@ const personalTaskSlice = createSlice({
             state.tasks = action.payload;
         },
         addTask: (state, action) => {
-            state.tasks.push(action.payload);
+            state.allTasks.push(action.payload);
         },
         removeTask: () => {},
     },

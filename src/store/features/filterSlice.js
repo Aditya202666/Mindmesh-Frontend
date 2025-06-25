@@ -14,7 +14,7 @@ const formattedDate = `${yyyy}-${mm}-${dd}`;
 
 
 const initialState = {
-    orderBy: "Ascending",
+    ascending: false,
     fromDate: formattedDate, // First day of the current month in yyyy-mm-dd format
     status: "All",
     priority: "All",
@@ -26,11 +26,11 @@ const filterSlice = createSlice({
     name: "filterSlice",
     initialState,
     reducers: {
-        setOrderBy: (state, action) => {
-            state.orderBy = action.payload;
+        setOrderBy: (state) => {
+            state.orderBy = !state.orderBy;
         },
         setFromDate: (state, action) => {
-            const selectedDate = new Date(action.payload).toISOString();
+            const selectedDate = new Date(action.payload)
             state.fromDate = selectedDate;
         },
         setStatus: (state, action) => {

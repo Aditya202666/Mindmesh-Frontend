@@ -22,16 +22,22 @@ const createTask = async (data) => {
     }
 };
 
-const getAllTasks = async ({ page, limit, fromDate }) => {
+const getTaskOverview = async()=>{
+    try {
+        const cookie = getHeaderToken()
+        const res = await axiosInstance.get("/personalTask/overview", cookie)
+        return res.data
+    } catch (error) {
+        handleError(error)
+    }
+}
+
+const getAllTasks = async (filter) => {
     try {
         const cookie = getHeaderToken();
         // console.log(cookie);
         const config = {
-            params: {
-                page,
-                limit,
-                fromDate,
-            },
+            params: {...filter},
             ...cookie,
         };
         const res = await axiosInstance.get("/personalTask/all", config);
@@ -43,4 +49,4 @@ const getAllTasks = async ({ page, limit, fromDate }) => {
     }
 };
 
-export { createTask, getAllTasks };
+export { createTask, getAllTasks, getTaskOverview };

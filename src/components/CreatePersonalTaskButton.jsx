@@ -6,7 +6,7 @@ import { addTask } from "../store/features/personalTaskSlice";
 
 const today = new Date().toISOString().split("T")[0];
 
-const CreatePersonalTask = () => {
+const CreatePersonalTaskButton = () => {
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
 
@@ -124,4 +124,4 @@ const CreatePersonalTask = () => {
     );
 };
 
-export default CreatePersonalTask;
+export default CreatePersonalTaskButton;
