@@ -26,12 +26,12 @@ const filterSlice = createSlice({
     name: "filterSlice",
     initialState,
     reducers: {
-        setOrderBy: (state) => {
-            state.orderBy = !state.orderBy;
+        setOrderBy: (state, action) => {
+            state.ascending = action.payload;
         },
         setFromDate: (state, action) => {
-            const selectedDate = new Date(action.payload)
-            state.fromDate = selectedDate;
+            // const selectedDate = new Date(action.payload)
+            state.fromDate = action.payload;
         },
         setStatus: (state, action) => {
             state.status = action.payload;

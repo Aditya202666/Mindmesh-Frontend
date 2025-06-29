@@ -19,7 +19,7 @@ const createTask = async (data) => {
         }
     } catch (error) {
         handleError(error);
-    }
+    }   
 };
 
 const getTaskOverview = async()=>{

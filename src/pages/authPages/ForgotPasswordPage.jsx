@@ -1,11 +1,11 @@
 import {  useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { getForgotPasswordOtp, verifyForgotPasswordOtp } from "../api/apiCalls/authApi";
-import { registerUserData } from "../store/features/userSlice";
+import { getForgotPasswordOtp, verifyForgotPasswordOtp } from "../../api/apiCalls/authApi";
+import { registerUserData } from "../../store/features/userSlice";
 import { useDispatch } from "react-redux";
 import { FaKey, FaMailBulk } from "react-icons/fa";
-import Timer from "../components/Timer";
+import Timer from "../../components/Timer";
 
 
 const ForgotPasswordPage = () => {
@@ -89,7 +89,7 @@ const ForgotPasswordPage = () => {
                 </label>
                 <div className="md:flex gap-2 space-y-2 justify-center mt-2">
                     <button
-                        className="btn rounded-xl btn-wide btn-primary"
+                        className="btn rounded-xl btn-wide btn-primary shadow border-black/20"
                         onClick={handleSendOtp}
                         disabled={isCooldown || !email}
                         type="button"
@@ -109,11 +109,11 @@ const ForgotPasswordPage = () => {
                         )}
                     </button>
                     <button
-                        className="btn rounded-xl btn-wide btn-secondary"
+                        className="btn rounded-xl btn-wide btn-secondary shadow border-black/20"
                         disabled={isVerifying}
                     >
                         {isVerifying ? (
-                            <span className="loading loading-ring text-secondary loading-md"></span>
+                            <span className="loading loading-dots text-info loading-md"></span>
                         ) : (
                             "Verify"
                         )}

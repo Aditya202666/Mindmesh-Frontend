@@ -1,14 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    id: "",
-    username: "",
-    fullname: "",
-    email: "",
-    profession: "",
-    profilePic: "",
-    isVerified: false,
-    workspaces: [],
+    isLoading: true,
+    userData: {
+        id: "",
+        username: "",
+        fullname: "",
+        email: "",
+        profession: "",
+        profilePic: "",
+        isVerified: false,
+        workspaces: [],
+    },
 };
 
 export const userSlice = createSlice({
@@ -16,9 +19,10 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         registerUserData: (state, action) => {
-            return { ...state, ...action.payload };
+            state.userData = action.payload;
+            state.isLoading = false;
         },
-        removeUserData: () =>{
+        removeUserData: () => {
             return initialState;
         },
         updateUsername: () => {},

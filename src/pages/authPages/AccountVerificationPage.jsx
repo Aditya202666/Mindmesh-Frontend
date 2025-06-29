@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
-import { getAccountVerificationOtp, verifyAccount } from "../api/apiCalls/authApi";
-import { registerUserData } from "../store/features/userSlice";
-import { useDispatch } from "react-redux";
+import {
+    getAccountVerificationOtp,
+    verifyAccount,
+} from "../../api/apiCalls/authApi";
+import { registerUserData } from "../../store/features/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { FaKey } from "react-icons/fa";
-import Timer from "../components/Timer";
-
+import Timer from "../../components/Timer";
 
 const AccountVerificationPage = () => {
+    const user = useSelector((state) => state.user);
     const [isVerifying, setIsVerifying] = useState(false);
     const [isCooldown, setIsCooldown] = useState(false);
 
@@ -19,7 +22,7 @@ const AccountVerificationPage = () => {
 
     const handleVerify = async (e) => {
         e.preventDefault();
-        console.log(otp)
+        console.log(otp);
         setIsVerifying(true);
         const res = await verifyAccount({ otp });
         console.log(res);
@@ -35,16 +38,18 @@ const AccountVerificationPage = () => {
         if (!isCooldown) {
             getAccountVerificationOtp();
             setIsCooldown(true);
-        } 
+        }
     };
 
     useEffect(() => {
-        getAccountVerificationOtp();
-        setIsCooldown(true);
-    }, []);
+        if (user.id) {
+            getAccountVerificationOtp();
+            setIsCooldown(true);
+        }
+    }, [user.id]);
 
-    // console.log("rendering");
-    // console.log(isCooldown);
+    if (!user.id) return <Navigate to={"/login"} />;
+    // console.log('render')
     return (
         <div className="flex flex-col items-center justify-center my-8 gap-6 w-full h-full">
             <h1 className="font-bold  text-2xl md:text-4xl">
@@ -81,11 +86,11 @@ const AccountVerificationPage = () => {
                 </p>
                 {/* password */}
                 <button
-                    className="btn rounded-xl btn-wide btn-secondary"
+                    className="btn rounded-xl btn-wide btn-secondary shadow border-black/20"
                     disabled={isVerifying}
                 >
                     {isVerifying ? (
-                        <span className="loading loading-ring text-secondary loading-md"></span>
+                        <span className="loading loading-dots text-info loading-md"></span>
                     ) : (
                         "Verify"
                     )}

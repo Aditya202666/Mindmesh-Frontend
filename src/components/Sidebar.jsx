@@ -23,7 +23,7 @@ const truncate = (text, maxChars = 25) =>
 
 const Sidebar = () => {
     const navigate = useNavigate();
-    const user = useSelector((state) => state.user);
+    const {userData:user} = useSelector((state) => state.user);
     const workspaceId = user.id;
     const workspaces = user.workspaces;
     const TABS = [
@@ -75,7 +75,7 @@ const Sidebar = () => {
     //todo:
     // h-[calc(100vh-2.5rem)] 
     return (
-        <div className="hidden lg:flex flex-col bg-base-300 h-screen w-3xs px-4 transition-all duration-300">
+        <div className="hidden lg:flex flex-col bg-base-300 h-screen w-3xs px-4 transition-all duration-300 border-r border-base-content/20 ">
             <div className="flex items-center w-2xs h-10 gap-0">
                 <img className="h-10" src={mindmeshLogo} alt="" />
                 <h1 className="text-lg font-semibold ">MindMesh</h1>
@@ -113,9 +113,9 @@ const Sidebar = () => {
                             key={index}
                             to={tab.link}
                             className={({ isActive }) =>
-                                "flex items-center gap-2 font-semibold px-2 py-1  rounded-xl " +
+                                "flex items-center gap-2 font-semibold px-2 py-1 rounded-xl " +
                                 (isActive
-                                    ? " text-secondary-content bg-secondary shadow "
+                                    ? " text-secondary-content bg-secondary shadow border border-base-content/20"
                                     : " hover:bg-secondary/65")
                             }
                         >
@@ -146,7 +146,7 @@ const Sidebar = () => {
                                 className={({ isActive }) =>
                                     "flex items-center gap-2 font-semibold px-2 py-1 rounded-xl " +
                                     (isActive
-                                        ? " text-secondary-content bg-secondary shadow "
+                                        ? " text-secondary-content bg-secondary shadow border border-base-content/20"
                                         : " hover:bg-secondary/65")
                                 }
                             >
@@ -163,13 +163,13 @@ const Sidebar = () => {
             </fieldset>
             {/* bottom user tab */}
             <div
-                className="flex gap-2 mt-auto mb-4 dropdown dropdown-top bg-base-100 rounded-xl shadow cursor-pointer hover:bg-base-200 transition-all"
+                className="flex gap-2 mt-auto mb-4 dropdown dropdown-top bg-base-100 rounded-xl shadow border border-base-content/20 cursor-pointer hover:bg-base-200 transition-all"
                 tabIndex={0}
                 role="button"
             >
                 {/* profile pic */}
                 <div className="btn btn-ghost btn-circle avatar h-9 w-9 ">
-                    <div className="w-8 rounded-xl">
+                    <div className="w-8 rounded-xl ">
                         <img
                             alt="Tailwind CSS Navbar component"
                             src={user.profilePic}

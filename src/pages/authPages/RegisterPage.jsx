@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import avatarImage from '../assets/avatar.png'
+import avatarImage from '../../assets/avatar.png'
 import { FaEye, FaEyeSlash, FaKey, FaMailBulk, FaUser } from "react-icons/fa";
 import { FaClipboardUser } from "react-icons/fa6";
 import { BiCamera } from "react-icons/bi";
-import { registerUser } from "../api/apiCalls/authApi";
-import { registerUserData } from "../store/features/userSlice";
+import { registerUser } from "../../api/apiCalls/authApi";
+import { registerUserData } from "../../store/features/userSlice";
 import { useDispatch } from "react-redux";
 import { ImCross } from "react-icons/im";
 import { FcOk } from "react-icons/fc";
 import { toast } from "react-toastify";
-import { checkUsername } from "../api/apiCalls/userApi";
+import { checkUsername } from "../../api/apiCalls/userApi";
 
 
 const RegisterPage = () => {
@@ -102,7 +102,7 @@ const RegisterPage = () => {
             >
                 {" "}
                 {/* avatar */}
-                <div className="avatar border-8 border-base-100  rounded-full my-6">
+                <div className="avatar border-8 border-base-100 rounded-full my-6 ">
                     <div className="relative w-24 rounded-full ">
                         <img
                             className="object-cover w-full h-full"
@@ -210,11 +210,11 @@ const RegisterPage = () => {
                     Must be 8-25 characters
                 </p>
                 <button
-                    className="btn rounded-xl btn-wide btn-secondary"
+                    className="btn rounded-xl btn-wide btn-secondary shadow border-black/20"
                     disabled={isRegistering}
                 >
                     {isRegistering ? (
-                        <span className="loading loading-ring text-secondary loading-md"></span>
+                        <span className="loading loading-dots text-info loading-md"></span>
                     ) : (
                         "SignUp"
                     )}

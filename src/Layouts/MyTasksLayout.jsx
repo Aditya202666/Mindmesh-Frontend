@@ -1,66 +1,53 @@
 import React, { useEffect } from "react";
-import Navbar from "../components/Navbar";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
-// import { FiFilter } from "react-icons/fi";
-// import CreatePersonalTaskButton from "../components/CreatePersonalTaskButtonButton";
-// import Filter from "../components/DateFilter";
+import BreadcrumbNavbar from "../components/BreadcrumbNavbar";
+import { Outlet, useLocation } from "react-router-dom";
 import { getTaskOverview } from "../api/apiCalls/personalTaskApi";
 import CreatePersonalTaskButton from "../components/CreatePersonalTaskButton";
-// import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    addDetails,
+    addDueInSevenDays,
+    addOverdueLastMonth,
+    addRecentTask,
+} from "../store/features/personalTaskSlice";
+import TaskTab from "../components/TaskTab";
+import Filters from "../components/Filters";
 
-let taskCount = {
-    allTasks: 0,
-    completedTasks: 0,
-    pendingTasks: 0,
-    overdueTasks: 0,
-};
-
-const NavLinkRoutes = [
-    {
+const NavLinkRoutes = {
+    allTasks: {
         name: "All Tasks",
-        to: "all-tasks",
+        to: "overview/all-tasks",
         icon: "📋",
-        count: taskCount.allTasks,
         css: "btn btn-secondary btn-sm rounded-lg",
-        // hover: "hover:btn-soft",
         active: "bg-base-300 border-2 text-base-content",
     },
-    {
+    completedTasks: {
         name: "Completed Tasks",
-        to: "completed-tasks",
+        to: "overview/completed-tasks",
         icon: "✅",
-        count: taskCount.completedTasks,
         css: "btn btn-success btn-sm rounded-lg",
         active: "bg-base-300 border-2 text-base-content",
     },
-    {
+    pendingTasks: {
         name: "Pending Tasks",
-        to: "pending-tasks",
+        to: "overview/pending-tasks",
         icon: "⏳",
-        count: taskCount.pendingTasks,
         css: "btn btn-warning btn-sm rounded-lg",
         active: "bg-base-300 border-2 text-base-content",
     },
-    {
+    overdueTasks: {
         name: "Overdue Tasks",
-        to: "overdue-tasks",
+        to: "overview/overdue-tasks",
         icon: "⏰",
-        count: taskCount.overdueTasks,
         css: "btn btn-error btn-sm rounded-lg",
         active: "border-2  bg-base-300 text-base-content",
     },
-];
+};
 
 const MyTasksLayout = () => {
     const location = useLocation();
-
-    const setTaskCount = (details ) => {
-        console.log(details );
-        for (const key in taskCount) {
-            console.log(taskCount[key], details[key])
-            taskCount[key] = details[key];
-        }
-    };
+    const dispatch = useDispatch();
+    const personalTaskSlice = useSelector((state) => state.personalTask);
 
     const title = location.pathname
         .split("/")
@@ -69,49 +56,70 @@ const MyTasksLayout = () => {
         .replace("-", " ");
 
     useEffect(() => {
-        const callGetAllTasks = async () => {
+        const callGetTaskOverview = async () => {
             const res = await getTaskOverview();
             if (res && res.success) {
-                setTaskCount(res.data[0].taskDetails);
-
-                // console.log(res.data[0].)
+                dispatch(addDueInSevenDays(res.data.dueInSevenDays));
+                dispatch(addOverdueLastMonth(res.data.overdueLastMonth));
+                dispatch(addRecentTask(res.data.recentTask));
+                dispatch(addDetails(res.data.taskDetails));
+                // console.log("data ", res.data);
             }
         };
-        callGetAllTasks();
-    }, []);
+        callGetTaskOverview();
+    }, [dispatch]);
+
+    // console.log(personalTaskSlice);
 
     return (
-        <div className="w-full">
-            <Navbar />
-            {/* second navbar */}
-            <div className=" px-4 py-2 ">
+        <div className="w-screen lg:w-[calc(100vw-16rem)] ]">
+            <BreadcrumbNavbar />
+            {/* breadcrumb Navbar */}
+            <div className="px-4">
                 <div>
-                    <div className="flex items-center justify-between">
+                    {/* title and create task button */}
+                    <div className="flex items-center justify-between mt-2">
                         <h1 className="text-2xl font-bold">{title}</h1>
                         <CreatePersonalTaskButton />
                     </div>
                     <div className="flex items-center justify-between w-full mt-2">
                         <ul className="flex gap-4 ">
-                            {NavLinkRoutes.map((route, index) => (
-                                <NavLink
-                                    key={index}
-                                    to={`overview/${route.to}`}
-                                    className={({ isActive }) =>
-                                        `flex items-center gap-2 px-4 py-1 rounded-xl font-semibold shadow ${
-                                            route.css
-                                        } ${isActive ? route.active : ``}`
-                                    }
-                                >
-                                    <span className="text-base ">
-                                        {route.icon}
-                                    </span>
-                                    {route.name}
-                                    {route.count}
-                                </NavLink>
-                            ))}
+                            <TaskTab
+                                style={NavLinkRoutes.allTasks}
+                                task={
+                                    personalTaskSlice.allTasks.length > 0
+                                        ? personalTaskSlice.allTasks.length
+                                        : personalTaskSlice.details.allTasks
+                                }
+                            />
+                            <TaskTab
+                                style={NavLinkRoutes.completedTasks}
+                                task={
+                                    personalTaskSlice.completedTasks > 0
+                                        ? personalTaskSlice.completedTasks
+                                              .length
+                                        : personalTaskSlice.details
+                                              .completedTasks
+                                }
+                            />
+                            <TaskTab
+                                style={NavLinkRoutes.pendingTasks}
+                                task={
+                                    personalTaskSlice.pendingTasks > 0
+                                        ? personalTaskSlice.pendingTasks.length
+                                        : personalTaskSlice.details.pendingTasks
+                                }
+                            />
+                            <TaskTab
+                                style={NavLinkRoutes.overdueTasks}
+                                task={
+                                    personalTaskSlice.overdueTasks > 0
+                                        ? personalTaskSlice.overdueTasks.length
+                                        : personalTaskSlice.details.overdueTasks
+                                }
+                            />
                         </ul>
-                        {/* date filter */}
-                        {/* <Filter /> */}
+                        { title !== 'OVERVIEW' && <Filters/>}
                     </div>
                 </div>
                 <Outlet />

@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { FaEye, FaEyeSlash, FaKey } from "react-icons/fa";
 import { FaClipboardUser } from "react-icons/fa6";
-import { loginUser } from "../api/apiCalls/authApi";
-import { registerUserData } from "../store/features/userSlice";
+import { loginUser } from "../../api/apiCalls/authApi";
+import { registerUserData } from "../../store/features/userSlice";
 import { useDispatch } from "react-redux";
 
 
@@ -94,11 +94,11 @@ const LoginPage = () => {
                     Must be 8-25 characters
                 </p>
                 <button
-                    className="btn rounded-xl btn-wide btn-secondary"
+                    className="btn rounded-xl btn-wide btn-secondary border-black/20 shadow"
                     disabled={isLogging}
                 >
                     {isLogging ? (
-                        <span className="loading loading-ring text-secondary loading-md"></span>
+                        <span className="loading loading-dots text-info loading-md"></span>
                     ) : (
                         "Login"
                     )}
@@ -111,7 +111,7 @@ const LoginPage = () => {
                 </Link>
                 <p className="text-xs">
                     Don't have an account.{" "}
-                    <Link to={"/register"} className="underline">
+                    <Link to={"/register"} className="underline ">
                         Register?
                     </Link>{" "}
                 </p>

@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import 'tailwind-scrollbar-hide/v4';
+
 @plugin "daisyui";
 
 
@@ -74,7 +76,7 @@
   --color-accent-content: oklch(20% 0.08 330); /* near black */
 
   
-  --color-neutral: oklch(95% 0.06 220); /* cool muted gray */
+  --color-neutral: oklch(90% 0.0 220); /* cool muted gray */
   --color-neutral-content: oklch(20% 0.08 220); /* near black */
 
   --color-info: oklch(95% 3 200);

@@ -1,13 +1,13 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
-const Navbar = () => {
+const BreadcrumbNavbar = () => {
     const location = useLocation();
-    console.log(location.pathname);
+    // console.log(location.pathname);
     const pathname = location.pathname.split("/").slice(2);
 
     return (
-        <div className="lg:flex items-center px-4 hidden lg:w-[calc(100vw-16rem)] h-10 bg-base-200">
+        <div className="lg:flex items-center px-4 hidden lg:w-[calc(100vw-16rem)] h-10 bg-base-200 border-b border-base-content/20">
             {pathname.length > 0 &&
                 pathname.map((path, index) => {
                     const fullPath =
@@ -34,4 +34,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default BreadcrumbNavbar;
