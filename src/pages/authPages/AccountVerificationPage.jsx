@@ -14,12 +14,12 @@ const AccountVerificationPage = () => {
     const user = useSelector((state) => state.user);
     const [isVerifying, setIsVerifying] = useState(false);
     const [isCooldown, setIsCooldown] = useState(false);
-
+    
     const [otp, setOtp] = useState("");
-
+    
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    
     const handleVerify = async (e) => {
         e.preventDefault();
         console.log(otp);
@@ -33,7 +33,7 @@ const AccountVerificationPage = () => {
 
         setIsVerifying(false);
     };
-
+    
     const handleResendOtp = () => {
         if (!isCooldown) {
             getAccountVerificationOtp();
@@ -47,9 +47,10 @@ const AccountVerificationPage = () => {
             setIsCooldown(true);
         }
     }, [user.id]);
-
-    if (!user.id) return <Navigate to={"/login"} />;
-    // console.log('render')
+    
+    // console.log("here")
+    // if (!user.id) return <Navigate to={"/login"} />;
+    console.log('render')
     return (
         <div className="flex flex-col items-center justify-center my-8 gap-6 w-full h-full">
             <h1 className="font-bold  text-2xl md:text-4xl">

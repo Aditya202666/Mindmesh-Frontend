@@ -125,6 +125,19 @@ const CreatePersonalTaskButton = () => {
                                 </select>
                             </label>
                         </div>
+                        <div>
+                            <label className="select select-sm cursor-pointer rounded-lg">
+                                <span className="label  cursor-pointer">
+                                    Color
+                                </span>
+                                <select className="w-full max-w-xs rounded-lg">
+                                    <option>Yellow</option>
+                                    <option>Low</option>
+                                    <option>Medium</option>
+                                    <option>High</option>
+                                </select>
+                            </label>
+                        </div>
                     </div>
                     <input
                         type="date"

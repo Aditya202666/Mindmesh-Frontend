@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    isLoading: true,
-    userData: {
+
         id: "",
         username: "",
         fullname: "",
@@ -11,7 +10,7 @@ const initialState = {
         profilePic: "",
         isVerified: false,
         workspaces: [],
-    },
+        isLoading: true
 };
 
 export const userSlice = createSlice({
@@ -19,11 +18,16 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         registerUserData: (state, action) => {
-            state.userData = action.payload;
-            state.isLoading = false;
+            return { ...state, ...action.payload , isLoading: false };
         },
         removeUserData: () => {
             return initialState;
+        },
+        setIsLoadingFalse: (state) => {
+            state.isLoading = false;
+        },
+        setIsLoadingTrue: (state) => {
+            state.isLoading = true;
         },
         updateUsername: () => {},
         updateProfession: () => {},
@@ -35,6 +39,8 @@ export const userSlice = createSlice({
 
 export const {
     registerUserData,
+    setIsLoadingFalse,
+    setIsLoadingTrue,
     removeUserData,
     updateUsername,
     updateProfession,

@@ -23,7 +23,7 @@ const truncate = (text, maxChars = 25) =>
 
 const Sidebar = () => {
     const navigate = useNavigate();
-    const {userData:user} = useSelector((state) => state.user);
+    const user = useSelector((state) => state.user);
     const workspaceId = user.id;
     const workspaces = user.workspaces;
     const TABS = [

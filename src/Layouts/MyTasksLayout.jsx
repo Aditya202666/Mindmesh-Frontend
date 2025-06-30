@@ -48,6 +48,7 @@ const MyTasksLayout = () => {
     const location = useLocation();
     const dispatch = useDispatch();
     const personalTaskSlice = useSelector((state) => state.personalTask);
+    console.log(personalTaskSlice);
 
     const title = location.pathname
         .split("/")
@@ -87,39 +88,38 @@ const MyTasksLayout = () => {
                             <TaskTab
                                 style={NavLinkRoutes.allTasks}
                                 task={
-                                    personalTaskSlice.allTasks.length > 0
-                                        ? personalTaskSlice.allTasks.length
-                                        : personalTaskSlice.details.allTasks
+                                    personalTaskSlice?.allTasks?.length > 0
+                                        ? personalTaskSlice?.allTasks?.length
+                                        : personalTaskSlice?.details?.allTasks
                                 }
                             />
                             <TaskTab
                                 style={NavLinkRoutes.completedTasks}
                                 task={
                                     personalTaskSlice.completedTasks > 0
-                                        ? personalTaskSlice.completedTasks
-                                              .length
+                                        ? personalTaskSlice?.completedTasks?.length
                                         : personalTaskSlice.details
-                                              .completedTasks
+                                              ?.completedTasks
                                 }
                             />
                             <TaskTab
                                 style={NavLinkRoutes.pendingTasks}
                                 task={
                                     personalTaskSlice.pendingTasks > 0
-                                        ? personalTaskSlice.pendingTasks.length
-                                        : personalTaskSlice.details.pendingTasks
+                                        ? personalTaskSlice?.pendingTasks?.length
+                                        : personalTaskSlice?.details?.pendingTasks
                                 }
                             />
                             <TaskTab
                                 style={NavLinkRoutes.overdueTasks}
                                 task={
                                     personalTaskSlice.overdueTasks > 0
-                                        ? personalTaskSlice.overdueTasks.length
-                                        : personalTaskSlice.details.overdueTasks
+                                        ? personalTaskSlice?.overdueTasks?.length
+                                        : personalTaskSlice?.details?.overdueTasks
                                 }
                             />
                         </ul>
-                        { title !== 'OVERVIEW' && <Filters/>}
+                        {title !== "OVERVIEW" && <Filters />}
                     </div>
                 </div>
                 <Outlet />

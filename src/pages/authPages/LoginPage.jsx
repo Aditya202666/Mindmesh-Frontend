@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import { FaEye, FaEyeSlash, FaKey } from "react-icons/fa";
 import { FaClipboardUser } from "react-icons/fa6";
 import { loginUser } from "../../api/apiCalls/authApi";
 import { registerUserData } from "../../store/features/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const LoginPage = () => {
+    const user = useSelector((state) => state.user);
     const [showPassword, setShowPassword] = useState(false);
     const [isLogging, setIsLogging] = useState(false);
 
@@ -38,6 +39,9 @@ const LoginPage = () => {
         setShowPassword((prev) => !prev);
     };
 
+    if(user.id && user.isVerified) return <Navigate to={'/my-tasks'} replace />  
+    if(user.id && !user.isVerified) return <Navigate to={'/verify-account'} replace />  
+    // console.log('login')
     return (
         <div className="flex flex-col items-center justify-center my-8 gap-6 w-full h-full">
             {/* <div className="absolute top-2 left-2 flex items-center">

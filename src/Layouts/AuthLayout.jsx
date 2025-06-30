@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import mindmeshLogo from "../assets/mindmeshLogo.png";
 
 const AuthLayout = () => {
+    console.log("here")
     return (
         <div className="h-screen w-screen flex flex-col justify-center items-center mx-auto max-w-7xl">
             <div className="relative shadow-xs shadow-black flex gap-4 w-11/12 h-11/12 bg-base-300 p-2 md:p-4 rounded-xl">
