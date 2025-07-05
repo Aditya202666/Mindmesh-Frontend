@@ -12,33 +12,36 @@ import {
 } from "../store/features/personalTaskSlice";
 import TaskTab from "../components/TaskTab";
 import Filters from "../components/Filters";
+import { FaRegCheckCircle, FaRegHourglass } from "react-icons/fa";
+import { LuAlarmClockCheck, LuClipboardList } from "react-icons/lu";
+import { FaRegHourglassHalf } from "react-icons/fa6";
 
 const NavLinkRoutes = {
     allTasks: {
         name: "All Tasks",
         to: "overview/all-tasks",
-        icon: "📋",
-        css: "btn btn-secondary btn-sm rounded-lg",
+        icon:<LuClipboardList />,
+        css: "btn btn-primary btn-sm rounded-lg",
         active: "bg-base-300 border-2 text-base-content",
     },
     completedTasks: {
         name: "Completed Tasks",
         to: "overview/completed-tasks",
-        icon: "✅",
+        icon: <FaRegCheckCircle />,
         css: "btn btn-success btn-sm rounded-lg",
         active: "bg-base-300 border-2 text-base-content",
     },
     pendingTasks: {
         name: "Pending Tasks",
         to: "overview/pending-tasks",
-        icon: "⏳",
+        icon: <FaRegHourglassHalf />,
         css: "btn btn-warning btn-sm rounded-lg",
         active: "bg-base-300 border-2 text-base-content",
     },
     overdueTasks: {
         name: "Overdue Tasks",
         to: "overview/overdue-tasks",
-        icon: "⏰",
+        icon: <LuAlarmClockCheck />,
         css: "btn btn-error btn-sm rounded-lg",
         active: "border-2  bg-base-300 text-base-content",
     },
@@ -50,11 +53,15 @@ const MyTasksLayout = () => {
     const personalTaskSlice = useSelector((state) => state.personalTask);
     console.log(personalTaskSlice);
 
-    const title = location.pathname
+    let title = location.pathname
         .split("/")
         .pop()
         .toUpperCase()
         .replace("-", " ");
+    
+    if(title.length === 24){
+        title = `Task Id: ${title}`
+    }
 
     useEffect(() => {
         const callGetTaskOverview = async () => {
@@ -64,7 +71,7 @@ const MyTasksLayout = () => {
                 dispatch(addOverdueLastMonth(res.data.overdueLastMonth));
                 dispatch(addRecentTask(res.data.recentTask));
                 dispatch(addDetails(res.data.taskDetails));
-                // console.log("data ", res.data);
+                console.log("data ", res.data);
             }
         };
         callGetTaskOverview();
@@ -73,7 +80,7 @@ const MyTasksLayout = () => {
     // console.log(personalTaskSlice);
 
     return (
-        <div className="w-screen lg:w-[calc(100vw-16rem)] ]">
+        <div className="w-screen lg:w-[calc(100vw-16rem)] ] h-screen overflow-y-scroll scrollbar-hide">
             <BreadcrumbNavbar />
             {/* breadcrumb Navbar */}
             <div className="px-4">
@@ -119,7 +126,7 @@ const MyTasksLayout = () => {
                                 }
                             />
                         </ul>
-                        {title !== "OVERVIEW" && <Filters />}
+                        {title !== "OVERVIEW" && title.length < 24 && <Filters />}
                     </div>
                 </div>
                 <Outlet />

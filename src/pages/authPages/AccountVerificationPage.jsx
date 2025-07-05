@@ -48,8 +48,6 @@ const AccountVerificationPage = () => {
         }
     }, [user.id]);
     
-    // console.log("here")
-    // if (!user.id) return <Navigate to={"/login"} />;
     console.log('render')
     return (
         <div className="flex flex-col items-center justify-center my-8 gap-6 w-full h-full">

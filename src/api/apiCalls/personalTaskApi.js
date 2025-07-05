@@ -19,25 +19,25 @@ const createTask = async (data) => {
         }
     } catch (error) {
         handleError(error);
-    }   
+    }
 };
 
-const getTaskOverview = async()=>{
+const getTaskOverview = async () => {
     try {
-        const cookie = getHeaderToken()
-        const res = await axiosInstance.get("/personalTask/overview", cookie)
-        return res.data
+        const cookie = getHeaderToken();
+        const res = await axiosInstance.get("/personalTask/overview", cookie);
+        return res.data;
     } catch (error) {
-        handleError(error)
+        handleError(error);
     }
-}
+};
 
 const getAllTasks = async (filter) => {
     try {
         const cookie = getHeaderToken();
         // console.log(cookie);
         const config = {
-            params: {...filter},
+            params: { ...filter },
             ...cookie,
         };
         const res = await axiosInstance.get("/personalTask/all", config);
@@ -49,4 +49,17 @@ const getAllTasks = async (filter) => {
     }
 };
 
-export { createTask, getAllTasks, getTaskOverview };
+const deleteTask = async (id) => {
+    try {
+        const cookie = getHeaderToken();
+        const res = await axiosInstance.delete(
+            `/personalTask/${id}`,
+            cookie
+        );
+        return res.data;
+    } catch (error) {
+        handleError(error);
+    }
+};
+
+export { createTask, getAllTasks, getTaskOverview, deleteTask };

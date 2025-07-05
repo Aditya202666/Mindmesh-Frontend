@@ -10,6 +10,7 @@ const initialState = {
         profilePic: "",
         isVerified: false,
         workspaces: [],
+        isSigningUp: false,
         isLoading: true
 };
 
@@ -18,16 +19,20 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         registerUserData: (state, action) => {
-            return { ...state, ...action.payload , isLoading: false };
+            return { ...state, ...action.payload , isSigningUp: false, isLoading: false};
         },
         removeUserData: () => {
-            return initialState;
+            return {...initialState, isLoading: false};
+        },
+        setIsSigningUpFalse: (state) => {
+            state.isSigningUp = false;
+        },
+        
+        setIsSigningUpTrue: (state) => {
+            state.isSigningUp = true;
         },
         setIsLoadingFalse: (state) => {
             state.isLoading = false;
-        },
-        setIsLoadingTrue: (state) => {
-            state.isLoading = true;
         },
         updateUsername: () => {},
         updateProfession: () => {},
@@ -39,8 +44,9 @@ export const userSlice = createSlice({
 
 export const {
     registerUserData,
+    setIsSigningUpFalse,
+    setIsSigningUpTrue,
     setIsLoadingFalse,
-    setIsLoadingTrue,
     removeUserData,
     updateUsername,
     updateProfession,

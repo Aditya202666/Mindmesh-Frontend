@@ -12,7 +12,7 @@ const TaskTab = ({style, task }) => {
                     } ${isActive ? style.active : `border border-base-content/20`}`
                 }
             >
-                <span className="text-base ">
+                <span className="text-base h-4 flex items-center">
                     {style.icon}
                 </span>
                  { style.name}{task > 0 ? `(${task})` : ''}

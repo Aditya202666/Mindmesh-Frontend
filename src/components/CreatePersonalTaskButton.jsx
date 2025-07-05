@@ -4,6 +4,7 @@ import { createTask } from "../api/apiCalls/personalTaskApi";
 import { useDispatch } from "react-redux";
 import { addTask } from "../store/features/personalTaskSlice";
 import { CgClose } from "react-icons/cg";
+import { toast } from "react-toastify";
 
 const today = new Date().toISOString().split("T")[0];
 
@@ -20,18 +21,26 @@ const CreatePersonalTaskButton = () => {
         const description = form.querySelector("textarea").value;
         const status = form.querySelector("select").value;
         const priority = form.querySelectorAll("select")[1].value;
+        const color = form.querySelectorAll("select")[2].value;
         const inputDate = form.querySelector('input[type="date"]').value;
-        const dueDate = new Date(inputDate).toISOString();
+        const dueDate = new Date(inputDate)
+        if (dueDate === "") {
+            toast.error("Please select a date");
+            console.log('inside')
+            return
+        }
 
         const res = await createTask({
             title,
             description,
             status,
             priority,
+            color,
             dueDate,
         });
         if (res && res.success) {
             dispatch(addTask(res.data));
+            console.log(res.data)
         }
 
         // Reset the form and close the modal
@@ -52,7 +61,7 @@ const CreatePersonalTaskButton = () => {
             <button
                 type="button"
                 onClick={() => setOpen(true)}
-                className="btn btn-secondary btn-sm rounded-lg shadow border-base-content/20"
+                className="btn btn-primary btn-sm rounded-lg shadow border-base-content/20"
             >
                 New Task
             </button>
@@ -108,7 +117,6 @@ const CreatePersonalTaskButton = () => {
                                     <option>To-do</option>
                                     <option>In-Progress</option>
                                     <option>Completed</option>
-                                    <option>Overdue</option>
                                 </select>
                             </label>
                         </div>
@@ -132,9 +140,9 @@ const CreatePersonalTaskButton = () => {
                                 </span>
                                 <select className="w-full max-w-xs rounded-lg">
                                     <option>Yellow</option>
-                                    <option>Low</option>
-                                    <option>Medium</option>
-                                    <option>High</option>
+                                    <option>Blue</option>
+                                    <option>Grey</option>
+                                    <option>Coral</option>
                                 </select>
                             </label>
                         </div>
