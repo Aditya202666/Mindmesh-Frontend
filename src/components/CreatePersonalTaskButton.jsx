@@ -61,7 +61,7 @@ const CreatePersonalTaskButton = () => {
             <button
                 type="button"
                 onClick={() => setOpen(true)}
-                className="btn btn-primary btn-sm rounded-lg shadow border-base-content/20"
+                className="btn btn-primary btn-sm rounded-lg shadow border-base-content/50"
             >
                 New Task
             </button>
@@ -73,9 +73,9 @@ const CreatePersonalTaskButton = () => {
             >
                 <form
                     onSubmit={handleCreateTask}
-                    className="lg:translate-x-[8rem] w-lg flex flex-col bg-base-300 border border-base-content/20 shadow-lg gap-4 p-4 rounded-lg "
+                    className="lg:translate-x-[8rem] flex flex-col bg-base-300 border border-base-content/50 shadow-lg gap-4 p-4 rounded-lg "
                 >
-                    <h1 className="text-secondary-content font-medium text-xl">Create New Task</h1>
+                    <h1 className=" font-medium text-xl">Create New Task</h1>
                     <label className="floating-label">
                         <span className="bg-neutral ">Title</span>
                         <input
@@ -140,6 +140,9 @@ const CreatePersonalTaskButton = () => {
                                 </span>
                                 <select className="w-full max-w-xs rounded-lg">
                                     <option>Yellow</option>
+                                    <option>Emerald</option>
+                                    <option>Lavender</option>
+                                    <option>Rose</option>
                                     <option>Blue</option>
                                     <option>Grey</option>
                                     <option>Coral</option>
@@ -147,22 +150,25 @@ const CreatePersonalTaskButton = () => {
                             </label>
                         </div>
                     </div>
+                    <span className="input input-sm w-fit rounded-lg">
+                            <span className="label">Due date</span>
                     <input
                         type="date"
                         min={today}
-                        className="input input-sm rounded-lg  w-fit"
-                    />
+                        // className=" rounded-lg  "
+                        />
+                        </span>
                     <div className="flex items-center gap-2 ml-auto">
                         <button
                             type="reset"
                             onClick={handelCancel}
-                            className="btn btn-error border-base-content/20 btn-sm rounded-lg "
+                            className="btn btn-error border-base-content/50 btn-sm rounded-lg "
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="btn btn-success btn-sm border-base-content/20 rounded-lg "
+                            className="btn btn-success btn-sm border-base-content/50 rounded-lg "
                         >
                             Create Task
                         </button>

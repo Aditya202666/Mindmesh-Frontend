@@ -10,10 +10,10 @@ const TaskOrganizer = ({ taskList, title, link, bgColor, textColor }) => {
   if (!taskList.length > 0) return null;
 
   return (
-    <div className={`w-full border rounded-t-3xl rounded-b-xl border-base-content/20 bg-base-200`}>
+    <div className={`w-full border rounded-t-3xl rounded-b-xl border-base-content/50 bg-base-200`}>
       {/* header */}
       <div>
-        <h1 className={` flex items-baseline justify-between py-1 pl-4 rounded-t-3xl font-semibold border-b border-base-content/20 ${textColor} ${bgColor}`}>
+        <h1 className={` flex items-baseline justify-between py-1 pl-4 rounded-t-3xl font-semibold border-b border-base-content/50 ${textColor} ${bgColor}`}>
           {title}
           <Link to={link} className="mr-4 text-xs underline ">
             {" "}

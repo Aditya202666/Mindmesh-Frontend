@@ -8,37 +8,45 @@ import { MdDeleteForever } from "react-icons/md";
 import { LuBookOpen } from "react-icons/lu";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { ImNewTab } from "react-icons/im";
+import { HiCalendarDateRange } from "react-icons/hi2";
+import { TiAttachment } from "react-icons/ti";
 
 const bgColors = {
   Yellow: "bg-secondary",
+  Emerald: "bg-emerald-300",
+  Lavender: "bg-purple-300",
+  Rose: "bg-rose-300",
   Blue: "bg-primary",
   Coral: "bg-accent",
   Grey: "bg-neutral",
 };
 
-const contentColor = {
-  Yellow: "text-secondary-content",
-  Blue: "text-primary-content",
-  Coral: "text-accent-content",
-  Grey: "text-neutral-content",
-};
+// const contentColor = {
+//   Yellow: "text-secondary-content",
+//   Blue: "text-primary-content",
+//   Coral: "text-accent-content",
+//   Grey: "text-neutral-content",
+// };
 
 const priorityBadges = {
-  None: "badge-neutral",
-  Low: "badge-info",
-  Medium: "badge-warning",
-  High: "badge-error",
+  None: "bg-gray-300",
+  Low: "bg-lime-300",
+  Medium: "bg-orange-400",
+  High: "bg-red-500",
 };
 
 const statusBadges = {
-  "To-do": "badge-neutral ",
-  "In-Progress": "badge-info",
-  Completed: "badge-success",
+  "To-do": "bg-gray-300",
+  "In-Progress": "bg-lime-300",
+  Completed: "bg-green-400",
 };
 
-//todo: add all functionality of tasks
+//todo: add all functionality of task menu
+//todo: remove attachments icon
+//todo: fix checklist
 
-const Task = ({ task }) => {
+
+const Task = ({ task}) => {
   const dispatch = useDispatch();
 
   const handleDeleteTask = async () => {
@@ -48,13 +56,14 @@ const Task = ({ task }) => {
     }
   };
 
+  const dueDate = new Date(task.dueDate?.split("T")[0]).toDateString();
+  // const day  = dueDate?.split("-")
+
   return (
     <div
       className={
-        "relative space-y-4 min-w-3xs max-w-3xs  h-60 border border-base-content/20  rounded-xl p-2 " +
-        bgColors[task.color] +
-        " " +
-        contentColor[task.color]
+        "relative flex flex-col space-y-2 min-w-[16.5rem] max-w-3xs bg- h-60 border border-base-content/50  rounded-xl p-2 text-black " +
+        bgColors[task.color]
       }
     >
       <details className="dropdown dropdown-end absolute right-0 top-0 ">
@@ -62,12 +71,10 @@ const Task = ({ task }) => {
           className={"btn btn-sm btn-ghost bg-transparent m-1 p-0 border-0 "}
         >
           <BsThreeDotsVertical
-            className={`text-lg hover:text-black/70 ${
-              contentColor[task.color]
-            }`}
+            className={`text-lg hover:scale-110 transition-all `}
           />
         </summary>
-        <ul className="menu dropdown-content bg-base-300 border border-base-content/20 rounded-box z-1 w-40 text-xs font-medium p-0 ">
+        <ul className="menu dropdown-content bg-base-100 p-1 border border-base-content/50 rounded-md z-1 w-40 text-xs font-medium p ">
           <li>
             <Link to={`/my-tasks/overview/${task._id}`}>
               <LuBookOpen /> Open
@@ -75,7 +82,7 @@ const Task = ({ task }) => {
           </li>
           <li>
             <Link
-              to={"/my-tasks/:taskId"}
+              to={`/my-tasks/overview/${task._id}`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -83,17 +90,16 @@ const Task = ({ task }) => {
               Open in New Tab
             </Link>
           </li>
-          <li>
-            <a>
-              {" "}
-              <FaRegCheckCircle />
-              Mark as Completed
-            </a>
-          </li>
-          <li
-            onClick={handleDeleteTask}
-            className="text-error hover:text-error-content hover:bg-error  rounded-md"
-          >
+          {task.status !== "Completed" && (
+            <li>
+              <a>
+                {" "}
+                <FaRegCheckCircle />
+                Mark as Completed
+              </a>
+            </li>
+          )}
+          <li onClick={handleDeleteTask} className="text-red-500 rounded-md">
             <a>
               {" "}
               <MdDeleteForever /> Delete
@@ -101,28 +107,13 @@ const Task = ({ task }) => {
           </li>
         </ul>
       </details>
-      <div
-        className={"flex flex-col gap-2 h-  w-full " + contentColor[task.color]}
-      >
-        <h1 className="line-clamp-2 text-sm font-medium w-15/16 leading-tight">
-          {task.title} Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-          Maxime eum quod consectetur cupiditate in impedit perferendis
-          perspiciatis minus? Illo obcaecati magnam provident necessitatibus
-          beatae! Enim inventore provident soluta explicabo nisi!
-        </h1>
-        <p className="line-clamp-4 text-xs leading-tight">
-          {task.description} Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Rerum debitis ratione labore fugiat deserunt amet dolor? Ut id,
-          ex dolore, est nam consectetur qui hic obcaecati quisquam dolorem sed
-          assumenda!
-        </p>
-      </div>
-      <div className="flex space-x-2 text-sm">
+      {/* Badges */}
+      <div className="flex space-x-1 text-sm ">
         <div>
           <span className=" text-xs">Status:</span>
           <span
             className={
-              "badge badge-sm ml-1 border border-black " +
+              "badge badge-sm text-black ml-1 border border-black font-semibold " +
               statusBadges[task.status]
             }
           >
@@ -133,13 +124,61 @@ const Task = ({ task }) => {
           <span className=" text-xs">Priority:</span>
           <span
             className={
-              "badge badge-sm ml-1 border border-black " +
+              "badge badge-sm ml-1 text-black border border-black font-semibold " +
               priorityBadges[task.priority]
             }
           >
             {` ` + task.priority}
           </span>
         </div>
+      </div>
+
+      {/* title and desc */}
+      <div className={"flex flex-col gap-2 mt-1 w-full "}>
+        <h1 className="line-clamp-2 text-sm font-medium w-15/16 leading-tight">
+          {task.title}
+        </h1>
+        <p className="line-clamp-4 text-xs leading-tight">{task.description}</p>
+      </div>
+      {/* checklist */}
+      <div className="flex gap-1.5 line-clamp-1 items-center">
+        <div className="line-clamp-1 flex space-x-1.5">
+          {Array(5)
+            .fill(0)
+            .map((_, index) => (
+              <span
+                key={index}
+                className={` h-2 w-5 border rounded-lg ${
+                  index+1 <= 3 ? "bg-success" : "bg-warning"
+                }`}
+              ></span>
+            ))}
+        </div>
+        <span className="text-xs font-semibold">{`(3/5)`}</span>
+      </div>
+
+      <div className="flex items-center gap-1 text-sm font-semibold border border-base-content/20 bg-base-300/50 rounded-lg w-fit pr-1">
+        <TiAttachment className="size-5" />
+        {2}
+      </div>
+
+      {/*  date */}
+      <div className="flex mt-auto items-baseline">
+        <Link
+          to={`/my-tasks/overview/${task._id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <ImNewTab
+            className="size-3 hover:scale-110 transition-all cursor-pointer"
+            title="Open in new tab"
+          />
+        </Link>
+
+        <span className="flex items-center text-xs ml-auto font-semibold">
+          <HiCalendarDateRange />
+          {task.dueDate ? `${dueDate}` : "NA"}
+        </span>
       </div>
     </div>
   );

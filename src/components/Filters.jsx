@@ -16,7 +16,7 @@ const Filters = () => {
     console.log(filters);
     return (
         <details className="dropdown dropdown-end">
-          <summary className="btn btn-neutral btn-sm rounded-xl p-2 mt-1 border border-base-content/20"><FaFilter/></summary>
+          <summary className="btn btn-neutral btn-sm rounded-xl p-2 border border-base-content/20"><FaFilter/></summary>
             <form className="menu dropdown-content flex flex-col gap-1 p-1 mt-1 bg-base-300 rounded-lg items-center border border-base-content/20 w-45">
                 {/* add multiple select filters for status, priority, sort */}
 

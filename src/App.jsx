@@ -28,6 +28,9 @@ import { refreshToken } from "./api/apiCalls/authApi";
 import MyTasksOverviewPage from "./pages/myTasksPages/MyTasksOverviewPage";
 import AllTasksPage from "./pages/myTasksPages/AllTasksPage";
 
+// todo add task page, edit task page
+// todo add subtask functionalities
+
 const App = () => {
   const user = useSelector((state) => state.user);
   const theme = useSelector((state) => state.theme.theme);
@@ -116,6 +119,7 @@ const App = () => {
 
                 <Route path=":taskId" element={<>My Task</>} />
                 <Route path="all-tasks" element={<AllTasksPage/>} />
+                <Route path="in-progress-tasks" element={<>in-progress</>} />
                 <Route path="completed-tasks" element={<>completed-tasks</>} />
                 <Route path="pending-tasks" element={<>pending-tasks</>} />
                 <Route path="overdue-tasks" element={<>overdue- tasks</>} />

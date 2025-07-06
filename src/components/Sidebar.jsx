@@ -72,10 +72,9 @@ const Sidebar = () => {
     };
 
     //todo: add modal for crate new workspace
-    //todo:
     // h-[calc(100vh-2.5rem)] 
     return (
-        <div className="hidden lg:flex flex-col bg-base-300 h-screen w-3xs px-4 transition-all duration-300 border-r border-base-content/20 ">
+        <div className="hidden lg:flex flex-col bg-base-300 h-screen w-3xs px-4 transition-all duration-300 border-r border-base-content/50 ">
             <div className="flex items-center w-2xs h-10 gap-0">
                 <img className="h-10" src={mindmeshLogo} alt="" />
                 <h1 className="text-lg font-semibold ">MindMesh</h1>
@@ -115,7 +114,7 @@ const Sidebar = () => {
                             className={({ isActive }) =>
                                 "flex items-center gap-2 font-semibold px-2 py-1 rounded-xl " +
                                 (isActive
-                                    ? " text-secondary-content bg-primary shadow border border-base-content/20"
+                                    ? " text-secondary-content bg-primary shadow border border-base-content/50"
                                     : " hover:bg-primary/65")
                             }
                         >
@@ -163,7 +162,7 @@ const Sidebar = () => {
             </fieldset>
             {/* bottom user tab */}
             <div
-                className="flex gap-2 mt-auto mb-4 dropdown dropdown-top bg-base-100 rounded-xl shadow border border-base-content/20 cursor-pointer hover:bg-base-200 transition-all"
+                className="flex gap-2 mt-auto mb-4 dropdown dropdown-top bg-base-100 rounded-xl shadow border border-base-content/50 cursor-pointer hover:bg-base-200 transition-all"
                 tabIndex={0}
                 role="button"
             >
@@ -214,7 +213,7 @@ const Sidebar = () => {
                         </span>
                     </li>
                     <li>
-                        <span className="text-error" onClick={handleLogout}>
+                        <span className="text-red-500" onClick={handleLogout}>
                             {" "}
                             <MdLogout /> Logout
                         </span>

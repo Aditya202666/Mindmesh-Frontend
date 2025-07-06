@@ -5,134 +5,136 @@ import { getTaskOverview } from "../api/apiCalls/personalTaskApi";
 import CreatePersonalTaskButton from "../components/CreatePersonalTaskButton";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    addDetails,
-    addDueInSevenDays,
-    addOverdueLastMonth,
-    addRecentTask,
+  addDetails,
+  addDueInSevenDays,
+  addInProgressTasks,
+  addOverdueLastMonth,
+  addRecentTask,
 } from "../store/features/personalTaskSlice";
 import TaskTab from "../components/TaskTab";
 import Filters from "../components/Filters";
 import { FaRegCheckCircle, FaRegHourglass } from "react-icons/fa";
 import { LuAlarmClockCheck, LuClipboardList } from "react-icons/lu";
 import { FaRegHourglassHalf } from "react-icons/fa6";
+import { RiProgress5Line } from "react-icons/ri";
 
 const NavLinkRoutes = {
-    allTasks: {
-        name: "All Tasks",
-        to: "overview/all-tasks",
-        icon:<LuClipboardList />,
-        css: "btn btn-primary btn-sm rounded-lg",
-        active: "bg-base-300 border-2 text-base-content",
-    },
-    completedTasks: {
-        name: "Completed Tasks",
-        to: "overview/completed-tasks",
-        icon: <FaRegCheckCircle />,
-        css: "btn btn-success btn-sm rounded-lg",
-        active: "bg-base-300 border-2 text-base-content",
-    },
-    pendingTasks: {
-        name: "Pending Tasks",
-        to: "overview/pending-tasks",
-        icon: <FaRegHourglassHalf />,
-        css: "btn btn-warning btn-sm rounded-lg",
-        active: "bg-base-300 border-2 text-base-content",
-    },
-    overdueTasks: {
-        name: "Overdue Tasks",
-        to: "overview/overdue-tasks",
-        icon: <LuAlarmClockCheck />,
-        css: "btn btn-error btn-sm rounded-lg",
-        active: "border-2  bg-base-300 text-base-content",
-    },
+  allTasks: {
+    name: "All Tasks",
+    to: "overview/all-tasks",
+    icon: <LuClipboardList />,
+    css: "bg-sky-300 rounded-lg ",
+    active: "bg-base-300 border-2 border-sky-300 ",
+  },
+  inProgress: {
+    name: "In-Progress Tasks",
+    to: "overview/in-progress-tasks",
+    icon: <RiProgress5Line />,
+    css: "bg-lime-300 rounded-lg",
+    active: "bg-base-300 border-2 border-lime-300",
+  },
+  completedTasks: {
+    name: "Completed Tasks",
+    to: "overview/completed-tasks",
+    icon: <FaRegCheckCircle />,
+    css: "bg-green-400 rounded-lg",
+    active: "bg-base-300 border-2 border-green-300",
+  },
+  pendingTasks: {
+    name: "Pending Tasks",
+    to: "overview/pending-tasks",
+    icon: <FaRegHourglassHalf />,
+    css: "bg-orange-400 rounded-lg",
+    active: "bg-base-300 border-2 border-orange-400",
+  },
+  overdueTasks: {
+    name: "Overdue Tasks",
+    to: "overview/overdue-tasks",
+    icon: <LuAlarmClockCheck />,
+    css: "bg-red-400 rounded-lg",
+    active: "border-2  bg-base-300 border-red-400",
+  },
 };
 
 const MyTasksLayout = () => {
-    const location = useLocation();
-    const dispatch = useDispatch();
-    const personalTaskSlice = useSelector((state) => state.personalTask);
-    console.log(personalTaskSlice);
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const personalTaskSlice = useSelector((state) => state.personalTask);
+  console.log(personalTaskSlice);
 
-    let title = location.pathname
-        .split("/")
-        .pop()
-        .toUpperCase()
-        .replace("-", " ");
-    
-    if(title.length === 24){
-        title = `Task Id: ${title}`
-    }
+  let title = location.pathname
+    .split("/")
+    .pop()
+    .toUpperCase()
+    .replace("-", " ");
 
-    useEffect(() => {
-        const callGetTaskOverview = async () => {
-            const res = await getTaskOverview();
-            if (res && res.success) {
-                dispatch(addDueInSevenDays(res.data.dueInSevenDays));
-                dispatch(addOverdueLastMonth(res.data.overdueLastMonth));
-                dispatch(addRecentTask(res.data.recentTask));
-                dispatch(addDetails(res.data.taskDetails));
-                console.log("data ", res.data);
-            }
-        };
-        callGetTaskOverview();
-    }, [dispatch]);
+  if (title.length === 24) {
+    title = `Task Id: ${title}`;
+  }
 
-    // console.log(personalTaskSlice);
+  useEffect(() => {
+    const callGetTaskOverview = async () => {
+      const res = await getTaskOverview();
+      if (res && res.success) {
+        dispatch(addDueInSevenDays(res.data.dueInSevenDays));
+        dispatch(addOverdueLastMonth(res.data.overdueLastMonth));
+        dispatch(addInProgressTasks(res.data.inProgressTasks));
+        dispatch(addRecentTask(res.data.recentTask));
+        dispatch(addDetails(res.data.taskDetails));
+        console.log("data ", res.data);
+      }
+    };
+    callGetTaskOverview();
+  }, [dispatch]);
 
-    return (
-        <div className="w-screen lg:w-[calc(100vw-16rem)] ] h-screen overflow-y-scroll scrollbar-hide">
-            <BreadcrumbNavbar />
-            {/* breadcrumb Navbar */}
-            <div className="px-4">
-                <div>
-                    {/* title and create task button */}
-                    <div className="flex items-center justify-between mt-2">
-                        <h1 className="text-2xl font-bold">{title}</h1>
-                        <CreatePersonalTaskButton />
-                    </div>
-                    <div className="flex items-center justify-between w-full mt-2">
-                        <ul className="flex gap-4 ">
-                            <TaskTab
-                                style={NavLinkRoutes.allTasks}
-                                task={
-                                    personalTaskSlice?.allTasks?.length > 0
-                                        ? personalTaskSlice?.allTasks?.length
-                                        : personalTaskSlice?.details?.allTasks
-                                }
-                            />
-                            <TaskTab
-                                style={NavLinkRoutes.completedTasks}
-                                task={
-                                    personalTaskSlice.completedTasks > 0
-                                        ? personalTaskSlice?.completedTasks?.length
-                                        : personalTaskSlice.details
-                                              ?.completedTasks
-                                }
-                            />
-                            <TaskTab
-                                style={NavLinkRoutes.pendingTasks}
-                                task={
-                                    personalTaskSlice.pendingTasks > 0
-                                        ? personalTaskSlice?.pendingTasks?.length
-                                        : personalTaskSlice?.details?.pendingTasks
-                                }
-                            />
-                            <TaskTab
-                                style={NavLinkRoutes.overdueTasks}
-                                task={
-                                    personalTaskSlice.overdueTasks > 0
-                                        ? personalTaskSlice?.overdueTasks?.length
-                                        : personalTaskSlice?.details?.overdueTasks
-                                }
-                            />
-                        </ul>
-                        {title !== "OVERVIEW" && title.length < 24 && <Filters />}
-                    </div>
-                </div>
-                <Outlet />
+  // console.log(personalTaskSlice);
+
+  return (
+    <div className="w-screen lg:w-[calc(100vw-16rem)] ] h-screen overflow-y-scroll scrollbar-hide">
+      <BreadcrumbNavbar />
+      {/* breadcrumb Navbar */}
+      <div className="px-4">
+        <div>
+          {/* title and create task button */}
+          <div className="flex items-center justify-between mt-2">
+            <h1 className="text-2xl font-bold">{title}</h1>
+
+            {/* filter and new task button */}
+            <div className="flex items-center gap-4 ">
+              <CreatePersonalTaskButton />
+              {title !== "OVERVIEW" && title.length < 24 && <Filters />}
             </div>
+          </div>
+          {/* tabs */}
+          <div className="flex items-center justify-between w-full mt-2">
+            <ul className="flex gap-4 ">
+              <TaskTab
+                style={NavLinkRoutes.allTasks}
+                task={personalTaskSlice?.details?.allTasks}
+              />
+              <TaskTab
+                style={NavLinkRoutes.inProgress}
+                task={personalTaskSlice?.details?.inProgressTasks}
+              />
+              <TaskTab
+                style={NavLinkRoutes.completedTasks}
+                task={personalTaskSlice.details?.completedTasks}
+              />
+              <TaskTab
+                style={NavLinkRoutes.pendingTasks}
+                task={personalTaskSlice?.details?.pendingTasks}
+              />
+              <TaskTab
+                style={NavLinkRoutes.overdueTasks}
+                task={personalTaskSlice?.details?.overdueTasks}
+              />
+            </ul>
+          </div>
         </div>
-    );
+        <Outlet />
+      </div>
+    </div>
+  );
 };
 
 export default MyTasksLayout;

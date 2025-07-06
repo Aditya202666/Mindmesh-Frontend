@@ -79,7 +79,7 @@
   --color-neutral-content: oklch(15% 0.01 240);
   /* status colors for dark backgrounds */
   --color-info: oklch(70% 0.18 220);     /* gentle cyan */
-  --color-info-content: oklch(98% 0.01 220);
+  --color-info-content: oklch(18% 0.01 220);
   --color-success: oklch(70% 0.22 140);  /* soft mint green */
   --color-success-content: oklch(18% 0.01 140);
   --color-warning: oklch(80% 0.25 85);   /* soft amber */
