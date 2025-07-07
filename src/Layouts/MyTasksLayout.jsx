@@ -20,35 +20,35 @@ import { RiProgress5Line } from "react-icons/ri";
 
 const NavLinkRoutes = {
   allTasks: {
-    name: "All Tasks",
+    name: "All",
     to: "overview/all-tasks",
     icon: <LuClipboardList />,
     css: "bg-sky-300 rounded-lg ",
     active: "bg-base-300 border-2 border-sky-300 ",
   },
   inProgress: {
-    name: "In-Progress Tasks",
+    name: "In-Progress",
     to: "overview/in-progress-tasks",
     icon: <RiProgress5Line />,
     css: "bg-lime-300 rounded-lg",
     active: "bg-base-300 border-2 border-lime-300",
   },
   completedTasks: {
-    name: "Completed Tasks",
+    name: "Completed",
     to: "overview/completed-tasks",
     icon: <FaRegCheckCircle />,
     css: "bg-green-400 rounded-lg",
     active: "bg-base-300 border-2 border-green-300",
   },
   pendingTasks: {
-    name: "Pending Tasks",
+    name: "Pending",
     to: "overview/pending-tasks",
     icon: <FaRegHourglassHalf />,
     css: "bg-orange-400 rounded-lg",
     active: "bg-base-300 border-2 border-orange-400",
   },
   overdueTasks: {
-    name: "Overdue Tasks",
+    name: "Overdue",
     to: "overview/overdue-tasks",
     icon: <LuAlarmClockCheck />,
     css: "bg-red-400 rounded-lg",
@@ -107,7 +107,7 @@ const MyTasksLayout = () => {
           </div>
           {/* tabs */}
           <div className="flex items-center justify-between w-full mt-2">
-            <ul className="flex gap-4 ">
+            <ul className="flex flex-wrap space-x-4 space-y-2 ">
               <TaskTab
                 style={NavLinkRoutes.allTasks}
                 task={personalTaskSlice?.details?.allTasks}

@@ -27,6 +27,7 @@ import MyTasksLayout from "./Layouts/MyTasksLayout";
 import { refreshToken } from "./api/apiCalls/authApi";
 import MyTasksOverviewPage from "./pages/myTasksPages/MyTasksOverviewPage";
 import AllTasksPage from "./pages/myTasksPages/AllTasksPage";
+import PersonalTaskPage from "./pages/myTasksPages/PersonalTaskPage";
 
 // todo add task page, edit task page
 // todo add subtask functionalities
@@ -117,7 +118,7 @@ const App = () => {
 
                 <Route index element={<MyTasksOverviewPage />} />
 
-                <Route path=":taskId" element={<>My Task</>} />
+                <Route path=":taskId" element={<PersonalTaskPage/>} />
                 <Route path="all-tasks" element={<AllTasksPage/>} />
                 <Route path="in-progress-tasks" element={<>in-progress</>} />
                 <Route path="completed-tasks" element={<>completed-tasks</>} />

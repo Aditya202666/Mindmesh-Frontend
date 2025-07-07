@@ -1,6 +1,6 @@
 import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { deleteTask } from "../api/apiCalls/personalTaskApi";
 
@@ -11,35 +11,6 @@ import { ImNewTab } from "react-icons/im";
 import { HiCalendarDateRange } from "react-icons/hi2";
 import { TiAttachment } from "react-icons/ti";
 
-const bgColors = {
-  Yellow: "bg-secondary",
-  Emerald: "bg-emerald-300",
-  Lavender: "bg-purple-300",
-  Rose: "bg-rose-300",
-  Blue: "bg-primary",
-  Coral: "bg-accent",
-  Grey: "bg-neutral",
-};
-
-// const contentColor = {
-//   Yellow: "text-secondary-content",
-//   Blue: "text-primary-content",
-//   Coral: "text-accent-content",
-//   Grey: "text-neutral-content",
-// };
-
-const priorityBadges = {
-  None: "bg-gray-300",
-  Low: "bg-lime-300",
-  Medium: "bg-orange-400",
-  High: "bg-red-500",
-};
-
-const statusBadges = {
-  "To-do": "bg-gray-300",
-  "In-Progress": "bg-lime-300",
-  Completed: "bg-green-400",
-};
 
 //todo: add all functionality of task menu
 //todo: remove attachments icon
@@ -48,6 +19,7 @@ const statusBadges = {
 
 const Task = ({ task}) => {
   const dispatch = useDispatch();
+  const {bgColors, priorityBadges, statusBadges} = useSelector(state => state.theme)
 
   const handleDeleteTask = async () => {
     const res = deleteTask(task._id);

@@ -96,16 +96,16 @@ const CreatePersonalTaskButton = () => {
                         <span>Description</span>
                         <textarea
                             placeholder="Description"
-                            maxLength={200}
+                            maxLength={500}
                             required
-                            rows={4}
+                            rows={6}
                             className="textarea text-xs font-medium resize-none w-full rounded-lg"
                             onChange={(e) =>
                                 setDescLength(e.target.value.length)
                             }
                         ></textarea>
                         <p className="absolute text-xs right-2 bottom-0 z-10">
-                            {descLength}/200
+                            {descLength}/500
                         </p>
                     </label>
 

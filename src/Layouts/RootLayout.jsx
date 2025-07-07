@@ -5,7 +5,7 @@ import Sidebar from "../components/Sidebar";
 
 const RootLayout = () => {
     return (
-        <div className="h-screen flex  ">
+        <div className="h-screen flex max-w-screen">
             <Sidebar />
             <Outlet />
         </div>
