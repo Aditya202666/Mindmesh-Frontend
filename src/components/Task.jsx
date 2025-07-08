@@ -11,15 +11,14 @@ import { ImNewTab } from "react-icons/im";
 import { HiCalendarDateRange } from "react-icons/hi2";
 import { TiAttachment } from "react-icons/ti";
 
-
 //todo: add all functionality of task menu
 //todo: remove attachments icon
-//todo: fix checklist
 
-
-const Task = ({ task}) => {
+const Task = ({ task }) => {
   const dispatch = useDispatch();
-  const {bgColors, priorityBadges, statusBadges} = useSelector(state => state.theme)
+  const { bgColors, priorityBadges, statusBadges } = useSelector(
+    (state) => state.theme
+  );
 
   const handleDeleteTask = async () => {
     const res = deleteTask(task._id);
@@ -113,21 +112,24 @@ const Task = ({ task}) => {
         <p className="line-clamp-4 text-xs leading-tight">{task.description}</p>
       </div>
       {/* checklist */}
-      <div className="flex gap-1.5 line-clamp-1 items-center">
-        <div className="line-clamp-1 flex space-x-1.5">
-          {Array(5)
-            .fill(0)
-            .map((_, index) => (
-              <span
-                key={index}
-                className={` h-2 w-5 border rounded-lg ${
-                  index+1 <= 3 ? "bg-success" : "bg-warning"
-                }`}
-              ></span>
-            ))}
+      {task.subTasks.length > 0 && (
+        <div className="flex gap-1.5 line-clamp-1 items-center">
+          <div className="line-clamp-1 flex space-x-1.5">
+            {task.subTasks.length > 0 &&
+              task.subTasks.map((subTask, index) => (
+                <span
+                  key={subTask._id}
+                  className={` h-2 w-5 border rounded-lg ${
+                    index + 1 <= task.completedSubTasks
+                      ? "bg-success"
+                      : "bg-warning"
+                  }`}
+                ></span>
+              ))}
+          </div>
+          <span className="text-xs font-semibold">{`(${task.completedSubTasks}/${task.totalSubTasks})`}</span>
         </div>
-        <span className="text-xs font-semibold">{`(3/5)`}</span>
-      </div>
+      )}
 
       <div className="flex items-center gap-1 text-sm font-semibold border border-base-content/20 bg-base-300/50 rounded-lg w-fit pr-1">
         <TiAttachment className="size-5" />

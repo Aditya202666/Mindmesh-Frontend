@@ -3,12 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import TaskOrganizer from "../../components/TaskOrganizer";
 import { getTaskOverview } from "../../api/apiCalls/personalTaskApi";
-import { addDetails, addDueInSevenDays, addInProgressTasks, addOverdueLastMonth, addRecentTask } from "../../store/features/personalTaskSlice";
+import {
+  addDetails,
+  addDueInSevenDays,
+  addInProgressTasks,
+  addOverdueLastMonth,
+  addRecentTask,
+} from "../../store/features/personalTaskSlice";
 
 const MyTasksOverviewPage = () => {
-
-    const dispatch = useDispatch()
-
+  
+  const dispatch = useDispatch();
   const { overdueLastMonth, dueInSevenDays, recentTask } = useSelector(
     (state) => state.personalTask
   );
@@ -18,7 +23,7 @@ const MyTasksOverviewPage = () => {
     const callGetTaskOverview = async () => {
       const res = await getTaskOverview();
       if (res && res.success) {
-        useDispatch(addDueInSevenDays(res.data.dueInSevenDays));
+        dispatch(addDueInSevenDays(res.data.dueInSevenDays));
         dispatch(addOverdueLastMonth(res.data.overdueLastMonth));
         dispatch(addInProgressTasks(res.data.inProgressTasks));
         dispatch(addRecentTask(res.data.recentTask));
@@ -28,7 +33,7 @@ const MyTasksOverviewPage = () => {
     callGetTaskOverview();
   }, [dispatch]);
 
-//   console.log(recentTask);
+  //   console.log(recentTask);
   return (
     <div className="mt-6 space-y-6">
       <TaskOrganizer

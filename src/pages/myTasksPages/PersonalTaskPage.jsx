@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   addPersonalTaskChecklist,
+  deletePersonalTask,
   getOneTask,
   markAsCompletedPersonalTask,
   markAsCompletedPersonalTaskChecklist,
@@ -10,12 +11,14 @@ import { useSelector } from "react-redux";
 import { HiCalendarDateRange } from "react-icons/hi2";
 import { getFormattedDate } from "../../api/utils/getDate";
 import { FaCheckCircle, FaEdit, FaPlus } from "react-icons/fa";
+import PopUp from "../../components/PopUp";
 
-// todo: add edit functionality in this task page
+
 
 const PersonalTaskPage = () => {
   const params = useParams();
-  const { bgColors, priorityBadges, statusBadges } = useSelector(
+  const navigate = useNavigate();
+  const { priorityBadges, statusBadges } = useSelector(
     (state) => state.theme
   );
 
@@ -23,11 +26,8 @@ const PersonalTaskPage = () => {
   const [openAddChecklistInput, setOpenAddChecklistInput] = useState(false);
   const [checklistInput, setChecklistInput] = useState("");
 
-  const handelAddNewChecklist = async () => {
-    const res = await addPersonalTaskChecklist({
-      id: task._id,
-      title: checklistInput,
-    });
+  const handleAddNewChecklist = async () => {
+    const res = await addPersonalTaskChecklist(task._id, checklistInput);
     if (res && res.success) {
       console.log(res.data);
       setTask(res.data);
@@ -36,7 +36,7 @@ const PersonalTaskPage = () => {
     }
   };
 
-  const handelMarkChecklistAsCompleted = async (checklistId) => {
+  const handleMarkChecklistAsCompleted = async (checklistId) => {
     const res = await markAsCompletedPersonalTaskChecklist(
       task._id,
       checklistId
@@ -53,7 +53,14 @@ const PersonalTaskPage = () => {
     }
   };
 
-  const handelCancelChecklist = () => {
+  const handleDeletePersonalTask = async()=>{
+      const res = await deletePersonalTask(task._id)
+      if(res && res.success){
+        navigate("/my-tasks/overview")
+      }
+  }
+
+  const handleCancelChecklist = () => {
     setOpenAddChecklistInput(false);
     setChecklistInput("");
   };
@@ -73,7 +80,7 @@ const PersonalTaskPage = () => {
   return (
     <div className={`w-full my-6`}>
       {/* task container */}
-      <div className={`w-[45rem] border p-2  rounded-lg  bg-base-200`}>
+      <div className={`w-[46rem] border p-2  rounded-lg  bg-base-200`}>
         {/* header */}
         <div className="flex items-center space-x-2 text-sm ">
           {/* badges */}
@@ -105,12 +112,15 @@ const PersonalTaskPage = () => {
               <HiCalendarDateRange className="mr-1 " />
               {task?.dueDate ? `${getFormattedDate(task.dueDate)}` : "NA"}
             </div>
-            <div
-              className="shadow border border-base-content/50 cursor-pointer  hover:shadow-base-content px-2 py-1 rounded-lg "
-              title="Edit Task"
-            >
-              <FaEdit />
-            </div>
+            {task?.isCompleted === false && (
+              <div
+                className="shadow border border-base-content/50 cursor-pointer  hover:shadow-base-content px-2 py-1 rounded-lg "
+                title="Edit Task"
+                onClick={() => navigate(`/my-tasks/overview/edit/${task?._id}`)}
+              >
+                <FaEdit />
+              </div>
+            )}
           </div>
         </div>
 
@@ -144,7 +154,7 @@ const PersonalTaskPage = () => {
                           title="Mark as Complete"
                           className="cursor-pointer text-base-100 bg-base-content/10 active:text-green-400 hover:bg-base-content rounded-full transition-all"
                           onClick={() =>
-                            handelMarkChecklistAsCompleted(subTask._id)
+                            handleMarkChecklistAsCompleted(subTask._id)
                           }
                         />
                       )}
@@ -153,13 +163,13 @@ const PersonalTaskPage = () => {
                 ))}
 
               {/* Add checklist button */}
-              {!openAddChecklistInput && (
+              {!openAddChecklistInput && task?.isCompleted === false && (
                 <div
                   title="Add checklist"
                   onClick={() => setOpenAddChecklistInput(true)}
-                  className="btn bg-transparent flex items-center justify-center border border-base-content/50 rounded-lg w-4/5 max-h-8 mb-0.5"
+                  className="group btn bg-transparent  flex items-center justify-center border border-base-content/50 rounded-lg w-4/5 max-h-8 mb-0.5"
                 >
-                  <FaPlus className="h-6 text-base-content/50" />
+                  <FaPlus className="h-6 text-base-content/50 group-hover:scale-115 transition-all group-hover:text-base-content" />
                 </div>
               )}
 
@@ -181,7 +191,7 @@ const PersonalTaskPage = () => {
                   {checklistInput.length > 0 && (
                     <button
                       type="button"
-                      onClick={handelAddNewChecklist}
+                      onClick={handleAddNewChecklist}
                       className="btn btn-sm bg-gray-800 text-white rounded-lg border border-base-content/50"
                     >
                       Add
@@ -189,7 +199,7 @@ const PersonalTaskPage = () => {
                   )}
                   <button
                     type="button"
-                    onClick={handelCancelChecklist}
+                    onClick={handleCancelChecklist}
                     className="btn btn-sm bg-red-800 text-white rounded-lg border border-base-content/50"
                   >
                     Cancel
@@ -201,14 +211,27 @@ const PersonalTaskPage = () => {
         </div>
 
         {/* buttons */}
-        <div className="w-fit ml-auto">
-          <button
-            type="button"
-            onClick={handleMarkAsCompletePersonalTask}
-            className="btn bg-green-400 text-black btn-sm rounded-lg mt-4 border border-base-content/50"
-          >
-            Mark as Completed
-          </button>
+        <div className="flex mt-4 space-x-2 w-fit ml-auto">
+           <PopUp
+              buttonCss={"bg-red-400 hover:bg-red-500 btn-sm"}
+              buttonName={"Delete task"}
+              popUpMessage={"This task will be moved to the trash and can be restored later if needed. It will no longer appear in your active task list."}
+              callbackButtonCss={"bg-red-400 hover:bg-red-500 "}
+              callbackButtonName={"Delete"}
+              callbackFunction={handleDeletePersonalTask}
+            />
+          {task?.isCompleted === false && (
+            <PopUp
+              buttonCss={"bg-green-400 hover:bg-green-500 btn-sm"}
+              buttonName={"Mark as Completed"}
+              callbackButtonCss={"bg-green-400 hover:bg-green-500 "}
+              callbackButtonName={"Confirm"}
+              callbackFunction={handleMarkAsCompletePersonalTask}
+              popUpMessage={
+                "After marking this task as completed, you will no longer be able to make changes to it."
+              }
+            />
+          )}
         </div>
       </div>
     </div>

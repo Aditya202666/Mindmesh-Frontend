@@ -24,24 +24,25 @@ const CreatePersonalTaskButton = () => {
         const color = form.querySelectorAll("select")[2].value;
         const inputDate = form.querySelector('input[type="date"]').value;
         const dueDate = new Date(inputDate)
+        console.log(dueDate)
         if (dueDate === "") {
             toast.error("Please select a date");
             console.log('inside')
             return
         }
 
-        const res = await createTask({
-            title,
-            description,
-            status,
-            priority,
-            color,
-            dueDate,
-        });
-        if (res && res.success) {
-            dispatch(addTask(res.data));
-            console.log(res.data)
-        }
+        // const res = await createTask({
+        //     title,
+        //     description,
+        //     status,
+        //     priority,
+        //     color,
+        //     dueDate,
+        // });
+        // if (res && res.success) {
+        //     dispatch(addTask(res.data));
+        //     console.log(res.data)
+        // }
 
         // Reset the form and close the modal
         form.reset();
@@ -66,10 +67,6 @@ const CreatePersonalTaskButton = () => {
                 New Task
             </button>
             <dialog className={`fixed flex items-center justify-center w-screen h-screen top-0 z-10 bg-base-content/20 `  + (open ? "block": `hidden`)}
-            // className={
-            //     `w-lg m-auto lg:m-auto lg:  rounded-lg bg-base-300 border border-base-content/20 shadow-lg z-10 ` +
-            //     (open ? "block" : "hidden")
-            // }
             >
                 <form
                     onSubmit={handleCreateTask}

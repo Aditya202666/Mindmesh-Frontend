@@ -70,12 +70,12 @@ const deleteTask = async (id) => {
   }
 };
 
-const addPersonalTaskChecklist = async (data) => {
+const addPersonalTaskChecklist = async (id, title) => {
   try {
     const cookie = getHeaderToken();
     const res = await axiosInstance.post(
-      `/personalTask/${data.id}/sub-task`,
-      { title: data.title },
+      `/personalTask/${id}/sub-task`,
+      { title },
       cookie
     );
     return res.data;
@@ -112,10 +112,41 @@ const markAsCompletedPersonalTask = async (id) => {
   }
 };
 
+const updatePersonalTask = async (id, task) => {
+  try {
+    const cookie = getHeaderToken();
+    const res = await axiosInstance.patch(
+      `/personalTask/${id}`,
+      {...task},
+      cookie
+    );
+    return res.data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+const deletePersonalTask = async (id) => {
+  try {
+    const cookie = getHeaderToken();
+    const res = await axiosInstance.delete(
+      `/personalTask/${id}`,
+      cookie
+    );
+    return res.data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+
+
 export {
   createTask,
   getAllTasks,
   getOneTask,
+  updatePersonalTask,
+  deletePersonalTask,
   getTaskOverview,
   markAsCompletedPersonalTask,
   markAsCompletedPersonalTaskChecklist,

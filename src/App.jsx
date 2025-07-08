@@ -28,9 +28,8 @@ import { refreshToken } from "./api/apiCalls/authApi";
 import MyTasksOverviewPage from "./pages/myTasksPages/MyTasksOverviewPage";
 import AllTasksPage from "./pages/myTasksPages/AllTasksPage";
 import PersonalTaskPage from "./pages/myTasksPages/PersonalTaskPage";
+import EditPersonalTaskPage from "./pages/myTasksPages/EditPersonalTaskPage";
 
-// todo add task page, edit task page
-// todo add subtask functionalities
 
 const App = () => {
   const user = useSelector((state) => state.user);
@@ -118,6 +117,7 @@ const App = () => {
 
                 <Route index element={<MyTasksOverviewPage />} />
 
+                <Route path="edit/:taskId" element={<EditPersonalTaskPage/>} />
                 <Route path=":taskId" element={<PersonalTaskPage/>} />
                 <Route path="all-tasks" element={<AllTasksPage/>} />
                 <Route path="in-progress-tasks" element={<>in-progress</>} />
