@@ -1,16 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  theme: "light", // Default theme
+  theme:  "light", // Default theme
 
   bgColors: {
     Yellow: "bg-secondary",
     Emerald: "bg-emerald-300",
     Lavender: "bg-purple-300",
     Rose: "bg-rose-300",
-    Blue: "bg-primary",
-    Coral: "bg-accent",
-    Grey: "bg-neutral",
+    Blue: "bg-sky-300",
+    Coral: "bg-orange-300",
+    Grey: "bg-gray-300",
   },
 
   priorityBadges: {

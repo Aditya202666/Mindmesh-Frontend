@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Task from "./Task";
 
 
-const TaskOrganizer = ({ taskList, title, link, bgColor, textColor }) => {
+const TaskOrganizer = ({ taskList, title, link, bgColor }) => {
 
 
     console.log(taskList, title, link)
@@ -10,10 +10,10 @@ const TaskOrganizer = ({ taskList, title, link, bgColor, textColor }) => {
   if (!taskList.length > 0) return null;
 
   return (
-    <div className={`w-full border rounded-t-3xl rounded-b-xl border-base-content/50 bg-base-200`}>
+    <div className={`group w-full border rounded-t-3xl rounded-b-xl border-base-content/50 bg-base-200`}>
       {/* header */}
       <div>
-        <h1 className={` flex items-baseline justify-between py-1 pl-4 rounded-t-3xl font-semibold border-b border-base-content/50 ${textColor} ${bgColor}`}>
+        <h1 className={` flex text-black items-baseline justify-between py-1 pl-4 rounded-t-3xl font-semibold border-b border-base-content/50  ${bgColor}`}>
           {title}
           <Link to={link} className="mr-4 text-xs underline ">
             {" "}
@@ -31,3 +31,5 @@ const TaskOrganizer = ({ taskList, title, link, bgColor, textColor }) => {
 };
 
 export default TaskOrganizer;
+
+// todo: add open close button

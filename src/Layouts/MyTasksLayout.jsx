@@ -13,45 +13,46 @@ import {
 } from "../store/features/personalTaskSlice";
 import TaskTab from "../components/TaskTab";
 import Filters from "../components/Filters";
-import { FaRegCheckCircle, FaRegHourglass } from "react-icons/fa";
+import { FaRegCheckCircle } from "react-icons/fa";
 import { LuAlarmClockCheck, LuClipboardList } from "react-icons/lu";
 import { FaRegHourglassHalf } from "react-icons/fa6";
 import { RiProgress5Line } from "react-icons/ri";
+import RefreshButton from "../components/RefreshButton";
 
 const NavLinkRoutes = {
   allTasks: {
     name: "All",
     to: "overview/all-tasks",
     icon: <LuClipboardList />,
-    css: "bg-sky-300 rounded-lg ",
+    css: "bg-sky-300 hover:bg-sky-400 rounded-lg ",
     active: "bg-base-300 border-2 border-sky-300 ",
   },
   inProgress: {
     name: "In-Progress",
     to: "overview/in-progress-tasks",
     icon: <RiProgress5Line />,
-    css: "bg-lime-300 rounded-lg",
+    css: "bg-lime-300 hover:bg-lime-400 rounded-lg",
     active: "bg-base-300 border-2 border-lime-300",
   },
   completedTasks: {
     name: "Completed",
     to: "overview/completed-tasks",
     icon: <FaRegCheckCircle />,
-    css: "bg-green-400 rounded-lg",
+    css: "bg-green-400 hover:bg-green-500 rounded-lg",
     active: "bg-base-300 border-2 border-green-300",
   },
   pendingTasks: {
     name: "Pending",
     to: "overview/pending-tasks",
     icon: <FaRegHourglassHalf />,
-    css: "bg-orange-400 rounded-lg",
+    css: "bg-orange-400 hover:bg-orange-500 rounded-lg",
     active: "bg-base-300 border-2 border-orange-400",
   },
   overdueTasks: {
     name: "Overdue",
     to: "overview/overdue-tasks",
     icon: <LuAlarmClockCheck />,
-    css: "bg-red-400 rounded-lg",
+    css: "bg-red-400 hover:bg-red-500 rounded-lg",
     active: "border-2  bg-base-300 border-red-400",
   },
 };
@@ -129,6 +130,7 @@ const MyTasksLayout = () => {
                 task={personalTaskSlice?.details?.overdueTasks}
               />
             </ul>
+              <RefreshButton />
           </div>
         </div>
         <Outlet />

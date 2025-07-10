@@ -40,22 +40,19 @@ const MyTasksOverviewPage = () => {
         taskList={overdueLastMonth}
         title={"Overdue"}
         link={"overdue-tasks"}
-        bgColor={"bg-error"}
-        textColor={"text-error-content"}
+        bgColor={"bg-red-400 group-hover:bg-red-500"}
       />
       <TaskOrganizer
         taskList={dueInSevenDays}
         title={"Due in 7 Days"}
         link={"pending-tasks"}
-        bgColor={"bg-warning"}
-        textColor={"text-warning-content"}
+        bgColor={"group-hover:bg-orange-500 bg-orange-400"}
       />
       <TaskOrganizer
         taskList={recentTask}
         title={"Recent"}
         link={"all-tasks"}
-        bgColor={"bg-info"}
-        textColor={"text-secondary-content"}
+        bgColor={"bg-sky-300 group-hover:bg-sky-400"}
       />
     </div>
   );

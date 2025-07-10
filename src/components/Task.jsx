@@ -12,7 +12,6 @@ import { HiCalendarDateRange } from "react-icons/hi2";
 import { TiAttachment } from "react-icons/ti";
 
 //todo: add all functionality of task menu
-//todo: remove attachments icon
 
 const Task = ({ task }) => {
   const dispatch = useDispatch();
@@ -48,7 +47,8 @@ const Task = ({ task }) => {
         <ul className="menu dropdown-content bg-base-100 p-1 border border-base-content/50 rounded-md z-1 w-40 text-xs font-medium p ">
           <li>
             <Link to={`/my-tasks/overview/${task._id}`}>
-              <LuBookOpen /> Open
+              <ImNewTab />
+              Open
             </Link>
           </li>
           <li>
@@ -57,7 +57,8 @@ const Task = ({ task }) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <ImNewTab />
+              {" "}
+              <LuBookOpen />
               Open in New Tab
             </Link>
           </li>
@@ -111,47 +112,47 @@ const Task = ({ task }) => {
         </h1>
         <p className="line-clamp-4 text-xs leading-tight">{task.description}</p>
       </div>
+
       {/* checklist */}
       {task.subTasks.length > 0 && (
-        <div className="flex gap-1.5 line-clamp-1 items-center">
-          <div className="line-clamp-1 flex space-x-1.5">
-            {task.subTasks.length > 0 &&
-              task.subTasks.map((subTask, index) => (
-                <span
-                  key={subTask._id}
-                  className={` h-2 w-5 border rounded-lg ${
-                    index + 1 <= task.completedSubTasks
-                      ? "bg-success"
-                      : "bg-warning"
-                  }`}
-                ></span>
-              ))}
+        <>
+          <div className="text-xs leading-0 mt-2 label">Checklist:</div>
+          <div className="flex gap-1.5 line-clamp-1 items-center">
+            <div className="line-clamp-1 flex space-x-1.5">
+              {task.subTasks.length > 0 &&
+                task.subTasks.map((subTask, index) => (
+                  <span
+                    key={subTask._id}
+                    className={` h-2 w-5 border rounded-lg ${
+                      index + 1 <= task.completedSubTasks
+                        ? "bg-green-400"
+                        : "bg-orange-400"
+                    }`}
+                  ></span>
+                ))}
+            </div>
+            <span className="text-xs font-semibold">{`(${task.completedSubTasks}/${task.totalSubTasks})`}</span>
           </div>
-          <span className="text-xs font-semibold">{`(${task.completedSubTasks}/${task.totalSubTasks})`}</span>
-        </div>
+        </>
       )}
 
-      <div className="flex items-center gap-1 text-sm font-semibold border border-base-content/20 bg-base-300/50 rounded-lg w-fit pr-1">
-        <TiAttachment className="size-5" />
-        {2}
-      </div>
-
-      {/*  date */}
+      {/*  footer */}
       <div className="flex mt-auto items-baseline">
+        {/* open icon */}
         <Link
           to={`/my-tasks/overview/${task._id}`}
-          target="_blank"
+          // target="_blank"
           rel="noopener noreferrer"
+          className="flex items-center gap-0.5 hover:underline transition-all"
         >
-          <ImNewTab
-            className="size-3 hover:scale-110 transition-all cursor-pointer"
-            title="Open in new tab"
-          />
+          <ImNewTab className="size-3 cursor-pointer" title="Open in new tab" />
+          <span className="text-xs">open</span>
         </Link>
 
+        {/* date */}
         <span className="flex items-center text-xs ml-auto font-semibold">
           <HiCalendarDateRange />
-          {task.dueDate ? `${dueDate}` : "NA"}
+          {task.dueDate ? `${dueDate}` : "N/A"}
         </span>
       </div>
     </div>
@@ -159,3 +160,5 @@ const Task = ({ task }) => {
 };
 
 export default Task;
+
+// todo fix task menu auto close system

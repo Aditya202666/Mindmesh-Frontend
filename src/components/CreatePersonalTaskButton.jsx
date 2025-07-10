@@ -31,18 +31,18 @@ const CreatePersonalTaskButton = () => {
             return
         }
 
-        // const res = await createTask({
-        //     title,
-        //     description,
-        //     status,
-        //     priority,
-        //     color,
-        //     dueDate,
-        // });
-        // if (res && res.success) {
-        //     dispatch(addTask(res.data));
-        //     console.log(res.data)
-        // }
+        const res = await createTask({
+            title,
+            description,
+            status,
+            priority,
+            color,
+            dueDate,
+        });
+        if (res && res.success) {
+            dispatch(addTask(res.data));
+            console.log(res.data)
+        }
 
         // Reset the form and close the modal
         form.reset();
@@ -62,7 +62,7 @@ const CreatePersonalTaskButton = () => {
             <button
                 type="button"
                 onClick={() => setOpen(true)}
-                className="btn btn-primary btn-sm rounded-lg shadow border-base-content/50"
+                className="btn btn-sm bg-sky-300 hover:bg-sky-400 rounded-lg shadow border-base-content/50 text-black"
             >
                 New Task
             </button>
@@ -159,13 +159,13 @@ const CreatePersonalTaskButton = () => {
                         <button
                             type="reset"
                             onClick={handelCancel}
-                            className="btn btn-error border-base-content/50 btn-sm rounded-lg "
+                            className="btn bg-red-400 hover:bg-red-500 border-base-content/50 btn-sm rounded-lg "
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="btn btn-success btn-sm border-base-content/50 rounded-lg "
+                            className="btn bg-green-400 hover:bg-green-500 btn-sm border-base-content/50 rounded-lg "
                         >
                             Create Task
                         </button>

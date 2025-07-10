@@ -14,6 +14,8 @@ import { FaCheckCircle, FaEdit, FaPlus } from "react-icons/fa";
 import PopUp from "../../components/PopUp";
 
 
+// todo: shift delete button to top
+
 
 const PersonalTaskPage = () => {
   const params = useParams();
@@ -26,7 +28,8 @@ const PersonalTaskPage = () => {
   const [openAddChecklistInput, setOpenAddChecklistInput] = useState(false);
   const [checklistInput, setChecklistInput] = useState("");
 
-  const handleAddNewChecklist = async () => {
+  const handleAddNewChecklist = async (e) => {
+    e.preventDefault()
     const res = await addPersonalTaskChecklist(task._id, checklistInput);
     if (res && res.success) {
       console.log(res.data);
@@ -175,7 +178,9 @@ const PersonalTaskPage = () => {
 
               {/* checklist input */}
               {openAddChecklistInput && (
-                <div className="relative flex space-x-2">
+                <form
+                onSubmit={handleAddNewChecklist}
+                 className="relative flex space-x-2">
                   <input
                     title="Checklist input"
                     className="relative bg-transparent flex items-center justify-center border text-[1rem] border-black/50 rounded-lg w-4/5 pl-2 py-1   input-lg"
@@ -190,9 +195,8 @@ const PersonalTaskPage = () => {
                   </p>
                   {checklistInput.length > 0 && (
                     <button
-                      type="button"
-                      onClick={handleAddNewChecklist}
-                      className="btn btn-sm bg-gray-800 text-white rounded-lg border border-base-content/50"
+                      type="submit"
+                      className="btn btn-sm bg-sky-300 hover:bg-sky-400 text-black rounded-lg border border-base-content/50"
                     >
                       Add
                     </button>
@@ -200,11 +204,11 @@ const PersonalTaskPage = () => {
                   <button
                     type="button"
                     onClick={handleCancelChecklist}
-                    className="btn btn-sm bg-red-800 text-white rounded-lg border border-base-content/50"
+                    className="btn btn-sm bg-red-400 hover:bg-red-500 text-black rounded-lg border border-base-content/50"
                   >
                     Cancel
                   </button>
-                </div>
+                </form>
               )}
             </div>
           </div>

@@ -28,9 +28,11 @@ const PopUp = ({ buttonName, buttonCss, popUpMessage, callbackFunction, callback
           (open ? "block" : `hidden`)
         }
       >
-        <div className="border border-base-content/50 p-4 bg-base-100 rounded-lg space-y-6 ">
+        <div className="border border-base-content/50 p-4 bg-base-100 rounded-lg ">
+        <h1 className="font-semibold text-xl tracking-tighter mb-2 text-orange-600">Warning!</h1>
           <p>{popUpMessage}</p>
-          <div className="ml-auto w-fit flex space-x-2 mr-4 ">
+          {/* buttons */}
+          <div className="ml-auto w-fit flex space-x-2 mr-4 mt-6 ">
             <button
               type="button"
               className="btn btn-sm text-black bg-gray-400 hover:bg-gray-500 border rounded-lg border-base-content/50"

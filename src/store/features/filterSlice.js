@@ -14,6 +14,8 @@ const formattedDate = `${yyyy}-${mm}-${dd}`;
 
 
 const initialState = {
+
+    refreshToken:0,
     ascending: false,
     fromDate: formattedDate, // First day of the current month in yyyy-mm-dd format
     status: "All",
@@ -55,11 +57,18 @@ const filterSlice = createSlice({
            
         },
         resetFilters: () => initialState,
+        increaseRefreshToken: (state) =>{
+
+            state.refreshToken = state.refreshToken + 1
+            console.log(state.refreshToken)
+
+        }
     },
 });
 
 export const {
     setOrderBy,
+    increaseRefreshToken,
     setFromDate,
     setStatus,
     setPriority,

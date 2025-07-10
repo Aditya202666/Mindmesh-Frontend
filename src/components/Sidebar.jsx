@@ -114,7 +114,7 @@ const Sidebar = () => {
                             className={({ isActive }) =>
                                 "flex items-center gap-2 font-semibold px-2 py-1 rounded-xl " +
                                 (isActive
-                                    ? " text-secondary-content bg-primary shadow border border-base-content/50"
+                                    ? " text-secondary-content bg-sky-300 hover:bg-sky-400 shadow border border-base-content/50"
                                     : " hover:bg-primary/65")
                             }
                         >
@@ -170,7 +170,7 @@ const Sidebar = () => {
                 <div className="btn btn-ghost btn-circle avatar h-9 w-9 ">
                     <div className="w-8 rounded-xl  ">
                         <img
-                            alt="Tailwind CSS Navbar component"
+                            alt="Avatar"
                             src={user.profilePic}
                         />
                     </div>
