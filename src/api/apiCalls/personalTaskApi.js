@@ -64,6 +64,7 @@ const deleteTask = async (id) => {
   try {
     const cookie = getHeaderToken();
     const res = await axiosInstance.delete(`/personalTask/${id}`, cookie);
+    console.log(res)
     return res.data;
   } catch (error) {
     handleError(error);
@@ -142,14 +143,14 @@ const deletePersonalTask = async (id) => {
 
 
 export {
+  getTaskOverview,
   createTask,
-  getAllTasks,
   getOneTask,
   updatePersonalTask,
   deletePersonalTask,
-  getTaskOverview,
   markAsCompletedPersonalTask,
-  markAsCompletedPersonalTaskChecklist,
   addPersonalTaskChecklist,
+  markAsCompletedPersonalTaskChecklist,
   deleteTask,
+  getAllTasks,
 };

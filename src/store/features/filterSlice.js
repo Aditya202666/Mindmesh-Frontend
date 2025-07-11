@@ -57,6 +57,7 @@ const filterSlice = createSlice({
            
         },
         resetFilters: () => initialState,
+        
         increaseRefreshToken: (state) =>{
 
             state.refreshToken = state.refreshToken + 1

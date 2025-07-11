@@ -1,8 +1,7 @@
 import React, { useRef, useState } from 'react'
-import { LuRefreshCcw, LuRefreshCw } from 'react-icons/lu'
+import { LuRefreshCw } from 'react-icons/lu'
 import { useDispatch } from 'react-redux'
 import { increaseRefreshToken } from '../store/features/filterSlice'
-import { toast } from 'react-toastify'
 
 const RefreshButton = () => {
 
@@ -22,7 +21,7 @@ const RefreshButton = () => {
             setClicked(true)
             setTimeout(() => {
                 setClicked(false)
-            }, 1000);
+            }, 1500);
         }
     }
 
@@ -38,4 +37,3 @@ const RefreshButton = () => {
 export default RefreshButton
 
 
-// todo add refresh functionally

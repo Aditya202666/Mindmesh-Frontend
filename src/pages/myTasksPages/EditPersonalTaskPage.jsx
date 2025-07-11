@@ -10,7 +10,6 @@ import { FaCheckCircle } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import PopUp from "../../components/PopUp";
 
-// todo: add popup at update task
 
 const EditPersonalTaskPage = () => {
   const params = useParams();

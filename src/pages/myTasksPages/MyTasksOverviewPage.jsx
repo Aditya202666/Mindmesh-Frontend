@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import TaskOrganizer from "../../components/TaskOrganizer";
 import { getTaskOverview } from "../../api/apiCalls/personalTaskApi";
 import {
@@ -14,10 +13,12 @@ import {
 const MyTasksOverviewPage = () => {
   
   const dispatch = useDispatch();
-  const { overdueLastMonth, dueInSevenDays, recentTask } = useSelector(
+  const { overdueLastMonth, inProgressTasks, dueInSevenDays, recentTask } = useSelector(
     (state) => state.personalTask
   );
-  const navigate = useNavigate();
+  const { refreshToken } = useSelector(
+    (state) => state.filter
+  );
 
   useEffect(() => {
     const callGetTaskOverview = async () => {
@@ -31,7 +32,7 @@ const MyTasksOverviewPage = () => {
       }
     };
     callGetTaskOverview();
-  }, [dispatch]);
+  }, [dispatch, refreshToken]);
 
   //   console.log(recentTask);
   return (
@@ -40,19 +41,25 @@ const MyTasksOverviewPage = () => {
         taskList={overdueLastMonth}
         title={"Overdue"}
         link={"overdue-tasks"}
-        bgColor={"bg-red-400 group-hover:bg-red-500"}
+        bgColor={"bg-red-500"}
       />
       <TaskOrganizer
         taskList={dueInSevenDays}
         title={"Due in 7 Days"}
         link={"pending-tasks"}
-        bgColor={"group-hover:bg-orange-500 bg-orange-400"}
+        bgColor={"bg-orange-500"}
+      />
+      <TaskOrganizer
+        taskList={inProgressTasks}
+        title={"In-progress"}
+        link={"in-progress-tasks"}
+        bgColor={"bg-lime-500"}
       />
       <TaskOrganizer
         taskList={recentTask}
         title={"Recent"}
         link={"all-tasks"}
-        bgColor={"bg-sky-300 group-hover:bg-sky-400"}
+        bgColor={"bg-sky-500"}
       />
     </div>
   );

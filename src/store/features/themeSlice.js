@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  theme:  "light", // Default theme
+  theme: localStorage.getItem("mindmesh-theme") || "light", // Default theme
 
   bgColors: {
     Yellow: "bg-secondary",
@@ -32,6 +32,7 @@ export const themeSlice = createSlice({
   reducers: {
     toggleTheme: (state) => {
       state.theme = state.theme === "light" ? "dark" : "light";
+      localStorage.setItem("mindmesh-theme", state.theme)
     },
   },
 });

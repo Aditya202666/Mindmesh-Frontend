@@ -12,24 +12,20 @@ import { HiCalendarDateRange } from "react-icons/hi2";
 import { getFormattedDate } from "../../api/utils/getDate";
 import { FaCheckCircle, FaEdit, FaPlus } from "react-icons/fa";
 import PopUp from "../../components/PopUp";
-
-
-// todo: shift delete button to top
+import { MdDeleteForever } from "react-icons/md";
 
 
 const PersonalTaskPage = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const { priorityBadges, statusBadges } = useSelector(
-    (state) => state.theme
-  );
+  const { priorityBadges, statusBadges } = useSelector((state) => state.theme);
 
   const [task, setTask] = useState(null);
   const [openAddChecklistInput, setOpenAddChecklistInput] = useState(false);
   const [checklistInput, setChecklistInput] = useState("");
 
   const handleAddNewChecklist = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const res = await addPersonalTaskChecklist(task._id, checklistInput);
     if (res && res.success) {
       console.log(res.data);
@@ -56,12 +52,12 @@ const PersonalTaskPage = () => {
     }
   };
 
-  const handleDeletePersonalTask = async()=>{
-      const res = await deletePersonalTask(task._id)
-      if(res && res.success){
-        navigate("/my-tasks/overview")
-      }
-  }
+  const handleDeletePersonalTask = async () => {
+    const res = await deletePersonalTask(task._id);
+    if (res && res.success) {
+      navigate("/my-tasks/overview");
+    }
+  };
 
   const handleCancelChecklist = () => {
     setOpenAddChecklistInput(false);
@@ -117,13 +113,23 @@ const PersonalTaskPage = () => {
             </div>
             {task?.isCompleted === false && (
               <div
-                className="shadow border border-base-content/50 cursor-pointer  hover:shadow-base-content px-2 py-1 rounded-lg "
+                className="shadow border border-base-content/50 cursor-pointer  hover:shadow-base-content px-2 py-2 rounded-lg "
                 title="Edit Task"
                 onClick={() => navigate(`/my-tasks/overview/edit/${task?._id}`)}
               >
                 <FaEdit />
               </div>
             )}
+            <PopUp
+              buttonCss={"hover:bg-red-500 btn-sm px-1.5 text-lg  "}
+              buttonName={ <MdDeleteForever/> }
+              popUpMessage={
+                "This task will be moved to the trash and can be restored later if needed. It will no longer appear in your active task list."
+              }
+              callbackButtonCss={"bg-red-400 hover:bg-red-500 "}
+              callbackButtonName={"Delete"}
+              callbackFunction={handleDeletePersonalTask}
+            />
           </div>
         </div>
 
@@ -179,8 +185,9 @@ const PersonalTaskPage = () => {
               {/* checklist input */}
               {openAddChecklistInput && (
                 <form
-                onSubmit={handleAddNewChecklist}
-                 className="relative flex space-x-2">
+                  onSubmit={handleAddNewChecklist}
+                  className="relative flex space-x-2"
+                >
                   <input
                     title="Checklist input"
                     className="relative bg-transparent flex items-center justify-center border text-[1rem] border-black/50 rounded-lg w-4/5 pl-2 py-1   input-lg"
@@ -216,14 +223,6 @@ const PersonalTaskPage = () => {
 
         {/* buttons */}
         <div className="flex mt-4 space-x-2 w-fit ml-auto">
-           <PopUp
-              buttonCss={"bg-red-400 hover:bg-red-500 btn-sm"}
-              buttonName={"Delete task"}
-              popUpMessage={"This task will be moved to the trash and can be restored later if needed. It will no longer appear in your active task list."}
-              callbackButtonCss={"bg-red-400 hover:bg-red-500 "}
-              callbackButtonName={"Delete"}
-              callbackFunction={handleDeletePersonalTask}
-            />
           {task?.isCompleted === false && (
             <PopUp
               buttonCss={"bg-green-400 hover:bg-green-500 btn-sm"}

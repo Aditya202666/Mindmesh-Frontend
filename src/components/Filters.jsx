@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
     resetFilters,
@@ -7,16 +7,16 @@ import {
     setPriority,
     setStatus,
 } from "../store/features/filterSlice";
-import { RiResetLeftLine } from "react-icons/ri";
 import { FaFilter } from "react-icons/fa";
 
 const Filters = () => {
     const dispatch = useDispatch();
     const filters = useSelector((state) => state.filter);
+    const [tempFilter, setTempFilter] = useState({...filters })
     console.log(filters);
     return (
         <details className="dropdown dropdown-end">
-          <summary className="btn btn-neutral btn-sm rounded-xl p-2 border border-base-content/20"><FaFilter/></summary>
+          <summary className="btn bg-gray-300 hover:bg-gray-400 text-black btn-sm rounded-lg p-2 border border-base-content/50"><FaFilter/></summary>
             <form className="menu dropdown-content flex flex-col gap-1 p-1 mt-1 bg-base-300 rounded-lg items-center border border-base-content/20 w-45">
                 {/* add multiple select filters for status, priority, sort */}
 

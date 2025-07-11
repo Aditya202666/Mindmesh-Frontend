@@ -12,7 +12,6 @@ import {
   addRecentTask,
 } from "../store/features/personalTaskSlice";
 import TaskTab from "../components/TaskTab";
-import Filters from "../components/Filters";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { LuAlarmClockCheck, LuClipboardList } from "react-icons/lu";
 import { FaRegHourglassHalf } from "react-icons/fa6";
@@ -61,6 +60,7 @@ const MyTasksLayout = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const personalTaskSlice = useSelector((state) => state.personalTask);
+  const {refreshToken} = useSelector((state) => state.filter);
   console.log(personalTaskSlice);
 
   let title = location.pathname
@@ -82,11 +82,11 @@ const MyTasksLayout = () => {
         dispatch(addInProgressTasks(res.data.inProgressTasks));
         dispatch(addRecentTask(res.data.recentTask));
         dispatch(addDetails(res.data.taskDetails));
-        console.log("data ", res.data);
+        // console.log("data ", res.data);
       }
     };
     callGetTaskOverview();
-  }, [dispatch]);
+  }, [dispatch, refreshToken]);
 
   // console.log(personalTaskSlice);
 
@@ -103,7 +103,6 @@ const MyTasksLayout = () => {
             {/* filter and new task button */}
             <div className="flex items-center gap-4 ">
               <CreatePersonalTaskButton />
-              {title !== "OVERVIEW" && title.length < 24 && <Filters />}
             </div>
           </div>
           {/* tabs */}

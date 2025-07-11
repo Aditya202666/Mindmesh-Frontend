@@ -10,8 +10,8 @@ import { FaRegCheckCircle } from "react-icons/fa";
 import { ImNewTab } from "react-icons/im";
 import { HiCalendarDateRange } from "react-icons/hi2";
 import { TiAttachment } from "react-icons/ti";
+import { increaseRefreshToken } from "../store/features/filterSlice";
 
-//todo: add all functionality of task menu
 
 const Task = ({ task }) => {
   const dispatch = useDispatch();
@@ -20,11 +20,22 @@ const Task = ({ task }) => {
   );
 
   const handleDeleteTask = async () => {
-    const res = deleteTask(task._id);
+    const res = await deleteTask(task._id);
     if (res && res.success) {
-      dispatch(removeTask(task._id));
+      console.log(res)
+      dispatch(increaseRefreshToken());
     }
   };
+
+  const handleMarkAsCompleted = async () => {
+    const res = await markAsCompletedPersonalTask(task._id);
+    if (res && res.success) {
+      console.log(res)
+      dispatch(increaseRefreshToken());
+    }
+  };
+
+  
 
   const dueDate = new Date(task.dueDate?.split("T")[0]).toDateString();
   // const day  = dueDate?.split("-")
@@ -36,14 +47,17 @@ const Task = ({ task }) => {
         bgColors[task.color]
       }
     >
-      <details className="dropdown dropdown-end absolute right-0 top-0 ">
-        <summary
+      <div className="dropdown dropdown-end absolute right-0 top-0 "
+        tabIndex={0}
+        role="button"
+      >
+        <div
           className={"btn btn-sm btn-ghost bg-transparent m-1 p-0 border-0 "}
         >
           <BsThreeDotsVertical
             className={`text-lg hover:scale-110 transition-all `}
           />
-        </summary>
+        </div>
         <ul className="menu dropdown-content bg-base-100 p-1 border border-base-content/50 rounded-md z-1 w-40 text-xs font-medium p ">
           <li>
             <Link to={`/my-tasks/overview/${task._id}`}>
@@ -63,7 +77,7 @@ const Task = ({ task }) => {
             </Link>
           </li>
           {task.status !== "Completed" && (
-            <li>
+            <li onClick={handleMarkAsCompleted}>
               <a>
                 {" "}
                 <FaRegCheckCircle />
@@ -78,7 +92,7 @@ const Task = ({ task }) => {
             </a>
           </li>
         </ul>
-      </details>
+      </div>
       {/* Badges */}
       <div className="flex space-x-1 text-sm ">
         <div>
@@ -161,4 +175,3 @@ const Task = ({ task }) => {
 
 export default Task;
 
-// todo fix task menu auto close system

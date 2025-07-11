@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { IoMdClose } from "react-icons/io";
 import { createTask } from "../api/apiCalls/personalTaskApi";
 import { useDispatch } from "react-redux";
-import { addTask } from "../store/features/personalTaskSlice";
-import { CgClose } from "react-icons/cg";
 import { toast } from "react-toastify";
+import { increaseRefreshToken } from "../store/features/filterSlice";
 
 const today = new Date().toISOString().split("T")[0];
 
@@ -24,7 +22,7 @@ const CreatePersonalTaskButton = () => {
         const color = form.querySelectorAll("select")[2].value;
         const inputDate = form.querySelector('input[type="date"]').value;
         const dueDate = new Date(inputDate)
-        console.log(dueDate)
+        // console.log(dueDate)
         if (dueDate === "") {
             toast.error("Please select a date");
             console.log('inside')
@@ -40,8 +38,8 @@ const CreatePersonalTaskButton = () => {
             dueDate,
         });
         if (res && res.success) {
-            dispatch(addTask(res.data));
-            console.log(res.data)
+            dispatch(increaseRefreshToken());
+            // console.log(res.data)
         }
 
         // Reset the form and close the modal

@@ -165,7 +165,7 @@ const Sidebar = () => {
                 className="flex gap-2 mt-auto mb-4 dropdown dropdown-top bg-base-100 rounded-xl shadow border border-base-content/50 cursor-pointer hover:bg-base-200 transition-all"
                 tabIndex={0}
                 role="button"
-            >
+            >   
                 {/* profile pic */}
                 <div className="btn btn-ghost btn-circle avatar h-9 w-9 ">
                     <div className="w-8 rounded-xl  ">
