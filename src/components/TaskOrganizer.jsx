@@ -5,7 +5,7 @@ import { GoTriangleRight } from "react-icons/go";
 
 const TaskOrganizer = ({ taskList, title, link, bgColor }) => {
   const [open, setOpen] = useState(true);
-  console.log(open)
+  // console.log(open)
   if (!taskList.length > 0) return null;
 
   return (
@@ -18,9 +18,6 @@ const TaskOrganizer = ({ taskList, title, link, bgColor }) => {
       >
         <div className="flex items-center">
 
-        <h1>
-          {title}
-          </h1>
           <span
             className={`cursor-pointer ml-1 inline-block transition-transform duration-200 ${
               !open ?  "" :"rotate-90 origin-center" 
@@ -30,6 +27,9 @@ const TaskOrganizer = ({ taskList, title, link, bgColor }) => {
               <GoTriangleRight />
 
           </span>
+        <h1>
+          {title}
+          </h1>
             </div>
         <Link to={link} className="mr-4 text-xs underline ">
           {" "}

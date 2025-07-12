@@ -27,7 +27,11 @@ const personalTaskSlice = createSlice({
   initialState,
   reducers: {
     addAllTasks: (state, action) => {
-      state.allTasks = action.payload;
+      const fetchedAllTasks = action.payload
+
+      // console.log(fetchedAllTasks)
+      state.allTasks = fetchedAllTasks;
+      state.details.allTasks = fetchedAllTasks.length
     },
 
     addDueInSevenDays: (state, action) => {
@@ -44,7 +48,13 @@ const personalTaskSlice = createSlice({
       // console.log(action.payload)
     },
     addDetails: (state, action) => {
-      state.details = action.payload;
+      const details = action.payload
+      state.details.allTasks = details.allTasks[0].count
+      state.details.completedTasks = details.completedTasks[0].count
+      state.details.inProgressTasks = details.inProgressTasks[0].count
+      state.details.overdueTasks = details.overdueTasks[0].count
+      state.details.pendingTasks = details.pendingTasks[0].count
+
     },
   },
 });

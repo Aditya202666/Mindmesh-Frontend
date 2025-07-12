@@ -28,6 +28,16 @@ const getTaskOverview = async () => {
   }
 };
 
+const getPersonalTaskDetails = async () => {
+  try {
+    const cookie = getHeaderToken();
+    const res = await axiosInstance.get("/personalTask/details", cookie);
+    return res.data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
 const getAllTasks = async (filter) => {
   try {
     const cookie = getHeaderToken();
@@ -38,6 +48,7 @@ const getAllTasks = async (filter) => {
     };
     const res = await axiosInstance.get("/personalTask/all", config);
     if (res) {
+      // console.log(res)
       return res.data;
     }
   } catch (error) {
@@ -64,7 +75,7 @@ const deleteTask = async (id) => {
   try {
     const cookie = getHeaderToken();
     const res = await axiosInstance.delete(`/personalTask/${id}`, cookie);
-    console.log(res)
+    // console.log(res)
     return res.data;
   } catch (error) {
     handleError(error);
@@ -118,7 +129,7 @@ const updatePersonalTask = async (id, task) => {
     const cookie = getHeaderToken();
     const res = await axiosInstance.patch(
       `/personalTask/${id}`,
-      {...task},
+      { ...task },
       cookie
     );
     return res.data;
@@ -130,17 +141,12 @@ const updatePersonalTask = async (id, task) => {
 const deletePersonalTask = async (id) => {
   try {
     const cookie = getHeaderToken();
-    const res = await axiosInstance.delete(
-      `/personalTask/${id}`,
-      cookie
-    );
+    const res = await axiosInstance.delete(`/personalTask/${id}`, cookie);
     return res.data;
   } catch (error) {
     handleError(error);
   }
 };
-
-
 
 export {
   getTaskOverview,
@@ -153,4 +159,5 @@ export {
   markAsCompletedPersonalTaskChecklist,
   deleteTask,
   getAllTasks,
+  getPersonalTaskDetails,
 };

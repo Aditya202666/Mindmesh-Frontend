@@ -58,7 +58,7 @@ const App = () => {
 
   const ProtectedRoutes = () => {
     if (user.isSigningUp || user.isLoading) {
-      console.log("loading protected routes");
+      // console.log("loading protected routes");
       return null;
     }
     if (!user.id) {
@@ -70,12 +70,12 @@ const App = () => {
     return <Outlet />;
   };
 
-  console.log(user);
+  // console.log(user);
 
   const RedirectFromLogin = () => {
     const location = useLocation();
     if (user.isSigningUp) {
-      console.log("loading");
+      // console.log("loading");
       return null;
     }
     if (user.id && user.isVerified) {

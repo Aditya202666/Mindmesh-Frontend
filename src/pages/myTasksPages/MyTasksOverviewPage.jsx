@@ -28,7 +28,6 @@ const MyTasksOverviewPage = () => {
         dispatch(addOverdueLastMonth(res.data.overdueLastMonth));
         dispatch(addInProgressTasks(res.data.inProgressTasks));
         dispatch(addRecentTask(res.data.recentTask));
-        dispatch(addDetails(res.data.taskDetails));
       }
     };
     callGetTaskOverview();

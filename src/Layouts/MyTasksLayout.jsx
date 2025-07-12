@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import BreadcrumbNavbar from "../components/BreadcrumbNavbar";
 import { Outlet, useLocation } from "react-router-dom";
-import { getTaskOverview } from "../api/apiCalls/personalTaskApi";
+import { getPersonalTaskDetails } from "../api/apiCalls/personalTaskApi";
 import CreatePersonalTaskButton from "../components/CreatePersonalTaskButton";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -60,8 +60,8 @@ const MyTasksLayout = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const personalTaskSlice = useSelector((state) => state.personalTask);
-  const {refreshToken} = useSelector((state) => state.filter);
-  console.log(personalTaskSlice);
+  const { refreshToken } = useSelector((state) => state.filter);
+  // console.log(personalTaskSlice);
 
   let title = location.pathname
     .split("/")
@@ -74,18 +74,14 @@ const MyTasksLayout = () => {
   }
 
   useEffect(() => {
-    const callGetTaskOverview = async () => {
-      const res = await getTaskOverview();
+    const callGetPersonalTaskDetails = async () => {
+      const res = await getPersonalTaskDetails();
       if (res && res.success) {
-        dispatch(addDueInSevenDays(res.data.dueInSevenDays));
-        dispatch(addOverdueLastMonth(res.data.overdueLastMonth));
-        dispatch(addInProgressTasks(res.data.inProgressTasks));
-        dispatch(addRecentTask(res.data.recentTask));
-        dispatch(addDetails(res.data.taskDetails));
-        // console.log("data ", res.data);
+        // console.log(res.data);
+        dispatch(addDetails(res.data))
       }
     };
-    callGetTaskOverview();
+    callGetPersonalTaskDetails();
   }, [dispatch, refreshToken]);
 
   // console.log(personalTaskSlice);
@@ -129,7 +125,7 @@ const MyTasksLayout = () => {
                 task={personalTaskSlice?.details?.overdueTasks}
               />
             </ul>
-              <RefreshButton />
+            <RefreshButton />
           </div>
         </div>
         <Outlet />

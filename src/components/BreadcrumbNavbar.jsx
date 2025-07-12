@@ -8,7 +8,7 @@ const BreadcrumbNavbar = () => {
   const pathname = location.pathname.split("/").slice(2);
 
   const date = new Date().toDateString();
-  console.log(date);
+  // console.log(date);
 
   return (
     <div className="lg:flex items-center justify-between px-4 hidden lg:w-[calc(100vw-16rem)] h-10 bg-base-200 border-b border-base-content/50">
