@@ -27,11 +27,12 @@ const personalTaskSlice = createSlice({
   initialState,
   reducers: {
     addAllTasks: (state, action) => {
-      const fetchedAllTasks = action.payload
+      const fetchedAllTasks = action.payload.allTasks
+      const taskDetails = action.payload.taskDetails
 
-      // console.log(fetchedAllTasks)
+      console.log(taskDetails)
       state.allTasks = fetchedAllTasks;
-      state.details.allTasks = fetchedAllTasks.length
+      state.details.allTasks = taskDetails[0].totalTasks
     },
 
     addDueInSevenDays: (state, action) => {

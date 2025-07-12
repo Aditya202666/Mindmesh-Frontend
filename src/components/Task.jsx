@@ -47,18 +47,18 @@ const Task = ({ task }) => {
         bgColors[task.color]
       }
     >
-      <div className="dropdown dropdown-end absolute right-0 top-0 "
+      <div className="dropdown dropdown-end absolute right-0 top-2 "
         tabIndex={0}
         role="button"
       >
         <div
-          className={"btn btn-sm btn-ghost bg-transparent m-1 p-0 border-0 "}
+          className={" bg-transparent m-1 p-0 border-0 "}
         >
           <BsThreeDotsVertical
-            className={`text-lg hover:scale-110 transition-all `}
+            className={`text-lg hover:scale-110 text-black transition-all `}
           />
         </div>
-        <ul className="menu dropdown-content bg-base-100 p-1 border border-base-content/50 rounded-md z-1 w-40 text-xs font-medium p ">
+        <ul className="menu text-base-content dropdown-content bg-base-100 p-1 border border-base-content/50 rounded-md z-1 w-40 text-xs font-medium p ">
           <li>
             <Link to={`/my-tasks/overview/${task._id}`}>
               <ImNewTab />

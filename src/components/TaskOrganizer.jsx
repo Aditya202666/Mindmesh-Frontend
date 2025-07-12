@@ -36,7 +36,7 @@ const TaskOrganizer = ({ taskList, title, link, bgColor }) => {
           View All
         </Link>
       </div>
-      <div className={` ${open ? "flex" : "hidden"} border border-t-0 rounded-b-3xl transition-all duration-300 gap-2 p-2 overflow-scroll scrollbar-hide`}>
+      <div className={` ${open ? "flex" : "hidden"} border border-t-0 rounded-b-3xl bg-base-300 transition-all duration-300 gap-2 p-2 overflow-scroll scrollbar-hide`}>
         {taskList && taskList.length > 0
           ? taskList.map((task) => <Task task={task} key={task._id} />)
           : null}

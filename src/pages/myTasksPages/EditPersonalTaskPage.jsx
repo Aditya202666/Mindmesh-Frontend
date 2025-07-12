@@ -205,7 +205,7 @@ const EditPersonalTaskPage = () => {
             callbackFunction={()=>navigate(`/my-tasks/overview/${task._id}`)}
             callbackButtonName = {"Leave"}
             callbackButtonCss={"bg-red-400 hover:bg-red-500"}
-            popUpMessage={`You have unsaved changes. Are you sure you want to leave this page? All unsaved data will be lost.`}
+            popUpMessage={`Are you sure you want to leave this page? All unsaved data will be lost.`}
           />
           <button
             type="button"

@@ -13,6 +13,8 @@ import { getFormattedDate } from "../../api/utils/getDate";
 import { FaCheckCircle, FaEdit, FaPlus } from "react-icons/fa";
 import PopUp from "../../components/PopUp";
 import { MdDeleteForever } from "react-icons/md";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { TbPick } from "react-icons/tb";
 
 
 const PersonalTaskPage = () => {
@@ -81,7 +83,7 @@ const PersonalTaskPage = () => {
       {/* task container */}
       <div className={`w-[46rem] border p-2  rounded-lg  bg-base-200`}>
         {/* header */}
-        <div className="flex items-center space-x-2 text-sm ">
+        <div className="relative flex items-center space-x-2 text-sm ">
           {/* badges */}
           <div>
             <span className=" text-xs">Status:</span>
@@ -106,30 +108,55 @@ const PersonalTaskPage = () => {
             </span>
           </div>
           {/* right side header */}
-          <div className="flex items-center w-fit ml-auto space-x-2">
+          {/* date */}
+          <div className="flex items-center w-fit ml-auto mr-8 space-x-2">
             <div className="flex items-center text-sm ml-auto font-semibold w-fit">
               <HiCalendarDateRange className="mr-1 " />
               {task?.dueDate ? `${getFormattedDate(task.dueDate)}` : "NA"}
             </div>
-            {task?.isCompleted === false && (
-              <div
-                className="shadow border border-base-content/50 cursor-pointer  hover:shadow-base-content px-2 py-2 rounded-lg "
-                title="Edit Task"
-                onClick={() => navigate(`/my-tasks/overview/edit/${task?._id}`)}
+          </div>
+          {/* dropdown */}
+          <div
+            className="dropdown dropdown-end absolute right-0 top-0 "
+            tabIndex={0}
+            role="button"
+          >
+            <div className={" bg-transparent m-1 p-0 border-0 "}>
+              <BsThreeDotsVertical
+                className={`text-lg hover:scale-110 text-black transition-all `}
+              />
+            </div>
+            <ul className="menu text-base-content dropdown-content bg-base-100 p-1 border border-base-content/50 rounded-md z-1 w-40 text-xs font-medium p ">
+              {task?.isCompleted === false && (
+                <li>
+                  <div
+                    className="  cursor-pointer rounded-lg "
+                    title="Edit Task"
+                    onClick={() =>
+                      navigate(`/my-tasks/overview/edit/${task?._id}`)
+                    }
+                  >
+                    <FaEdit />
+                    Edit
+                  </div>
+                </li>
+              )}
+              <li>
+                <div>
+                  <TbPick /> PickUp Task
+                  {/* //todo: complete pickup task flow  */}
+                </div>
+              </li>
+              <li
+                className="text-red-500 rounded-md"
+                onClick={handleDeletePersonalTask}
               >
-                <FaEdit />
-              </div>
-            )}
-            <PopUp
-              buttonCss={"hover:bg-red-500 btn-sm px-1.5 text-lg  "}
-              buttonName={ <MdDeleteForever/> }
-              popUpMessage={
-                "This task will be moved to the trash and can be restored later if needed. It will no longer appear in your active task list."
-              }
-              callbackButtonCss={"bg-red-400 hover:bg-red-500 "}
-              callbackButtonName={"Delete"}
-              callbackFunction={handleDeletePersonalTask}
-            />
+                <a>
+                  {" "}
+                  <MdDeleteForever /> Delete
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 

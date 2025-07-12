@@ -30,7 +30,7 @@ import AllTasksPage from "./pages/myTasksPages/AllTasksPage";
 import PersonalTaskPage from "./pages/myTasksPages/PersonalTaskPage";
 import EditPersonalTaskPage from "./pages/myTasksPages/EditPersonalTaskPage";
 
-
+// todo: make all the tabs pages
 const App = () => {
   const user = useSelector((state) => state.user);
   const theme = useSelector((state) => state.theme.theme);
