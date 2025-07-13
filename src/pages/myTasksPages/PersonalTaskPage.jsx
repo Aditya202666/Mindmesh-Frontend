@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   addPersonalTaskChecklist,
+  changePersonalTaskStatusToInProgress,
   deletePersonalTask,
   getOneTask,
   markAsCompletedPersonalTask,
@@ -15,7 +16,6 @@ import PopUp from "../../components/PopUp";
 import { MdDeleteForever } from "react-icons/md";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { TbPick } from "react-icons/tb";
-
 
 const PersonalTaskPage = () => {
   const params = useParams();
@@ -58,6 +58,13 @@ const PersonalTaskPage = () => {
     const res = await deletePersonalTask(task._id);
     if (res && res.success) {
       navigate("/my-tasks/overview");
+    }
+  };
+
+  const handlePickUpTask = async () => {
+    const res = await changePersonalTaskStatusToInProgress(task._id);
+    if (res && res.success) {
+      setTask(res.data);
     }
   };
 
@@ -141,12 +148,13 @@ const PersonalTaskPage = () => {
                   </div>
                 </li>
               )}
-              <li>
-                <div>
-                  <TbPick /> PickUp Task
-                  {/* //todo: complete pickup task flow  */}
-                </div>
-              </li>
+              { task?.status === "To-do" && (
+                <li onClick={handlePickUpTask}>
+                  <div>
+                    <TbPick /> PickUp Task
+                  </div>
+                </li>
+              )}
               <li
                 className="text-red-500 rounded-md"
                 onClick={handleDeletePersonalTask}

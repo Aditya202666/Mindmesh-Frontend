@@ -29,6 +29,10 @@ import MyTasksOverviewPage from "./pages/myTasksPages/MyTasksOverviewPage";
 import AllTasksPage from "./pages/myTasksPages/AllTasksPage";
 import PersonalTaskPage from "./pages/myTasksPages/PersonalTaskPage";
 import EditPersonalTaskPage from "./pages/myTasksPages/EditPersonalTaskPage";
+import InProgressTasksPage from "./pages/myTasksPages/InProgressTasksPage";
+import CompletedTasksPage from "./pages/myTasksPages/CompletedTasksPage";
+import PendingTasksPage from "./pages/myTasksPages/PendingTasksPage";
+import OverdueTasksPage from "./pages/myTasksPages/OverdueTasksPage";
 
 // todo: make all the tabs pages
 const App = () => {
@@ -120,10 +124,10 @@ const App = () => {
                 <Route path="edit/:taskId" element={<EditPersonalTaskPage/>} />
                 <Route path=":taskId" element={<PersonalTaskPage/>} />
                 <Route path="all-tasks" element={<AllTasksPage/>} />
-                <Route path="in-progress-tasks" element={<>in-progress</>} />
-                <Route path="completed-tasks" element={<>completed-tasks</>} />
-                <Route path="pending-tasks" element={<>pending-tasks</>} />
-                <Route path="overdue-tasks" element={<>overdue- tasks</>} />
+                <Route path="in-progress-tasks" element={<InProgressTasksPage/>} />
+                <Route path="completed-tasks" element={<CompletedTasksPage/>} />
+                <Route path="pending-tasks" element={<PendingTasksPage/>} />
+                <Route path="overdue-tasks" element={<OverdueTasksPage/>} />
 
               </Route>
             </Route>

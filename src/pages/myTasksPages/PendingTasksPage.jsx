@@ -2,15 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Task from "../../components/Task";
 import { getAllTasks } from "../../api/apiCalls/personalTaskApi";
-import { addAllTasks } from "../../store/features/personalTaskSlice";
+import { addPendingTasks } from "../../store/features/personalTaskSlice";
 import Pagination from "../../components/Pagination";
 import SearchTasks from "../../components/SearchTasks";
 
 
-const AllTasksPage = () => {
+const PendingTasksPage = () => {
   const dispatch = useDispatch();
 
-  const { allTasks } = useSelector((state) => state.personalTask);
+  const { pendingTasks } = useSelector((state) => state.personalTask);
   const { fromDate, refreshToken } = useSelector((state) => state.filter);
 
   const [dateInput, setDateInput] = useState(fromDate);
@@ -26,46 +26,49 @@ const AllTasksPage = () => {
   if(totalPages === 0){
     totalPages = 1
   }
+  // console.log(tasksInProgress);
 
   useEffect(() => {
 
-    if(searchInput) return
-    // console.log('normal')
+    if(searchInput.length > 0) return
+
     const handleGetAllTasks = async () => {
+      // console.log('normal')
       // console.log("here");
       const res = await getAllTasks({
         fromDate: dateInput,
         page: pageNumber,
-        status: "All",
+        status: "Pending",
+
       });
       if (res && res.success) {
-        dispatch(addAllTasks(res.data));
+        // console.log(res);
+        dispatch(addPendingTasks(res.data));
         setShowingFrom(res.data.taskDetails[0]?.showingFrom || 0);
         setShowingTo(res.data.taskDetails[0]?.showingTo || 0);
         setTotalResult(res.data.taskDetails[0]?.totalTasks || 0);
-        // console.log(res.data);
       }
     
 
     };
     handleGetAllTasks()
-  }, [dispatch, dateInput,searchInput, pageNumber, refreshToken]);
+  }, [dispatch, dateInput ,searchInput, pageNumber, refreshToken]);
 
   useEffect(() => {
 
-    if(!searchInput) return
-    // console.log('search')
+    if(searchInput.length < 3 ) return
     const timeoutId = setTimeout(async () => {  
       
+      // console.log('search')
       const res = await getAllTasks({
         fromDate: dateInput,
         page: pageNumber,
-        status: "All",
+        status: "Pending",
         searchQuery: searchInput,
       });
       if (res && res.success) {
-        // console.log(res.data);
-        dispatch(addAllTasks(res.data));
+        // console.log(res);
+        dispatch(addPendingTasks(res.data));
         setShowingFrom(res.data.taskDetails[0]?.showingFrom || 0);
         setShowingTo(res.data.taskDetails[0]?.showingTo || 0);
         setTotalResult(res.data.taskDetails[0]?.totalTasks || 0);
@@ -74,6 +77,7 @@ const AllTasksPage = () => {
 
     return () => {
       clearTimeout(timeoutId);
+      // console.log('clear')
     };
   }, [dispatch, searchInput, pageNumber, refreshToken, dateInput]);
 
@@ -95,8 +99,8 @@ const AllTasksPage = () => {
       />
 
       <div className="flex flex-wrap items-center justify-center gap-4 py-4 ">
-        {allTasks && allTasks.length > 0
-          ? allTasks.map((taskItem) => (
+        {pendingTasks && pendingTasks.length > 0
+          ? pendingTasks.map((taskItem) => (
               <Task key={taskItem._id} task={taskItem} />
             ))
           : ""}
@@ -111,4 +115,4 @@ const AllTasksPage = () => {
   );
 };
 
-export default AllTasksPage;
+export default PendingTasksPage;

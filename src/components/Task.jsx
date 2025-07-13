@@ -43,7 +43,7 @@ const Task = ({ task }) => {
   return (
     <div
       className={
-        "relative flex flex-col space-y-2 min-w-[16.5rem] max-w-3xs bg- h-60 border border-base-content/50  rounded-xl p-2 text-black " +
+        "hover:shadow-base-content shadow transition-all  relative flex flex-col space-y-2 min-w-[16.5rem] max-w-3xs bg- h-60 border border-base-content/50  rounded-xl p-2 text-black " +
         bgColors[task.color]
       }
     >

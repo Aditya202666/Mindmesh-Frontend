@@ -3,14 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   allTasks: [],
+  tasksInProgress: [],
   completedTasks: [],
   pendingTasks: [],
   overdueTasks: [],
   
-  inProgressTasks: [],
-
-  dueInSevenDays: [],
   overdueLastMonth: [],
+  dueInSevenDays: [],
+  inProgressTasks: [],
   recentTask: [],
 
   details: {
@@ -30,9 +30,42 @@ const personalTaskSlice = createSlice({
       const fetchedAllTasks = action.payload.allTasks
       const taskDetails = action.payload.taskDetails
 
-      console.log(taskDetails)
+      // console.log(taskDetails)
       state.allTasks = fetchedAllTasks;
-      state.details.allTasks = taskDetails[0].totalTasks
+      state.details.allTasks = taskDetails[0]?.totalTasks || 0
+    },
+    addTasksInProgress: (state, action) => {
+      const fetchedAllTasks = action.payload.allTasks
+      const taskDetails = action.payload.taskDetails
+
+      // console.log(taskDetails)
+      state.tasksInProgress = fetchedAllTasks;
+      state.details.inProgressTasks = taskDetails[0]?.totalTasks || 0
+    },
+    addCompletedTasks: (state, action) => {
+      const fetchedAllTasks = action.payload.allTasks
+      const taskDetails = action.payload.taskDetails
+
+      // console.log(taskDetails)
+      state.completedTasks = fetchedAllTasks;
+      state.details.completedTasks = taskDetails[0]?.totalTasks || 0
+      
+    },
+    addPendingTasks: (state, action) => {
+      const fetchedAllTasks = action.payload.allTasks
+      const taskDetails = action.payload.taskDetails
+
+      // console.log(taskDetails)
+      state.pendingTasks = fetchedAllTasks;
+      state.details.pendingTasks = taskDetails[0]?.totalTasks || 0
+    },
+    addOverdueTasks: (state, action) => {
+      const fetchedAllTasks = action.payload.allTasks
+      const taskDetails = action.payload.taskDetails
+
+      // console.log(taskDetails)
+      state.overdueTasks = fetchedAllTasks;
+      state.details.overdueTasks = taskDetails[0]?.totalTasks || 0
     },
 
     addDueInSevenDays: (state, action) => {
@@ -62,6 +95,10 @@ const personalTaskSlice = createSlice({
 
 export const {
   addAllTasks,
+  addTasksInProgress,
+  addCompletedTasks,
+  addPendingTasks,
+  addOverdueTasks,
   addInProgressTasks,
   addDueInSevenDays,
   addOverdueLastMonth,

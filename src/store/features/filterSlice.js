@@ -61,7 +61,7 @@ const filterSlice = createSlice({
         increaseRefreshToken: (state) =>{
 
             state.refreshToken = state.refreshToken + 1
-            console.log(state.refreshToken)
+            // console.log(state.refreshToken)
 
         }
     },

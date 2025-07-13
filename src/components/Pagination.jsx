@@ -23,12 +23,12 @@ const Pagination = ({ pageNumber, setPageNumber, totalPages }) => {
     })
   };
 
-  console.log("data" , pageNumber, totalPages)
+  // console.log("data" , pageNumber, totalPages)
   return (
     <div className="flex items-center  gap-4 ">
       <button
         className={`${
-          pageNumber === 1 && "hidden"
+          pageNumber === 1 ? "hidden" : "block"
         }  btn btn-sm btn-wide rounded-lg text-black mr-auto  border-base-content/50 bg-gray-300 hover:bg-gray-400`}
         onClick={decreasePageNumber}
       >
@@ -36,7 +36,7 @@ const Pagination = ({ pageNumber, setPageNumber, totalPages }) => {
       </button>
       <button
         className={`${
-          pageNumber === totalPages && "hidden"
+          pageNumber === totalPages ? "hidden" : "block"
         }  btn btn-sm btn-wide rounded-lg text-black ml-auto  border-base-content/50 bg-gray-300 hover:bg-gray-400`}
         onClick={increasePageNumber}
       >

@@ -56,6 +56,21 @@ const getAllTasks = async (filter) => {
   }
 };
 
+const changePersonalTaskStatusToInProgress = async(id)=>{
+  try {
+    const cookie = getHeaderToken();
+    const res = await axiosInstance.patch(
+      `/personalTask/${id}/pickup`,
+      { },
+      cookie
+    );
+    return res.data;
+  } catch (error) {
+    handleError(error);
+  }
+  
+}
+
 const getOneTask = async (id) => {
   try {
     const cookie = getHeaderToken();
@@ -160,4 +175,5 @@ export {
   deleteTask,
   getAllTasks,
   getPersonalTaskDetails,
+  changePersonalTaskStatusToInProgress,
 };
