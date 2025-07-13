@@ -3,6 +3,7 @@ import React from "react";
 const Pagination = ({ pageNumber, setPageNumber, totalPages }) => {
 
 
+
   const increasePageNumber = () => {
     setPageNumber(prev => {
         if(prev < totalPages){
@@ -22,7 +23,7 @@ const Pagination = ({ pageNumber, setPageNumber, totalPages }) => {
     })
   };
 
-  // console.log("data" , pageNumber, totalPages)
+  console.log("data" , pageNumber, totalPages)
   return (
     <div className="flex items-center  gap-4 ">
       <button
