@@ -64,7 +64,7 @@ const CreatePersonalTaskButton = () => {
             >
                 New Task
             </button>
-            <dialog className={`fixed flex items-center justify-center w-screen h-screen top-0 z-10 bg-base-content/20 `  + (open ? "block": `hidden`)}
+            <dialog className={`fixed flex items-center justify-center w-screen h-screen top-0 z-10 bg-black/50 `  + (open ? "block": `hidden`)}
             >
                 <form
                     onSubmit={handleCreateTask}

@@ -2,7 +2,7 @@ import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { deleteTask } from "../api/apiCalls/personalTaskApi";
+import { changePersonalTaskStatusToInProgress, deleteTask } from "../api/apiCalls/personalTaskApi";
 
 import { MdDeleteForever } from "react-icons/md";
 import { LuBookOpen } from "react-icons/lu";
@@ -11,7 +11,7 @@ import { ImNewTab } from "react-icons/im";
 import { HiCalendarDateRange } from "react-icons/hi2";
 import { TiAttachment } from "react-icons/ti";
 import { increaseRefreshToken } from "../store/features/filterSlice";
-
+import { TbPick } from "react-icons/tb";
 
 const Task = ({ task }) => {
   const dispatch = useDispatch();
@@ -22,20 +22,26 @@ const Task = ({ task }) => {
   const handleDeleteTask = async () => {
     const res = await deleteTask(task._id);
     if (res && res.success) {
-      console.log(res)
+      console.log(res);
       dispatch(increaseRefreshToken());
     }
   };
+
+    const handlePickUpTask = async () => {
+    const res = await changePersonalTaskStatusToInProgress(task._id);
+    if (res && res.success) {
+      dispatch(increaseRefreshToken());
+    }
+  };
+
 
   const handleMarkAsCompleted = async () => {
     const res = await markAsCompletedPersonalTask(task._id);
     if (res && res.success) {
-      console.log(res)
+      console.log(res);
       dispatch(increaseRefreshToken());
     }
   };
-
-  
 
   const dueDate = new Date(task.dueDate?.split("T")[0]).toDateString();
   // const day  = dueDate?.split("-")
@@ -47,13 +53,12 @@ const Task = ({ task }) => {
         bgColors[task.color]
       }
     >
-      <div className="dropdown dropdown-end absolute right-0 top-2 "
+      <div
+        className="dropdown dropdown-end absolute right-0 top-2 "
         tabIndex={0}
         role="button"
       >
-        <div
-          className={" bg-transparent m-1 p-0 border-0 "}
-        >
+        <div className={" bg-transparent m-1 p-0 border-0 "}>
           <BsThreeDotsVertical
             className={`text-lg hover:scale-110 text-black transition-all `}
           />
@@ -76,6 +81,14 @@ const Task = ({ task }) => {
               Open in New Tab
             </Link>
           </li>
+          {task?.status === "To-do" && (
+            <li onClick={handlePickUpTask}>
+              <div>
+                <TbPick /> PickUp Task
+              </div>
+            </li>
+          )}
+
           {task.status !== "Completed" && (
             <li onClick={handleMarkAsCompleted}>
               <a>
@@ -174,4 +187,3 @@ const Task = ({ task }) => {
 };
 
 export default Task;
-

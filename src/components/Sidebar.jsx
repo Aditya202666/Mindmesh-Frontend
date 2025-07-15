@@ -17,6 +17,7 @@ import { toggleTheme } from "../store/features/themeSlice";
 import { logoutUser } from "../api/apiCalls/authApi";
 import { removeUserData } from "../store/features/userSlice";
 import mindmeshLogo from "../assets/mindmeshLogo.png";
+import CreateCircleButton from "./CreateWorkspaceButton";
 
 const truncate = (text, maxChars = 25) =>
     text.length > maxChars ? text.slice(0, maxChars) + "..." : text;
@@ -84,8 +85,11 @@ const Sidebar = () => {
             <div className="relative mt-2">
                 <fieldset className="fieldset ">
                     <legend className="fieldset-legend  ">Workspace</legend>
-
-                    <FaPlus className="absolute bg-primary p-1 size-4 rounded-xl text-primary-content top-2.5 right-0 cursor-pointer hover:bg-secondary active:scale-90" />
+                    <CreateCircleButton
+                    heading={"Create New Workspace"}
+                    maxNameLength={50}
+                    // todo
+                    />
                     <select
                         value={selectedWorkspace}
                         onChange={handleSelectWorkspace}
@@ -132,7 +136,11 @@ const Sidebar = () => {
             <fieldset className="relative fieldset ">
                 <legend className="fieldset-legend">
                     <div className="flex items-center gap-2">
-                        <FaPlus className="absolute bg-primary p-1 size-4 rounded-xl text-primary-content top-2 right-0 cursor-pointer hover:bg-secondary active:scale-90" />
+                    <CreateCircleButton
+                    heading={"Create New Project"}
+                    maxNameLength={50}
+                    // todo
+                    />
                         Projects
                     </div>
                 </legend>

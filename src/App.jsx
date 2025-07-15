@@ -34,7 +34,6 @@ import CompletedTasksPage from "./pages/myTasksPages/CompletedTasksPage";
 import PendingTasksPage from "./pages/myTasksPages/PendingTasksPage";
 import OverdueTasksPage from "./pages/myTasksPages/OverdueTasksPage";
 
-// todo: make all the tabs pages
 const App = () => {
   const user = useSelector((state) => state.user);
   const theme = useSelector((state) => state.theme.theme);
