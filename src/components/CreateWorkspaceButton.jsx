@@ -1,36 +1,38 @@
 import React, { useState } from "react";
-import { createTask } from "../api/apiCalls/personalTaskApi";
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
 import { increaseRefreshToken } from "../store/features/filterSlice";
 import { FaPlus } from "react-icons/fa";
+import { createWorkspace } from "../api/apiCalls/workspaceApi";
+import { addWorkspace } from "../store/features/workspaceSlice";
 
 const today = new Date().toISOString().split("T")[0];
 
-const CreateCircleButton = ({heading, maxNameLength, callFunction}) => {
+const CreateCircleButton = ({ heading, maxNameLength }) => {
+
   const [open, setOpen] = useState(false);
-  const dispatch = useDispatch();
   const [name, setName] = useState("");
 
-  const handleCreateTask = async (e) => {
+  const dispatch = useDispatch();
+
+  const handleCreateWorkspace = async (e) => {
     e.preventDefault();
-    // todo
-    const res = await callFunction({
-      name,
-    });
+
+    const res = await createWorkspace({ name });
+
     if (res && res.success) {
-      dispatch(increaseRefreshToken());
-      // console.log(res.data)
+      console.log(res);
+      dispatch(addWorkspace(res.data));
+
     }
 
-    // Reset the form and close the modal
     setOpen(false);
-    setName('');
+    setName("");
+
   };
 
   const handelCancel = () => {
     setOpen(false);
-    setName('');
+    setName("");
   };
 
   return (
@@ -47,7 +49,7 @@ const CreateCircleButton = ({heading, maxNameLength, callFunction}) => {
         }
       >
         <form
-          onSubmit={handleCreateTask}
+          onSubmit={handleCreateWorkspace}
           className="lg:translate-x-[8rem] w-2xl flex flex-col bg-base-300 border-2 border-base-content shadow-lg gap-4 p-4 rounded-lg "
         >
           <h1 className=" font-medium text-xl">{heading}</h1>
@@ -63,7 +65,7 @@ const CreateCircleButton = ({heading, maxNameLength, callFunction}) => {
               onChange={(e) => setName(e.target.value)}
             />
             <p className="absolute text-xs right-2 bottom-0 z-10">
-              {name.length}/{maxNameLength}
+              {name?.length}/{maxNameLength}
             </p>
           </label>
           <div className="flex items-center gap-2 ml-auto ">
@@ -78,7 +80,7 @@ const CreateCircleButton = ({heading, maxNameLength, callFunction}) => {
               type="submit"
               className="btn bg-green-400 hover:bg-green-500 text-black btn-sm border-base-content/50 rounded-lg "
             >
-              Create    
+              Create
             </button>
           </div>
         </form>

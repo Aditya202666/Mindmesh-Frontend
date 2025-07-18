@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {
-    FaBell,
-    FaPlus,
-    FaSun,
-    FaTasks,
-    FaUserCircle,
-    FaUsers,
+  FaBell,
+  FaPlus,
+  FaSun,
+  FaTasks,
+  FaUserCircle,
+  FaUsers,
 } from "react-icons/fa";
 import { FaUserGroup } from "react-icons/fa6";
 import { GoTasklist } from "react-icons/go";
@@ -19,217 +19,214 @@ import { removeUserData } from "../store/features/userSlice";
 import mindmeshLogo from "../assets/mindmeshLogo.png";
 import CreateCircleButton from "./CreateWorkspaceButton";
 
+// todo: get all workspaces -- should all the project names be displayed and fetched from the backend at one call?
+// todo: disable other sidebar buttons when no workspace is selected
+// todo: add function for workspace switch
+
+
 const truncate = (text, maxChars = 25) =>
-    text.length > maxChars ? text.slice(0, maxChars) + "..." : text;
+  text.length > maxChars ? text.slice(0, maxChars) + "..." : text;
+
+const TABS = [
+  { name: "My Tasks", link: "/my-tasks/overview", icon: <FaTasks /> },
+  {
+    name: "Dashboard",
+    link: `/dashboard`,
+    icon: <MdSpaceDashboard />,
+  },
+  {
+    name: "Inbox",
+    link: `/inbox`,
+    icon: <FaBell />,
+  },
+  {
+    name: "Members",
+    link: `/members`,
+    icon: <FaUserGroup />,
+  },
+  {
+    name: "Settings",
+    link: `/setting`,
+    icon: <IoMdSettings />,
+  },
+];
 
 const Sidebar = () => {
-    const navigate = useNavigate();
-    const user = useSelector((state) => state.user);
-    const workspaceId = user.id;
-    const workspaces = user.workspaces;
-    const TABS = [
-        { name: "My Tasks", link: "/my-tasks/overview", icon: <FaTasks /> },
-        {
-            name: "Dashboard",
-            // link: `/${workspaceId}/dashboard`,
-            link: `/my-tasks/overview/pending`,
-            icon: <MdSpaceDashboard />,
-        },
-        {
-            name: "Inbox",
-            link: `/${workspaceId}/inbox`,
-            icon: <FaBell />,
-        },
-        {
-            name: "Members",
-            link: `/${workspaceId}/members`,
-            icon: <FaUserGroup />,
-        },
-        {
-            name: "Settings",
-            link: `/${workspaceId}/setting`,
-            icon: <IoMdSettings />,
-        },
-    ];
+  const user = useSelector((state) => state.user);
+  const theme = useSelector((state) => state.theme);
+  const { workspaces, currentWorkspace } = useSelector((state) => state.workspace);
 
-    const [selectedWorkspace, setSelectedWorkspace] = useState("");
-    const theme = useSelector((state) => state.theme);
-    const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    const handleToggleTheme = () => {
-        dispatch(toggleTheme());
-    };
+  const [selectedWorkspace, setSelectedWorkspace] = useState(currentWorkspace._id);
 
-    const handleLogout = async () => {
-        const res = await logoutUser();
-        if (res && res.success) {
-            dispatch(removeUserData());
-            navigate("/login", { replace: true });
-        }
-    };
+  const handleToggleTheme = () => {
+    dispatch(toggleTheme());
+  };
 
-    const handleSelectWorkspace = (e) => {
-        setSelectedWorkspace(e.target.value);
-    };
+  const handleLogout = async () => {
+    const res = await logoutUser();
+    if (res && res.success) {
+      dispatch(removeUserData());
+      //   todo remove all the data from the store
+      navigate("/login", { replace: true });
+    }
+  };
 
-    //todo: add modal for crate new workspace
-    // h-[calc(100vh-2.5rem)] 
-    return (
-        <div className="hidden lg:flex flex-col bg-base-300 h-screen w-3xs px-4 transition-all duration-300 border-r border-base-content/50 ">
-            <div className="flex items-center w-2xs h-10 gap-0">
-                <img className="h-10" src={mindmeshLogo} alt="" />
-                <h1 className="text-lg font-semibold ">MindMesh</h1>
-            </div>
+  const handleSelectWorkspace = (e) => {
+    setSelectedWorkspace(e.target.value);
+    console.log(e.target.value);
+  };
 
-            {/* select workspace */}
-            <div className="relative mt-2">
-                <fieldset className="fieldset ">
-                    <legend className="fieldset-legend  ">Workspace</legend>
-                    <CreateCircleButton
-                    heading={"Create New Workspace"}
-                    maxNameLength={50}
-                    // todo
-                    />
-                    <select
-                        value={selectedWorkspace}
-                        onChange={handleSelectWorkspace}
-                        className="select rounded-xl h-8 cursor-pointer shadow"
-                    >
-                        <option disabled={true} value={""}>
-                            Pick Workspace
-                        </option>
-                        {workspaces &&
-                            workspaces.map((workspace) => (
-                                <option value={workspace.id}>
-                                    {truncate(workspace.name)}
-                                </option>
-                            ))}
-                    </select>
-                </fieldset>
-            </div>
-            {/* divider */}
-            <div className="divider mt-0"></div>
-            <ul>
-                {TABS.length > 0 ? (
-                    TABS.map((tab, index) => (
-                        <NavLink
-                            key={index}
-                            to={tab.link}
-                            className={({ isActive }) =>
-                                "flex items-center gap-2 font-semibold px-2 py-1 rounded-xl " +
-                                (isActive
-                                    ? " text-secondary-content bg-sky-300 hover:bg-sky-400 shadow border border-base-content/50"
-                                    : " hover:bg-primary/65")
-                            }
-                        >
-                            {tab.icon}
-                            {tab.name}
-                        </NavLink>
-                    ))
-                ) : (
-                    <></>
-                )}
-            </ul>
-            {/* divider */}
-            <div className="divider mb-0"></div>
-            {/* projects */}
-            <fieldset className="relative fieldset ">
-                <legend className="fieldset-legend">
-                    <div className="flex items-center gap-2">
-                    <CreateCircleButton
-                    heading={"Create New Project"}
-                    maxNameLength={50}
-                    // todo
-                    />
-                        Projects
-                    </div>
-                </legend>
-                <ul className="overflow-y-auto h-64">
-                    {user.projects && user.projects.length > 0 ? (
-                        user.projects.map((project) => (
-                            <NavLink
-                                key={project.id}
-                                to={`/${workspaceId}/project/${project.id}`}
-                                className={({ isActive }) =>
-                                    "flex items-center gap-2 font-semibold px-2 py-1 rounded-xl " +
-                                    (isActive
-                                        ? " text-secondary-content bg-secondary shadow border border-base-content/20"
-                                        : " hover:bg-secondary/65")
-                                }
-                            >
-                                <GoTasklist />
-                                {truncate(project.name)}
-                            </NavLink>
-                        ))
-                    ) : (
-                        <p className="text-center text-sm text-gray-500">
-                            No projects available
-                        </p>
-                    )}
-                </ul>
-            </fieldset>
-            {/* bottom user tab */}
-            <div
-                className="flex gap-2 mt-auto mb-4 dropdown dropdown-top bg-base-100 rounded-xl shadow border border-base-content/50 cursor-pointer hover:bg-base-200 transition-all"
-                tabIndex={0}
-                role="button"
-            >   
-                {/* profile pic */}
-                <div className="btn btn-ghost btn-circle avatar h-9 w-9 ">
-                    <div className="w-8 rounded-xl  ">
-                        <img
-                            alt="Avatar"
-                            src={user.profilePic}
-                        />
-                    </div>
-                </div>
-                {/* username  */}
-                <div className="flex flex-col justify-center items-start text-xs font-semibold">
-                    <p>{user.fullname}</p>
-                    <p className="font-normal">{user.email}</p>
-                </div>
 
-                <ul
-                    tabIndex={0}
-                    className="menu text-xs font-semibold menu-sm dropdown-content bg-base-100 border-r-base-300 rounded-box z-1 mb-2 w-52 p-2 shadow-lg"
-                >
-                    <li>
-                        <Link
-                            to={"/profile"}
-                            className="flex items-center gap-2 "
-                        >
-                            {" "}
-                            <FaUserCircle />
-                            Profile
-                        </Link>
-                    </li>
-                    <li>
-                        <span onClick={handleToggleTheme}>
-                            <span className="flex items-center gap-2">
-                                {theme.theme === "dark" ? (
-                                    <>
-                                        <FaSun className="text-yellow-500" />
-                                        Light Mode
-                                    </>
-                                ) : (
-                                    <>
-                                        <IoMdMoon className="text-gray-800" />
-                                        Dark Mode
-                                    </>
-                                )}
-                            </span>
-                        </span>
-                    </li>
-                    <li>
-                        <span className="text-red-500" onClick={handleLogout}>
-                            {" "}
-                            <MdLogout /> Logout
-                        </span>
-                    </li>
-                </ul>
-            </div>
+  return (
+    <div className="hidden lg:flex flex-col bg-base-300 h-screen w-3xs px-4 transition-all duration-300 border-r border-base-content/50 ">
+      <div className="flex items-center w-2xs h-10 gap-0">
+        <img className="h-10" src={mindmeshLogo} alt="" />
+        <h1 className="text-lg font-semibold ">MindMesh</h1>
+      </div>
+
+      {/* select workspace */}
+      <div className="relative mt-2">
+        <fieldset className="fieldset ">
+          <legend className="fieldset-legend  ">Workspace</legend>
+          <CreateCircleButton
+            heading={"Create New Workspace"}
+            maxNameLength={50}
+          />
+          <select
+            value={selectedWorkspace}
+            onChange={handleSelectWorkspace}
+            className="select rounded-xl h-8 cursor-pointer shadow"
+          >
+            <option disabled={true} value={""}>
+              Pick Workspace
+            </option>
+            {workspaces &&
+              workspaces.map((ws) => (
+                <option key={ws.workspaceId} value={ws.workspaceId}>{truncate(ws.workspaceName)}</option>
+              ))}
+          </select>
+        </fieldset>
+      </div>
+      {/* divider */}
+      <div className="divider mt-0"></div>
+      <ul>
+        {TABS.length > 0 ? (
+          TABS.map((tab, index) => (
+            <NavLink
+              key={index}
+              to={tab.link}
+              className={({ isActive }) =>
+                "flex items-center gap-2 font-semibold px-2 py-1 rounded-xl " +
+                (isActive
+                  ? " text-secondary-content bg-sky-300 hover:bg-sky-400 shadow border border-base-content/50"
+                  : " hover:bg-primary/65")
+              }
+            >
+              {tab.icon}
+              {tab.name}
+            </NavLink>
+          ))
+        ) : (
+          <></>
+        )}
+      </ul>
+      {/* divider */}
+      <div className="divider mb-0"></div>
+      {/* projects */}
+      <fieldset className="relative fieldset ">
+        <legend className="fieldset-legend">
+          <div className="flex items-center gap-2">
+            {/* <CreateCircleButton
+              heading={"Create New Project"}
+              maxNameLength={50}
+              // todo create new component for project
+            /> */}
+            Projects
+          </div>
+        </legend>
+        <ul className="overflow-y-auto h-64">
+          {user.projects && user.projects.length > 0 ? (
+            user.projects.map((project) => (
+              <NavLink
+                key={project.id}
+                to={`/${workspaceId}/project/${project.id}`}
+                className={({ isActive }) =>
+                  "flex items-center gap-2 font-semibold px-2 py-1 rounded-xl " +
+                  (isActive
+                    ? " text-secondary-content bg-secondary shadow border border-base-content/20"
+                    : " hover:bg-secondary/65")
+                }
+              >
+                <GoTasklist />
+                {truncate(project.name)}
+              </NavLink>
+            ))
+          ) : (
+            <p className="text-center text-sm text-gray-500">
+              No projects available
+            </p>
+          )}
+        </ul>
+      </fieldset>
+      {/* bottom user tab */}
+      <div
+        className="flex gap-2 mt-auto mb-4 dropdown dropdown-top bg-base-100 rounded-xl shadow border border-base-content/50 cursor-pointer hover:bg-base-200 transition-all"
+        tabIndex={0}
+        role="button"
+      >
+        {/* profile pic */}
+        <div className="btn btn-ghost btn-circle avatar h-9 w-9 ">
+          <div className="w-8 rounded-xl  ">
+            <img alt="Avatar" src={user.profilePic} />
+          </div>
         </div>
-    );
+        {/* username  */}
+        <div className="flex flex-col justify-center items-start text-xs font-semibold">
+          <p>{user.fullname}</p>
+          <p className="font-normal">{user.email}</p>
+        </div>
+
+        <ul
+          tabIndex={0}
+          className="menu text-xs font-semibold menu-sm dropdown-content bg-base-100 border-r-base-300 rounded-box z-1 mb-2 w-52 p-2 shadow-lg"
+        >
+          <li>
+            <Link to={"/profile"} className="flex items-center gap-2 ">
+              {" "}
+              <FaUserCircle />
+              Profile
+            </Link>
+          </li>
+          <li>
+            <span onClick={handleToggleTheme}>
+              <span className="flex items-center gap-2">
+                {theme.theme === "dark" ? (
+                  <>
+                    <FaSun className="text-yellow-500" />
+                    Light Mode
+                  </>
+                ) : (
+                  <>
+                    <IoMdMoon className="text-gray-800" />
+                    Dark Mode
+                  </>
+                )}
+              </span>
+            </span>
+          </li>
+          <li>
+            <span className="text-red-500" onClick={handleLogout}>
+              {" "}
+              <MdLogout /> Logout
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
 };
 
 export default Sidebar;

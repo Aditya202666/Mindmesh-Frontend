@@ -9,7 +9,7 @@ const initialState = {
         profession: "",
         profilePic: "",
         isVerified: false,
-        workspaces: [],
+        // workspaces: [],
         isSigningUp: false,
         isLoading: true
 };
@@ -34,11 +34,11 @@ export const userSlice = createSlice({
         setIsLoadingFalse: (state) => {
             state.isLoading = false;
         },
-        updateUsername: () => {},
-        updateProfession: () => {},
-        updateProfilePic: () => {},
-        addWorkspace: () => {},
-        removeWorkspace: () => {},
+        // updateUsername: () => {},
+        // updateProfession: () => {},
+        // updateProfilePic: () => {},
+        // addWorkspace: () => {},
+        // removeWorkspace: () => {},
     },
 });
 
@@ -48,11 +48,11 @@ export const {
     setIsSigningUpTrue,
     setIsLoadingFalse,
     removeUserData,
-    updateUsername,
-    updateProfession,
-    updateProfilePic,
-    addWorkspace,
-    removeWorkspace,
+    // updateUsername,
+    // updateProfession,
+    // updateProfilePic,
+    // addWorkspace,
+    // removeWorkspace,
 } = userSlice.actions;
 
 export default userSlice.reducer;

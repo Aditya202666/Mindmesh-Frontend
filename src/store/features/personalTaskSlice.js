@@ -83,11 +83,11 @@ const personalTaskSlice = createSlice({
     },
     addDetails: (state, action) => {
       const details = action.payload
-      state.details.allTasks = details.allTasks[0].count
-      state.details.completedTasks = details.completedTasks[0].count
-      state.details.inProgressTasks = details.inProgressTasks[0].count
-      state.details.overdueTasks = details.overdueTasks[0].count
-      state.details.pendingTasks = details.pendingTasks[0].count
+      state.details.allTasks = details.allTasks[0]?.count || 0
+      state.details.completedTasks = details.completedTasks[0]?.count || 0
+      state.details.inProgressTasks = details.inProgressTasks[0]?.count || 0
+      state.details.overdueTasks = details.overdueTasks[0]?.count || 0
+      state.details.pendingTasks = details.pendingTasks[0]?.count || 0
 
     },
   },

@@ -52,7 +52,7 @@ const NavLinkRoutes = {
   },
 };
 
-const MyTasksLayout = () => {
+const DashboardLayout = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const personalTaskSlice = useSelector((state) => state.personalTask);
@@ -130,4 +130,4 @@ const MyTasksLayout = () => {
   );
 };
 
-export default MyTasksLayout;
+export default DashboardLayout;

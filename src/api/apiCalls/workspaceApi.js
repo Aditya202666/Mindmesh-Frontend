@@ -9,7 +9,7 @@ const createWorkspace = async (data) => {
     const cookie = getHeaderToken();
 
     const res = await axiosInstance.post("/workspace/create", data, cookie);
-    // console.log(res.data);
+    console.log(res);
     if (res) {
       toast(res.data.message);
       return res.data;

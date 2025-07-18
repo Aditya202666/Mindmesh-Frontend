@@ -200,7 +200,7 @@ const EditPersonalTaskPage = () => {
         {/* buttons */}
         <div className="flex items-center mt-4 space-x-2 w-fit ml-auto">
           <PopUp
-            buttonCss={"btn-sm bg-red-400 hover:bg-red"}
+            buttonCss={"btn-sm bg-red-400 hover:bg-red-500"}
             buttonName={"Cancel"}
             callbackFunction={()=>navigate(`/my-tasks/overview/${task._id}`)}
             callbackButtonName = {"Leave"}
@@ -210,7 +210,7 @@ const EditPersonalTaskPage = () => {
           <button
             type="button"
             onClick={handleUpdateTask}
-            className="btn bg-sky-400 hover:bg-sky-500 text-black btn-sm rounded-lg border border-base-content/50"
+            className="btn bg-sky-300 hover:bg-sky-400 text-black btn-sm rounded-lg border border-base-content/50"
           >
             Update Task
           </button>

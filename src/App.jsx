@@ -33,6 +33,7 @@ import InProgressTasksPage from "./pages/myTasksPages/InProgressTasksPage";
 import CompletedTasksPage from "./pages/myTasksPages/CompletedTasksPage";
 import PendingTasksPage from "./pages/myTasksPages/PendingTasksPage";
 import OverdueTasksPage from "./pages/myTasksPages/OverdueTasksPage";
+import DashboardLayout from "./Layouts/DashboardLayout";
 
 const App = () => {
   const user = useSelector((state) => state.user);
@@ -129,6 +130,9 @@ const App = () => {
                 <Route path="overdue-tasks" element={<OverdueTasksPage/>} />
 
               </Route>
+            </Route>
+            <Route path="dashboard" element={<DashboardLayout/>} >
+
             </Route>
 
           </Route>
