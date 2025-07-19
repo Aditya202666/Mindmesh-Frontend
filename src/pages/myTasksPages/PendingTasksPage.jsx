@@ -84,7 +84,7 @@ const PendingTasksPage = () => {
   // console.log(allTasks);
 
   return (
-    <div className="p-4 rounded-lg border border-base-content/50  bg-base-300 my-4 ">
+    <div className="p-4 rounded-lg border border-base-content/50  bg-base-300 my-4">
       {/* filters */}
 
       <SearchTasks
@@ -98,7 +98,7 @@ const PendingTasksPage = () => {
         totalResult={totalResult}
       />
 
-      <div className="flex flex-wrap items-center justify-center gap-4 py-4 ">
+      <div className="flex flex-wrap items-center justify-center gap-4 py-4 mt-2 ">
         {pendingTasks && pendingTasks.length > 0
           ? pendingTasks.map((taskItem) => (
               <Task key={taskItem._id} task={taskItem} />

@@ -63,7 +63,7 @@ const SearchTasks = ({
             name="date"
             id="date"
             className="sr-only" // hides but keeps it accessible
-            value={dateInput}
+            value={dateInput || ""}
             onChange={(e) => setDateInput(e.target.value)}
           />
         </span>{" "}

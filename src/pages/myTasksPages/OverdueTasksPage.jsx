@@ -84,7 +84,7 @@ const OverdueTasksPage = () => {
   // console.log(allTasks);
 
   return (
-    <div className="p-4 rounded-lg border border-base-content/50  bg-base-300 my-4 ">
+    <div className="p-4 rounded-lg border border-base-content/50  bg-base-300 my-4 mt-2">
       {/* filters */}
 
       <SearchTasks

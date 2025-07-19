@@ -94,7 +94,7 @@ const AllTasksPage = () => {
         totalResult={totalResult}
       />
 
-      <div className="flex flex-wrap items-center justify-center gap-4 py-4 ">
+      <div className="flex flex-wrap items-center justify-center gap-4 py-4 mt-2">
         {allTasks && allTasks.length > 0
           ? allTasks.map((taskItem) => (
               <Task key={taskItem._id} task={taskItem} />

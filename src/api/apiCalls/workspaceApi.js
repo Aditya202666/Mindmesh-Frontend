@@ -19,7 +19,29 @@ const createWorkspace = async (data) => {
   }
 };
 
+const getAllWorkspaces = async () => {
+  try {
+    const cookie = getHeaderToken();
+    const res = await axiosInstance.get("/workspace/all", cookie);
+    return res.data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+const getWorkspaceDetails = async (id) => {
+  try {
+    const cookie = getHeaderToken();
+    const res = await axiosInstance.get(`/workspace/${id}`, cookie);
+    return res.data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
 
 export {
-    createWorkspace
+    createWorkspace,
+    getAllWorkspaces,
+    getWorkspaceDetails
 }

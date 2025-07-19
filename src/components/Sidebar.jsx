@@ -18,26 +18,33 @@ import { logoutUser } from "../api/apiCalls/authApi";
 import { removeUserData } from "../store/features/userSlice";
 import mindmeshLogo from "../assets/mindmeshLogo.png";
 import CreateCircleButton from "./CreateWorkspaceButton";
+import { getWorkspaceDetails } from "../api/apiCalls/workspaceApi";
+import { setWorkspaceDetails } from "../store/features/workspaceSlice";
 
 // todo: get all workspaces -- should all the project names be displayed and fetched from the backend at one call?
 // todo: disable other sidebar buttons when no workspace is selected
 // todo: add function for workspace switch
 
-
 const truncate = (text, maxChars = 25) =>
   text.length > maxChars ? text.slice(0, maxChars) + "..." : text;
 
-const TABS = [
-  { name: "My Tasks", link: "/my-tasks/overview", icon: <FaTasks /> },
+const myTasksTab = [
   {
-    name: "Dashboard",
-    link: `/dashboard`,
-    icon: <MdSpaceDashboard />,
+    name: "My Tasks",
+    link: "/my-tasks/overview",
+    icon: <FaTasks />,
   },
   {
     name: "Inbox",
     link: `/inbox`,
     icon: <FaBell />,
+  },
+];
+const TABS = [
+  {
+    name: "Dashboard",
+    link: `/dashboard`,
+    icon: <MdSpaceDashboard />,
   },
   {
     name: "Members",
@@ -54,12 +61,16 @@ const TABS = [
 const Sidebar = () => {
   const user = useSelector((state) => state.user);
   const theme = useSelector((state) => state.theme);
-  const { workspaces, currentWorkspace } = useSelector((state) => state.workspace);
+  const { workspaces, currentWorkspace, projects } = useSelector(
+    (state) => state.workspace
+  );
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [selectedWorkspace, setSelectedWorkspace] = useState(currentWorkspace._id);
+  const [selectedWorkspace, setSelectedWorkspace] = useState(
+    currentWorkspace._id
+  );
 
   const handleToggleTheme = () => {
     dispatch(toggleTheme());
@@ -74,11 +85,16 @@ const Sidebar = () => {
     }
   };
 
-  const handleSelectWorkspace = (e) => {
+  const handleSelectWorkspace = async (e) => {
     setSelectedWorkspace(e.target.value);
-    console.log(e.target.value);
+    const res = await getWorkspaceDetails(e.target.value);
+    if (res && res.success) {
+      console.log(res);
+      dispatch(setWorkspaceDetails(res.data));
+    }
   };
 
+  console.log(currentWorkspace, projects);
 
   return (
     <div className="hidden lg:flex flex-col bg-base-300 h-screen w-3xs px-4 transition-all duration-300 border-r border-base-content/50 ">
@@ -105,25 +121,50 @@ const Sidebar = () => {
             </option>
             {workspaces &&
               workspaces.map((ws) => (
-                <option key={ws.workspaceId} value={ws.workspaceId}>{truncate(ws.workspaceName)}</option>
+                <option key={ws.workspaceId} value={ws.workspaceId}>
+                  {truncate(ws.workspaceName)}
+                </option>
               ))}
           </select>
         </fieldset>
       </div>
       {/* divider */}
       <div className="divider mt-0"></div>
+
       <ul>
+        {myTasksTab.map((tab, index) => (
+          <NavLink
+            key={index}
+            to={tab.link}
+            className={({ isActive }) =>
+              "flex items-center gap-2 font-semibold px-2 py-1 rounded-xl " +
+              (isActive
+                ? " text-secondary-content bg-sky-300 hover:bg-sky-400 shadow border border-base-content/50"
+                : " hover:bg-primary/65")
+            }
+          >
+            {tab.icon}
+            {tab.name}
+          </NavLink>
+        ))}
+
         {TABS.length > 0 ? (
           TABS.map((tab, index) => (
             <NavLink
               key={index}
               to={tab.link}
-              className={({ isActive }) =>
-                "flex items-center gap-2 font-semibold px-2 py-1 rounded-xl " +
-                (isActive
-                  ? " text-secondary-content bg-sky-300 hover:bg-sky-400 shadow border border-base-content/50"
-                  : " hover:bg-primary/65")
-              }
+              className={({ isActive }) => {
+                return (
+                  `flex items-center gap-2 font-semibold px-2 py-1 rounded-xl ${
+                    currentWorkspace._id === ""
+                      ? "pointer-events-none opacity-50"
+                      : ""
+                  }` +
+                  (isActive
+                    ? " text-secondary-content bg-sky-300 hover:bg-sky-400 shadow border border-base-content/50"
+                    : " hover:bg-primary/65")
+                );
+              }}
             >
               {tab.icon}
               {tab.name}
@@ -135,43 +176,47 @@ const Sidebar = () => {
       </ul>
       {/* divider */}
       <div className="divider mb-0"></div>
+
       {/* projects */}
-      <fieldset className="relative fieldset ">
-        <legend className="fieldset-legend">
-          <div className="flex items-center gap-2">
-            {/* <CreateCircleButton
+      {currentWorkspace._id !== "" && (
+        <fieldset className="relative fieldset ">
+          <legend className="fieldset-legend">
+            <div className="flex items-center gap-2">
+              {/* <CreateCircleButton
               heading={"Create New Project"}
               maxNameLength={50}
               // todo create new component for project
             /> */}
-            Projects
-          </div>
-        </legend>
-        <ul className="overflow-y-auto h-64">
-          {user.projects && user.projects.length > 0 ? (
-            user.projects.map((project) => (
-              <NavLink
-                key={project.id}
-                to={`/${workspaceId}/project/${project.id}`}
-                className={({ isActive }) =>
-                  "flex items-center gap-2 font-semibold px-2 py-1 rounded-xl " +
-                  (isActive
-                    ? " text-secondary-content bg-secondary shadow border border-base-content/20"
-                    : " hover:bg-secondary/65")
-                }
-              >
-                <GoTasklist />
-                {truncate(project.name)}
-              </NavLink>
-            ))
-          ) : (
-            <p className="text-center text-sm text-gray-500">
-              No projects available
-            </p>
-          )}
-        </ul>
-      </fieldset>
+              Projects
+            </div>
+          </legend>
+          <ul className="overflow-y-auto h-64">
+            {user.projects && user.projects.length > 0 ? (
+              user.projects.map((project) => (
+                <NavLink
+                  key={project.id}
+                  to={`/${workspaceId}/project/${project.id}`}
+                  className={({ isActive }) =>
+                    "flex items-center gap-2 font-semibold px-2 py-1 rounded-xl " +
+                    (isActive
+                      ? " text-secondary-content bg-secondary shadow border border-base-content/20"
+                      : " hover:bg-secondary/65")
+                  }
+                >
+                  <GoTasklist />
+                  {truncate(project.name)}
+                </NavLink>
+              ))
+            ) : (
+              <p className="text-center text-sm text-gray-500">
+                No projects available
+              </p>
+            )}
+          </ul>
+        </fieldset>
+      )}
       {/* bottom user tab */}
+
       <div
         className="flex gap-2 mt-auto mb-4 dropdown dropdown-top bg-base-100 rounded-xl shadow border border-base-content/50 cursor-pointer hover:bg-base-200 transition-all"
         tabIndex={0}

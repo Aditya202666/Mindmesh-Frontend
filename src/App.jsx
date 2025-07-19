@@ -35,6 +35,8 @@ import PendingTasksPage from "./pages/myTasksPages/PendingTasksPage";
 import OverdueTasksPage from "./pages/myTasksPages/OverdueTasksPage";
 import DashboardLayout from "./Layouts/DashboardLayout";
 
+// todo: add protected routes for dashboard
+
 const App = () => {
   const user = useSelector((state) => state.user);
   const theme = useSelector((state) => state.theme.theme);
@@ -130,7 +132,7 @@ const App = () => {
                 <Route path="overdue-tasks" element={<OverdueTasksPage/>} />
 
               </Route>
-            </Route>
+            </Route>kw
             <Route path="dashboard" element={<DashboardLayout/>} >
 
             </Route>
