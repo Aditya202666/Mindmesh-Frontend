@@ -30,7 +30,7 @@ const PersonalTaskPage = () => {
     e.preventDefault();
     const res = await addPersonalTaskChecklist(task._id, checklistInput);
     if (res && res.success) {
-      console.log(res.data);
+      // console.log(res.data);
       setTask(res.data);
       setOpenAddChecklistInput(false);
       setChecklistInput("");
@@ -79,7 +79,7 @@ const PersonalTaskPage = () => {
 
       if (res && res.success) {
         setTask(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       }
     };
     fetchTask();
@@ -140,7 +140,7 @@ const PersonalTaskPage = () => {
                     className="  cursor-pointer rounded-lg "
                     title="Edit Task"
                     onClick={() =>
-                      navigate(`/my-tasks/overview/edit/${task?._id}`)
+                      navigate(`/my-tasks/overview/${task?._id}/edit`)
                     }
                   >
                     <FaEdit />

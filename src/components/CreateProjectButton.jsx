@@ -1,26 +1,27 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { increaseRefreshToken } from "../store/features/filterSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { FaPlus } from "react-icons/fa";
-import { createWorkspace } from "../api/apiCalls/workspaceApi";
-import { addWorkspace } from "../store/features/workspaceSlice";
+import { createProject } from "../api/apiCalls/workspaceApi";
+import { addProject, addWorkspace } from "../store/features/workspaceSlice";
 
 
-const CreateWorkspaceButton = ({ heading, maxNameLength }) => {
+const CreateProjectButton = ({ heading, maxNameLength }) => {
+
+    const { currentWorkspace} = useSelector((state) => state.workspace);
 
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
 
   const dispatch = useDispatch();
 
-  const handleCreateWorkspace = async (e) => {
+  const handleCreateProject = async (e) => {
     e.preventDefault();
 
-    const res = await createWorkspace({ name });
+    const res = await createProject(currentWorkspace._id, name);
 
     if (res && res.success) {
       console.log(res);
-      dispatch(addWorkspace(res.data));
+      dispatch(addProject(res.data));
 
     }
 
@@ -48,7 +49,7 @@ const CreateWorkspaceButton = ({ heading, maxNameLength }) => {
         }
       >
         <form
-          onSubmit={handleCreateWorkspace}
+          onSubmit={handleCreateProject}
           className="lg:translate-x-[8rem] w-2xl flex flex-col bg-base-300 border-2 border-base-content shadow-lg gap-4 p-4 rounded-lg "
         >
           <h1 className=" font-medium text-xl">{heading}</h1>
@@ -88,4 +89,4 @@ const CreateWorkspaceButton = ({ heading, maxNameLength }) => {
   );
 };
 
-export default CreateWorkspaceButton;
+export default CreateProjectButton;

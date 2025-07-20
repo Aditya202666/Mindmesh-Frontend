@@ -39,9 +39,26 @@ const getWorkspaceDetails = async (id) => {
   }
 };
 
+const createProject = async (id, name) => {
+  try {
+    const cookie = getHeaderToken();
+
+    const res = await axiosInstance.post(`/workspace/${id}/project`, { name }, cookie);
+    console.log(res);
+    if (res) {
+      toast(res.data.message);
+      return res.data;
+    }
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+
 
 export {
     createWorkspace,
     getAllWorkspaces,
-    getWorkspaceDetails
+    getWorkspaceDetails,
+    createProject
 }

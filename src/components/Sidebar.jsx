@@ -17,13 +17,11 @@ import { toggleTheme } from "../store/features/themeSlice";
 import { logoutUser } from "../api/apiCalls/authApi";
 import { removeUserData } from "../store/features/userSlice";
 import mindmeshLogo from "../assets/mindmeshLogo.png";
-import CreateCircleButton from "./CreateWorkspaceButton";
 import { getWorkspaceDetails } from "../api/apiCalls/workspaceApi";
 import { setWorkspaceDetails } from "../store/features/workspaceSlice";
+import CreateWorkspaceButton from "./CreateWorkspaceButton";
+import CreateProjectButton from "./CreateProjectButton";
 
-// todo: get all workspaces -- should all the project names be displayed and fetched from the backend at one call?
-// todo: disable other sidebar buttons when no workspace is selected
-// todo: add function for workspace switch
 
 const truncate = (text, maxChars = 25) =>
   text.length > maxChars ? text.slice(0, maxChars) + "..." : text;
@@ -53,7 +51,7 @@ const TABS = [
   },
   {
     name: "Settings",
-    link: `/setting`,
+    link: `/settings`,
     icon: <IoMdSettings />,
   },
 ];
@@ -89,12 +87,12 @@ const Sidebar = () => {
     setSelectedWorkspace(e.target.value);
     const res = await getWorkspaceDetails(e.target.value);
     if (res && res.success) {
-      console.log(res);
+      // console.log(res.data.members);
       dispatch(setWorkspaceDetails(res.data));
     }
   };
 
-  console.log(currentWorkspace, projects);
+  // console.log(currentWorkspace, projects, workspaces);
 
   return (
     <div className="hidden lg:flex flex-col bg-base-300 h-screen w-3xs px-4 transition-all duration-300 border-r border-base-content/50 ">
@@ -107,7 +105,7 @@ const Sidebar = () => {
       <div className="relative mt-2">
         <fieldset className="fieldset ">
           <legend className="fieldset-legend  ">Workspace</legend>
-          <CreateCircleButton
+          <CreateWorkspaceButton
             heading={"Create New Workspace"}
             maxNameLength={50}
           />
@@ -117,9 +115,9 @@ const Sidebar = () => {
             className="select rounded-xl h-8 cursor-pointer shadow"
           >
             <option disabled={true} value={""}>
-              Pick Workspace
+              Select Workspace...
             </option>
-            {workspaces &&
+            {workspaces.length > 0 &&
               workspaces.map((ws) => (
                 <option key={ws.workspaceId} value={ws.workspaceId}>
                   {truncate(ws.workspaceName)}
@@ -182,20 +180,20 @@ const Sidebar = () => {
         <fieldset className="relative fieldset ">
           <legend className="fieldset-legend">
             <div className="flex items-center gap-2">
-              {/* <CreateCircleButton
+              <CreateProjectButton
               heading={"Create New Project"}
               maxNameLength={50}
-              // todo create new component for project
-            /> */}
+            />
               Projects
             </div>
           </legend>
+
           <ul className="overflow-y-auto h-64">
-            {user.projects && user.projects.length > 0 ? (
-              user.projects.map((project) => (
+            {projects && projects.length > 0 ? (
+              projects.map((prj) => (
                 <NavLink
-                  key={project.id}
-                  to={`/${workspaceId}/project/${project.id}`}
+                  key={prj._id}
+                  to={`/project/${prj._id}`}
                   className={({ isActive }) =>
                     "flex items-center gap-2 font-semibold px-2 py-1 rounded-xl " +
                     (isActive
@@ -204,7 +202,7 @@ const Sidebar = () => {
                   }
                 >
                   <GoTasklist />
-                  {truncate(project.name)}
+                  {truncate(prj.name)}
                 </NavLink>
               ))
             ) : (

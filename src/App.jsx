@@ -34,15 +34,17 @@ import CompletedTasksPage from "./pages/myTasksPages/CompletedTasksPage";
 import PendingTasksPage from "./pages/myTasksPages/PendingTasksPage";
 import OverdueTasksPage from "./pages/myTasksPages/OverdueTasksPage";
 import DashboardLayout from "./Layouts/DashboardLayout";
+import { getAllWorkspaces } from "./api/apiCalls/workspaceApi";
+import { addAllWorkspaces } from "./store/features/workspaceSlice";
 
-// todo: add protected routes for dashboard
 
 const App = () => {
   const user = useSelector((state) => state.user);
   const theme = useSelector((state) => state.theme.theme);
+  const { currentWorkspace } = useSelector((state) => state.workspace);
 
-  // console.log(theme);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(setIsSigningUpTrue());
     const getUser = async () => {
@@ -60,7 +62,20 @@ const App = () => {
     getUser();
   }, [dispatch]);
 
-  // console.log("rendering");
+  useEffect(() => {
+    const callGetAllWorkspaces = async () => {
+      if (user.id && user.isVerified) {
+        const res = await getAllWorkspaces();
+
+        if (res && res.success) {
+          // console.log(res.data)
+          dispatch(addAllWorkspaces(res.data));
+        }
+      }
+    };
+
+    callGetAllWorkspaces();
+  }, [user.id, user.isVerified]);
 
   const ProtectedRoutes = () => {
     if (user.isSigningUp || user.isLoading) {
@@ -96,6 +111,15 @@ const App = () => {
     return <Outlet />;
   };
 
+  const ProtectedWorkspaceRoutes = () => {
+
+    if (!currentWorkspace._id) {
+      return <Navigate to={"/my-tasks/overview"} replace />;
+    }
+
+    return <Outlet />
+  };
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
@@ -111,31 +135,48 @@ const App = () => {
             <Route path="forgot-password" element={<ForgotPasswordPage />} />
           </Route>
         </Route>
+        {/* HomePage */}
 
-        //HomePage
         <Route path="/" element={<HomePage />} />
 
+        {/* MyTasks Routes */}
         <Route element={<ProtectedRoutes />}>
           <Route element={<RootLayout />}>
-          
             <Route path="my-tasks" element={<MyTasksLayout />}>
               <Route path="overview">
-
                 <Route index element={<MyTasksOverviewPage />} />
 
-                <Route path="edit/:taskId" element={<EditPersonalTaskPage/>} />
-                <Route path=":taskId" element={<PersonalTaskPage/>} />
-                <Route path="all-tasks" element={<AllTasksPage/>} />
-                <Route path="in-progress-tasks" element={<InProgressTasksPage/>} />
-                <Route path="completed-tasks" element={<CompletedTasksPage/>} />
-                <Route path="pending-tasks" element={<PendingTasksPage/>} />
-                <Route path="overdue-tasks" element={<OverdueTasksPage/>} />
-
+                <Route path=":taskId/edit" element={<EditPersonalTaskPage />} />
+                <Route path=":taskId" element={<PersonalTaskPage />} />
+                <Route path="all-tasks" element={<AllTasksPage />} />
+                <Route
+                  path="in-progress-tasks"
+                  element={<InProgressTasksPage />}
+                />
+                <Route
+                  path="completed-tasks"
+                  element={<CompletedTasksPage />}
+                />
+                <Route path="pending-tasks" element={<PendingTasksPage />} />
+                <Route path="overdue-tasks" element={<OverdueTasksPage />} />
               </Route>
-            </Route>kw
-            <Route path="dashboard" element={<DashboardLayout/>} >
-
             </Route>
+
+            {/* inbox */}
+            <Route path="inbox" element={<>InboxPage</>} />
+            
+            {/* workspace routes */}
+            <Route element={<ProtectedWorkspaceRoutes />}>
+
+              {/* dashboard */}
+              <Route path="dashboard" element={<DashboardLayout />}/>
+            </Route>
+
+            {/* members */}
+            <Route path="members" element={<>MembersPage</>}/>
+
+            {/* settings */}
+            <Route path="settings" element={<>SettingsPage</>}/>
 
           </Route>
         </Route>

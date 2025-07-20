@@ -25,9 +25,10 @@ export const workspaceSlice = createSlice({
 
     addWorkspace: (state, action) => {
       state.workspaces.push(action.payload);
-      console.log(state.workspaces)
-      console.log("added workspace");
-      console.log(action.payload);
+    },
+
+    addProject: (state, action) => {
+      state.projects.push(action.payload);
     },
 
     addAllWorkspaces: (state, action) => {
@@ -38,12 +39,13 @@ export const workspaceSlice = createSlice({
       state.currentWorkspace = action.payload.workspace;
       state.projects = action.payload.projects
       state.authority = action.payload.authority
+      state.members = action.payload.members
       // console.log(state.currentWorkspace)
     },
 
   },
 });
 
-export const { addWorkspace, addAllWorkspaces, setWorkspaceDetails } = workspaceSlice.actions;
+export const { addWorkspace, addProject, addAllWorkspaces, setWorkspaceDetails } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;
