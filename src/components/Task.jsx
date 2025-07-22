@@ -65,14 +65,14 @@ const Task = ({ task }) => {
         </div>
         <ul className="menu text-base-content dropdown-content bg-base-100 p-1 border border-base-content/50 rounded-md z-1 w-40 text-xs font-medium p ">
           <li>
-            <Link to={`/my-tasks/overview/${task._id}`}>
+            <Link to={`/my-tasks/${task._id}`}>
               <ImNewTab />
               Open
             </Link>
           </li>
           <li>
             <Link
-              to={`/my-tasks/overview/${task._id}`}
+              to={`/my-tasks/${task._id}`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -167,7 +167,7 @@ const Task = ({ task }) => {
       <div className="flex mt-auto items-baseline">
         {/* open icon */}
         <Link
-          to={`/my-tasks/overview/${task._id}`}
+          to={`/my-tasks/${task._id}`}
           // target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-0.5 hover:underline transition-all"

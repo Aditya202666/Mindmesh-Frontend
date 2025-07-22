@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { FaPlus } from "react-icons/fa";
-import { createProject } from "../api/apiCalls/workspaceApi";
-import { addProject, addWorkspace } from "../store/features/workspaceSlice";
+import { addProject } from "../store/features/personalTaskSlice";
+import { createProject } from "../api/apiCalls/personalTaskApi";
 
 
 const CreateProjectButton = ({ heading, maxNameLength }) => {
 
-    const { currentWorkspace} = useSelector((state) => state.workspace);
 
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -17,7 +16,8 @@ const CreateProjectButton = ({ heading, maxNameLength }) => {
   const handleCreateProject = async (e) => {
     e.preventDefault();
 
-    const res = await createProject(currentWorkspace._id, name);
+    // todo:
+    const res = await createProject(name);
 
     if (res && res.success) {
       console.log(res);
@@ -38,7 +38,7 @@ const CreateProjectButton = ({ heading, maxNameLength }) => {
   return (
     <div>
       <FaPlus
-        className="absolute bg-sky-300 p-1 size-4 rounded-xl text-black top-2.5 right-0 cursor-pointer hover:bg-sky-400 active:scale-90"
+        className="absolute bg-amber-300 p-1 size-4 rounded-xl text-black top-2.5 right-0 cursor-pointer hover:bg-amber-400 active:scale-90"
         onClick={() => setOpen(true)}
       />
 
@@ -57,7 +57,7 @@ const CreateProjectButton = ({ heading, maxNameLength }) => {
             <span className="bg-neutral ">Name</span>
             <input
               type="text"
-              placeholder="Workspace name"
+              placeholder="Project name"
               maxLength={maxNameLength}
               required
               className="input font-semibold text-sm  w-full rounded-lg"

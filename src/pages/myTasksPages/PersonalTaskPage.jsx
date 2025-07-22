@@ -140,7 +140,7 @@ const PersonalTaskPage = () => {
                     className="  cursor-pointer rounded-lg "
                     title="Edit Task"
                     onClick={() =>
-                      navigate(`/my-tasks/overview/${task?._id}/edit`)
+                      navigate(`/my-tasks/${task?._id}/edit`)
                     }
                   >
                     <FaEdit />

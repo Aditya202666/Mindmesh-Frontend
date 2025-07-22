@@ -13,6 +13,8 @@ const initialState = {
   inProgressTasks: [],
   recentTask: [],
 
+  projects: [],
+
   details: {
     allTasks: 0,
     completedTasks: 0,
@@ -90,7 +92,18 @@ const personalTaskSlice = createSlice({
       state.details.pendingTasks = details.pendingTasks[0]?.count || 0
 
     },
+
+    addAllProjects: (state, action) => {
+      state.projects = action.payload;
+    },
+
+    addProject: (state, action) => {
+      state.projects.push(action.payload);
+    },
+
   },
+
+
 });
 
 export const {
@@ -104,6 +117,8 @@ export const {
   addOverdueLastMonth,
   addRecentTask,
   addDetails,
+  addAllProjects,
+  addProject
 } = personalTaskSlice.actions;
 
 export default personalTaskSlice.reducer;

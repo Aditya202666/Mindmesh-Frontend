@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaBell,
   FaPlus,
+  FaRegCheckCircle,
   FaSun,
   FaTasks,
   FaUserCircle,
   FaUsers,
 } from "react-icons/fa";
-import { FaUserGroup } from "react-icons/fa6";
+import { FaRegHourglassHalf, FaUserGroup } from "react-icons/fa6";
 import { GoTasklist } from "react-icons/go";
 import { IoMdMoon, IoMdSettings } from "react-icons/io";
 import { MdLogout, MdSpaceDashboard } from "react-icons/md";
@@ -17,58 +18,59 @@ import { toggleTheme } from "../store/features/themeSlice";
 import { logoutUser } from "../api/apiCalls/authApi";
 import { removeUserData } from "../store/features/userSlice";
 import mindmeshLogo from "../assets/mindmeshLogo.png";
-import { getWorkspaceDetails } from "../api/apiCalls/workspaceApi";
-import { setWorkspaceDetails } from "../store/features/workspaceSlice";
-import CreateWorkspaceButton from "./CreateWorkspaceButton";
 import CreateProjectButton from "./CreateProjectButton";
+import {
+  LuAlarmClockCheck,
+  LuClipboard,
+  LuClipboardList,
+} from "react-icons/lu";
+import { RiProgress5Line } from "react-icons/ri";
+import { getPersonalTaskDetails } from "../api/apiCalls/personalTaskApi";
+import { addDetails } from "../store/features/personalTaskSlice";
+import TaskTab from "./TaskTab";
+import { all } from "axios";
 
-
-const truncate = (text, maxChars = 25) =>
-  text.length > maxChars ? text.slice(0, maxChars) + "..." : text;
-
-const myTasksTab = [
-  {
-    name: "My Tasks",
-    link: "/my-tasks/overview",
+const myTasksTab = {
+  dashboard: {
+    name: "Dashboard",
+    to: "/my-tasks/overview",
     icon: <FaTasks />,
   },
-  {
-    name: "Inbox",
-    link: `/inbox`,
-    icon: <FaBell />,
+  allTasks: {
+    name: "All",
+    to: "/my-tasks/all-tasks",
+    icon: <LuClipboardList />,
   },
-];
-const TABS = [
-  {
-    name: "Dashboard",
-    link: "/dashboard/overview",
-    icon: <MdSpaceDashboard />,
+  inProgress: {
+    name: "In-Progress",
+    to: "/my-tasks/in-progress-tasks",
+    icon: <RiProgress5Line />,
   },
-  {
-    name: "Members",
-    link: `/members`,
-    icon: <FaUserGroup />,
+  completedTasks: {
+    name: "Completed",
+    to: "/my-tasks/completed-tasks",
+    icon: <FaRegCheckCircle />,
   },
-  {
-    name: "Settings",
-    link: `/settings`,
-    icon: <IoMdSettings />,
+  pendingTasks: {
+    name: "Pending",
+    to: "/my-tasks/pending-tasks",
+    icon: <FaRegHourglassHalf />,
   },
-];
+  overdueTasks: {
+    name: "Overdue",
+    to: "/my-tasks/overdue-tasks",
+    icon: <LuAlarmClockCheck />,
+  },
+};
 
 const Sidebar = () => {
   const user = useSelector((state) => state.user);
   const theme = useSelector((state) => state.theme);
-  const { workspaces, currentWorkspace, projects, members } = useSelector(
-    (state) => state.workspace
-  );
+  const { projects, details } = useSelector((state) => state.personalTask);
+  const { refreshToken } = useSelector((state) => state.filter);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const [selectedWorkspace, setSelectedWorkspace] = useState(
-    currentWorkspace._id
-  );
 
   const handleToggleTheme = () => {
     dispatch(toggleTheme());
@@ -83,17 +85,16 @@ const Sidebar = () => {
     }
   };
 
-  const handleSelectWorkspace = async (e) => {
-    setSelectedWorkspace(e.target.value);
-    const res = await getWorkspaceDetails(e.target.value);
-    if (res && res.success) {
-      // console.log(res.data.members);
-      dispatch(setWorkspaceDetails(res.data));
-    }
-  };
-
-  // console.log(currentWorkspace, projects, workspaces);
-  console.log(members)
+  useEffect(() => {
+    const callGetPersonalTaskDetails = async () => {
+      const res = await getPersonalTaskDetails();
+      if (res && res.success) {
+        // console.log(res.data);
+        dispatch(addDetails(res.data));
+      }
+    };
+    callGetPersonalTaskDetails();
+  }, [dispatch, refreshToken]);
 
   return (
     <div className="hidden lg:flex flex-col bg-base-300 h-screen w-3xs px-4 transition-all duration-300 border-r border-base-content/50 ">
@@ -102,89 +103,33 @@ const Sidebar = () => {
         <h1 className="text-lg font-semibold ">MindMesh</h1>
       </div>
 
-      {/* select workspace */}
-      <div className="relative mt-2">
-        <fieldset className="fieldset ">
-          <legend className="fieldset-legend  ">Workspace</legend>
-          <CreateWorkspaceButton
-            heading={"Create New Workspace"}
-            maxNameLength={50}
-          />
-          <select
-            value={selectedWorkspace}
-            onChange={handleSelectWorkspace}
-            className="select rounded-lg h-8 cursor-pointer shadow"
-          >
-            <option disabled={true} value={""}>
-              Select Workspace...
-            </option>
-            {workspaces.length > 0 &&
-              workspaces.map((ws) => (
-                <option key={ws.workspaceId} value={ws.workspaceId}>
-                  {truncate(ws.workspaceName)}
-                </option>
-              ))}
-          </select>
-        </fieldset>
-      </div>
-      {/* divider */}
-      <div className="divider mt-0"></div>
-
-      <ul>
-        {myTasksTab.map((tab, index) => (
-          <NavLink
-            key={index}
-            to={tab.link}
-            className={({ isActive }) =>
-              "flex items-center gap-2 font-semibold px-2 py-1 rounded-lg " +
-              (isActive
-                ? " text-secondary-content bg-sky-300 hover:bg-sky-400 shadow border border-base-content/50"
-                : " hover:bg-primary/65")
-            }
-          >
-            {tab.icon}
-            {tab.name}
-          </NavLink>
-        ))}
-
-        {TABS.length > 0 ? (
-          TABS.map((tab, index) => (
-            <NavLink
-              key={index}
-              to={tab.link}
-              className={({ isActive }) => {
-                return (
-                  `flex items-center gap-2 font-semibold px-2 py-1 rounded-lg ${
-                    currentWorkspace._id === ""
-                      ? "pointer-events-none opacity-50"
-                      : ""
-                  }` +
-                  (isActive
-                    ? " text-secondary-content bg-sky-300 hover:bg-sky-400 shadow border border-base-content/50"
-                    : " hover:bg-primary/65")
-                );
-              }}
-            >
-              {tab.icon}
-              {tab.name}
-            </NavLink>
-          ))
-        ) : (
-          <></>
-        )}
+      <div className="divider mb-0"></div>
+      <ul className="mt-2 ml-2  space-y-1">
+        <TaskTab style={myTasksTab.dashboard} task={0} />
+        <TaskTab style={myTasksTab.allTasks} task={details?.allTasks} />
+        <TaskTab
+          style={myTasksTab.inProgress}
+          task={details?.inProgressTasks}
+        />
+        <TaskTab
+          style={myTasksTab.completedTasks}
+          task={details?.completedTasks}
+        />
+        <TaskTab style={myTasksTab.pendingTasks} task={details?.pendingTasks} />
+        <TaskTab style={myTasksTab.overdueTasks} task={details?.overdueTasks} />
       </ul>
       {/* divider */}
       <div className="divider mb-0"></div>
 
       {/* projects */}
-      {currentWorkspace._id !== "" && (
+      {projects && (
         <fieldset className="relative fieldset ">
           <legend className="fieldset-legend">
             <div className="flex items-center gap-2">
               <CreateProjectButton
-              heading={"Create New Project"}
-              maxNameLength={50}
-            />
+                heading={"Create New Project"}
+                maxNameLength={50}
+              />
               Projects
             </div>
           </legend>

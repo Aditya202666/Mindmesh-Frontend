@@ -3,7 +3,6 @@ import userReducer from "./features/userSlice";
 import personalTaskReducer from "./features/personalTaskSlice";
 import themeReducer from "./features/themeSlice";
 import filterReducer from "./features/filterSlice";
-import workspaceReducer from "./features/workspaceSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +10,5 @@ export const store = configureStore({
     filter: filterReducer,
     user: userReducer,
     personalTask: personalTaskReducer,
-    workspace: workspaceReducer,
   },
 });

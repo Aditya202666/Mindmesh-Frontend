@@ -33,17 +33,13 @@ import InProgressTasksPage from "./pages/myTasksPages/InProgressTasksPage";
 import CompletedTasksPage from "./pages/myTasksPages/CompletedTasksPage";
 import PendingTasksPage from "./pages/myTasksPages/PendingTasksPage";
 import OverdueTasksPage from "./pages/myTasksPages/OverdueTasksPage";
-import DashboardLayout from "./Layouts/DashboardLayout";
-import { getAllWorkspaces } from "./api/apiCalls/workspaceApi";
-import { addAllWorkspaces } from "./store/features/workspaceSlice";
-import DashboardPage from "./pages/dashboardPages/DashboardPage";
+import { addAllProjects } from "./store/features/personalTaskSlice";
 
 // todo design dashboard layout and related pages, controllers and api calls etc. similar to my tasks
 
 const App = () => {
   const user = useSelector((state) => state.user);
   const theme = useSelector((state) => state.theme.theme);
-  const { currentWorkspace } = useSelector((state) => state.workspace);
 
   const dispatch = useDispatch();
 
@@ -54,7 +50,8 @@ const App = () => {
 
       const res = await refreshToken();
       if (res && res.success) {
-        dispatch(registerUserData(res.data));
+        dispatch(registerUserData(res.data.user));
+        dispatch(addAllProjects(res.data.projects));
       } else {
         dispatch(setIsSigningUpFalse());
         dispatch(setIsLoadingFalse());
@@ -63,21 +60,6 @@ const App = () => {
 
     getUser();
   }, [dispatch]);
-
-  useEffect(() => {
-    const callGetAllWorkspaces = async () => {
-      if (user.id && user.isVerified) {
-        const res = await getAllWorkspaces();
-
-        if (res && res.success) {
-          // console.log(res.data)
-          dispatch(addAllWorkspaces(res.data));
-        }
-      }
-    };
-
-    callGetAllWorkspaces();
-  }, [user.id, user.isVerified]);
 
   const ProtectedRoutes = () => {
     if (user.isSigningUp || user.isLoading) {
@@ -97,7 +79,7 @@ const App = () => {
 
   const RedirectFromLogin = () => {
     const location = useLocation();
-    if (user.isSigningUp) {
+    if (user.isSigningUp || user.isLoading) {
       // console.log("loading");
       return null;
     }
@@ -113,14 +95,6 @@ const App = () => {
     return <Outlet />;
   };
 
-  const ProtectedWorkspaceRoutes = () => {
-    if (!currentWorkspace._id) {
-      return <Navigate to={"/my-tasks/overview"} replace />;
-    }
-
-    return <Outlet />;
-  };
-
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
@@ -128,60 +102,36 @@ const App = () => {
           <Route element={<AuthLayout />}>
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
-            <Route
-              path="verify-account"
-              element={<AccountVerificationPage />}
-              // element={<>AccountVerificationPage</>}
-            />
             <Route path="forgot-password" element={<ForgotPasswordPage />} />
           </Route>
         </Route>
-        {/* HomePage */}
 
+        {/* HomePage */}
         <Route path="/" element={<HomePage />} />
 
         {/* MyTasks Routes */}
         <Route element={<ProtectedRoutes />}>
+          <Route element={<AuthLayout />}>
+            <Route
+              path="verify-account"
+              element={<AccountVerificationPage />}
+            />
+          </Route>
           <Route element={<RootLayout />}>
             <Route path="my-tasks" element={<MyTasksLayout />}>
-              <Route path="overview">
-                <Route index element={<MyTasksOverviewPage />} />
+              <Route path="overview" element={<MyTasksOverviewPage />} />
 
-                <Route path=":taskId/edit" element={<EditPersonalTaskPage />} />
-                <Route path=":taskId" element={<PersonalTaskPage />} />
-                <Route path="all-tasks" element={<AllTasksPage />} />
-                <Route
-                  path="in-progress-tasks"
-                  element={<InProgressTasksPage />}
-                />
-                <Route
-                  path="completed-tasks"
-                  element={<CompletedTasksPage />}
-                />
-                <Route path="pending-tasks" element={<PendingTasksPage />} />
-                <Route path="overdue-tasks" element={<OverdueTasksPage />} />
-              </Route>
+              <Route path=":taskId/edit" element={<EditPersonalTaskPage />} />
+              <Route path=":taskId" element={<PersonalTaskPage />} />
+              <Route path="all-tasks" element={<AllTasksPage />} />
+              <Route
+                path="in-progress-tasks"
+                element={<InProgressTasksPage />}
+              />
+              <Route path="completed-tasks" element={<CompletedTasksPage />} />
+              <Route path="pending-tasks" element={<PendingTasksPage />} />
+              <Route path="overdue-tasks" element={<OverdueTasksPage />} />
             </Route>
-
-            {/* inbox */}
-            <Route path="inbox" element={<>InboxPage</>} />
-
-            {/* workspace routes */}
-            <Route element={<ProtectedWorkspaceRoutes />}>
-              {/* dashboard */}
-              
-              <Route path="dashboard" element={<DashboardLayout />}>
-                <Route path="overview">
-                  <Route index element={<DashboardPage />} />
-                </Route>
-              </Route>
-            </Route>
-
-            {/* members */}
-            <Route path="members" element={<>MembersPage</>} />
-
-            {/* settings */}
-            <Route path="settings" element={<>SettingsPage</>} />
           </Route>
         </Route>
       </>

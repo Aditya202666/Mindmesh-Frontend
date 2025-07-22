@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { createTask } from "../api/apiCalls/personalTaskApi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { increaseRefreshToken } from "../store/features/filterSlice";
 
 const today = new Date().toISOString().split("T")[0];
 
 const CreatePersonalTaskButton = () => {
+
+    const {projects} = useSelector(state => state.personalTask)
+
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
     const [titleLength, setTitleLength] = useState(0);
@@ -55,12 +58,14 @@ const CreatePersonalTaskButton = () => {
         setTitleLength(0);
     };
 
+    console.log(projects)
+
     return (
         <div>
             <button
                 type="button"
                 onClick={() => setOpen(true)}
-                className="btn btn-sm bg-sky-300 hover:bg-sky-400 rounded-lg shadow border-base-content/50 text-black"
+                className="btn btn-sm bg-amber-300 hover:bg-amber-400 rounded-lg shadow border-base-content/50 text-black"
             >
                 New Task
             </button>

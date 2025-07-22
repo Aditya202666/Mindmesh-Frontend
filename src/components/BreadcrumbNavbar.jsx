@@ -12,7 +12,7 @@ const BreadcrumbNavbar = ({ tab}) => {
 
   return (
     <div className="lg:flex items-center justify-between px-4 hidden lg:w-[calc(100vw-16rem)] h-10 bg-base-200 border-b border-base-content/50">
-      <div>
+      {/* <div>
         {pathname.length > 0 &&
           pathname.map((path, index) => {
             const fullPath =
@@ -30,9 +30,9 @@ const BreadcrumbNavbar = ({ tab}) => {
               </span>
             );
           })}
-      </div>
+      </div> */}
 
-      <div className="flex items-center gap-1 mr-1">
+      <div className="flex items-center gap-1 mr-1 ml-auto">
         {date}
         <HiCalendarDateRange />
       </div>

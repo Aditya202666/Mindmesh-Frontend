@@ -26,7 +26,7 @@ const RefreshButton = () => {
     }
 
   return (
-    <button className='btn btn-sm btn-ghost'
+    <button className='btn btn-sm btn-circle btn-ghost'
     title='Refresh'
     onClick={handelRefresh} >
       <LuRefreshCw className={`${clicked && "animate-spin"}  transition-all duration-300 delay-300 ease-in-out  text-xl` } />

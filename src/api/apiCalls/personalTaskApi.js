@@ -163,6 +163,23 @@ const deletePersonalTask = async (id) => {
   }
 };
 
+
+const createProject = async (name) => {
+  try {
+    const cookie = getHeaderToken();
+
+    const res = await axiosInstance.post(`/personalTask/project/create`, { name }, cookie);
+    console.log(res);
+    if (res) {
+      toast(res.data.message);
+      return res.data;
+    }
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+
 export {
   getTaskOverview,
   createTask,
@@ -176,4 +193,5 @@ export {
   getAllTasks,
   getPersonalTaskDetails,
   changePersonalTaskStatusToInProgress,
+  createProject
 };

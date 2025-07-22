@@ -7,9 +7,11 @@ const initialState = {
         fullname: "",
         email: "",
         profession: "",
-        profilePic: "",
+        profilePic: {
+            url: "",
+            id: "",
+        },
         isVerified: false,
-        // workspaces: [],
         isSigningUp: false,
         isLoading: true
 };

@@ -4,9 +4,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { getPersonalTaskDetails } from "../api/apiCalls/personalTaskApi";
 import CreatePersonalTaskButton from "../components/CreatePersonalTaskButton";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addDetails,
-} from "../store/features/personalTaskSlice";
+import { addDetails } from "../store/features/personalTaskSlice";
 import TaskTab from "../components/TaskTab";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { LuAlarmClockCheck, LuClipboardList } from "react-icons/lu";
@@ -54,9 +52,7 @@ const NavLinkRoutes = {
 
 const MyTasksLayout = () => {
   const location = useLocation();
-  const dispatch = useDispatch();
   const personalTaskSlice = useSelector((state) => state.personalTask);
-  const { refreshToken } = useSelector((state) => state.filter);
   // console.log(personalTaskSlice);
 
   let title = location.pathname
@@ -68,17 +64,6 @@ const MyTasksLayout = () => {
   if (title.length === 24) {
     title = `Task Id: ${title}`;
   }
-
-  useEffect(() => {
-    const callGetPersonalTaskDetails = async () => {
-      const res = await getPersonalTaskDetails();
-      if (res && res.success) {
-        // console.log(res.data);
-        dispatch(addDetails(res.data))
-      }
-    };
-    callGetPersonalTaskDetails();
-  }, [dispatch, refreshToken]);
 
   // console.log(personalTaskSlice);
 
@@ -93,36 +78,17 @@ const MyTasksLayout = () => {
             <h1 className="text-2xl font-bold">{title}</h1>
 
             {/* filter and new task button */}
-            <div className="flex items-center gap-4 ">
+            <div className="flex items-center gap-2 ml-auto  ">
               <CreatePersonalTaskButton />
+              <RefreshButton />
             </div>
           </div>
           {/* tabs */}
-          <div className="flex items-center justify-between w-full mt-2">
+          {/* <div className="flex items-center justify-between w-full mt-2">
             <ul className="flex flex-wrap space-x-4 space-y-2 ">
-              <TaskTab
-                style={NavLinkRoutes.allTasks}
-                task={personalTaskSlice?.details?.allTasks}
-              />
-              <TaskTab
-                style={NavLinkRoutes.inProgress}
-                task={personalTaskSlice?.details?.inProgressTasks}
-              />
-              <TaskTab
-                style={NavLinkRoutes.completedTasks}
-                task={personalTaskSlice.details?.completedTasks}
-              />
-              <TaskTab
-                style={NavLinkRoutes.pendingTasks}
-                task={personalTaskSlice?.details?.pendingTasks}
-              />
-              <TaskTab
-                style={NavLinkRoutes.overdueTasks}
-                task={personalTaskSlice?.details?.overdueTasks}
-              />
+              
             </ul>
-            <RefreshButton />
-          </div>
+          </div> */}
         </div>
         <Outlet />
       </div>

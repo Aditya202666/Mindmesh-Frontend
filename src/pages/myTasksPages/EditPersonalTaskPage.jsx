@@ -36,7 +36,7 @@ const EditPersonalTaskPage = () => {
     const res = await updatePersonalTask(task._id, {...task, dueDate: new Date(task.dueDate)})
     if(res && res.success){
         console.log(task._id, {...task, dueDate: new Date(task.dueDate)})
-        navigate(`/my-tasks/overview/${task._id}`)
+        navigate(`/my-tasks/${task._id}`)
     }
 
   }
@@ -202,7 +202,7 @@ const EditPersonalTaskPage = () => {
           <PopUp
             buttonCss={"btn-sm bg-red-400 hover:bg-red-500"}
             buttonName={"Cancel"}
-            callbackFunction={()=>navigate(`/my-tasks/overview/${task._id}`)}
+            callbackFunction={()=>navigate(`/my-tasks/${task._id}`)}
             callbackButtonName = {"Leave"}
             callbackButtonCss={"bg-red-400 hover:bg-red-500"}
             popUpMessage={`Are you sure you want to leave this page? All unsaved data will be lost.`}
@@ -210,7 +210,7 @@ const EditPersonalTaskPage = () => {
           <button
             type="button"
             onClick={handleUpdateTask}
-            className="btn bg-sky-300 hover:bg-sky-400 text-black btn-sm rounded-lg border border-base-content/50"
+            className="btn bg-amber-300 hover:bg-amber-400 text-black btn-sm rounded-lg border border-base-content/50"
           >
             Update Task
           </button>
