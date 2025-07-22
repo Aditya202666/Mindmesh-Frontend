@@ -84,7 +84,7 @@ const MyTasksLayout = () => {
 
   return (
     <div className="w-screen lg:w-[calc(100vw-16rem)] ] h-screen overflow-y-scroll scrollbar-hide">
-      <BreadcrumbNavbar />
+      <BreadcrumbNavbar tab={"my-tasks"} />
       {/* breadcrumb Navbar */}
       <div className="px-4">
         <div>

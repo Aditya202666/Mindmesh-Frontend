@@ -7,7 +7,7 @@ const TaskTab = ({ style, task }) => {
     <NavLink
       to={style.to}
       className={({ isActive }) =>
-        `flex items-center gap-2 px-3 py-1 rounded-xl btn btn-sm font-semibold shadow  ${
+        `flex items-center gap-2 px-3 py-1 rounded-lg btn btn-sm font-semibold shadow  ${
           isActive
             ? style.active
             : ` ${style.css} border text-black border-base-content/50`

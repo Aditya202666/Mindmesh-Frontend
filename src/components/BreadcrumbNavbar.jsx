@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { HiCalendarDateRange } from "react-icons/hi2";
 
-const BreadcrumbNavbar = () => {
+const BreadcrumbNavbar = ({ tab}) => {
   const location = useLocation();
   // console.log(location.pathname);
   const pathname = location.pathname.split("/").slice(2);
@@ -16,7 +16,7 @@ const BreadcrumbNavbar = () => {
         {pathname.length > 0 &&
           pathname.map((path, index) => {
             const fullPath =
-              "/my-tasks/" + pathname.slice(0, index + 1).join("/");
+              `/${tab}/` + pathname.slice(0, index + 1).join("/");
             const label = isNaN(path)
               ? path.charAt(0).toUpperCase() + path.slice(1)
               : path; // Skip capitalizing IDs

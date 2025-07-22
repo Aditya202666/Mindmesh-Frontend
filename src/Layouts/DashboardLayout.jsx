@@ -13,6 +13,7 @@ import { LuAlarmClockCheck, LuClipboardList } from "react-icons/lu";
 import { FaRegHourglassHalf } from "react-icons/fa6";
 import { RiProgress5Line } from "react-icons/ri";
 import RefreshButton from "../components/RefreshButton";
+import CreateProjectTaskButton from "../components/CreateProjectTaskButton";
 
 const NavLinkRoutes = {
   allTasks: {
@@ -84,7 +85,7 @@ const DashboardLayout = () => {
 
   return (
     <div className="w-screen lg:w-[calc(100vw-16rem)] ] h-screen overflow-y-scroll scrollbar-hide">
-      <BreadcrumbNavbar />
+      <BreadcrumbNavbar  tab={"dashboard"}/>
       {/* breadcrumb Navbar */}
       <div className="px-4">
         <div>
@@ -94,7 +95,7 @@ const DashboardLayout = () => {
 
             {/* filter and new task button */}
             <div className="flex items-center gap-4 ">
-              <CreatePersonalTaskButton />
+              <CreateProjectTaskButton />
             </div>
           </div>
           {/* tabs */}

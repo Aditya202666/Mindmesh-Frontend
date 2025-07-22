@@ -36,7 +36,9 @@ import OverdueTasksPage from "./pages/myTasksPages/OverdueTasksPage";
 import DashboardLayout from "./Layouts/DashboardLayout";
 import { getAllWorkspaces } from "./api/apiCalls/workspaceApi";
 import { addAllWorkspaces } from "./store/features/workspaceSlice";
+import DashboardPage from "./pages/dashboardPages/DashboardPage";
 
+// todo design dashboard layout and related pages, controllers and api calls etc. similar to my tasks
 
 const App = () => {
   const user = useSelector((state) => state.user);
@@ -112,12 +114,11 @@ const App = () => {
   };
 
   const ProtectedWorkspaceRoutes = () => {
-
     if (!currentWorkspace._id) {
       return <Navigate to={"/my-tasks/overview"} replace />;
     }
 
-    return <Outlet />
+    return <Outlet />;
   };
 
   const router = createBrowserRouter(
@@ -164,20 +165,23 @@ const App = () => {
 
             {/* inbox */}
             <Route path="inbox" element={<>InboxPage</>} />
-            
+
             {/* workspace routes */}
             <Route element={<ProtectedWorkspaceRoutes />}>
-
               {/* dashboard */}
-              <Route path="dashboard" element={<DashboardLayout />}/>
+              
+              <Route path="dashboard" element={<DashboardLayout />}>
+                <Route path="overview">
+                  <Route index element={<DashboardPage />} />
+                </Route>
+              </Route>
             </Route>
 
             {/* members */}
-            <Route path="members" element={<>MembersPage</>}/>
+            <Route path="members" element={<>MembersPage</>} />
 
             {/* settings */}
-            <Route path="settings" element={<>SettingsPage</>}/>
-
+            <Route path="settings" element={<>SettingsPage</>} />
           </Route>
         </Route>
       </>

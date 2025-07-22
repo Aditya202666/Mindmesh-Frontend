@@ -41,7 +41,7 @@ const myTasksTab = [
 const TABS = [
   {
     name: "Dashboard",
-    link: `/dashboard`,
+    link: "/dashboard/overview",
     icon: <MdSpaceDashboard />,
   },
   {
@@ -59,7 +59,7 @@ const TABS = [
 const Sidebar = () => {
   const user = useSelector((state) => state.user);
   const theme = useSelector((state) => state.theme);
-  const { workspaces, currentWorkspace, projects } = useSelector(
+  const { workspaces, currentWorkspace, projects, members } = useSelector(
     (state) => state.workspace
   );
 
@@ -93,6 +93,7 @@ const Sidebar = () => {
   };
 
   // console.log(currentWorkspace, projects, workspaces);
+  console.log(members)
 
   return (
     <div className="hidden lg:flex flex-col bg-base-300 h-screen w-3xs px-4 transition-all duration-300 border-r border-base-content/50 ">
@@ -112,7 +113,7 @@ const Sidebar = () => {
           <select
             value={selectedWorkspace}
             onChange={handleSelectWorkspace}
-            className="select rounded-xl h-8 cursor-pointer shadow"
+            className="select rounded-lg h-8 cursor-pointer shadow"
           >
             <option disabled={true} value={""}>
               Select Workspace...
@@ -135,7 +136,7 @@ const Sidebar = () => {
             key={index}
             to={tab.link}
             className={({ isActive }) =>
-              "flex items-center gap-2 font-semibold px-2 py-1 rounded-xl " +
+              "flex items-center gap-2 font-semibold px-2 py-1 rounded-lg " +
               (isActive
                 ? " text-secondary-content bg-sky-300 hover:bg-sky-400 shadow border border-base-content/50"
                 : " hover:bg-primary/65")
@@ -153,7 +154,7 @@ const Sidebar = () => {
               to={tab.link}
               className={({ isActive }) => {
                 return (
-                  `flex items-center gap-2 font-semibold px-2 py-1 rounded-xl ${
+                  `flex items-center gap-2 font-semibold px-2 py-1 rounded-lg ${
                     currentWorkspace._id === ""
                       ? "pointer-events-none opacity-50"
                       : ""
@@ -195,7 +196,7 @@ const Sidebar = () => {
                   key={prj._id}
                   to={`/project/${prj._id}`}
                   className={({ isActive }) =>
-                    "flex items-center gap-2 font-semibold px-2 py-1 rounded-xl " +
+                    "flex items-center gap-2 font-semibold px-2 py-1 rounded-lg " +
                     (isActive
                       ? " text-secondary-content bg-secondary shadow border border-base-content/20"
                       : " hover:bg-secondary/65")
@@ -216,13 +217,13 @@ const Sidebar = () => {
       {/* bottom user tab */}
 
       <div
-        className="flex gap-2 mt-auto mb-4 dropdown dropdown-top bg-base-100 rounded-xl shadow border border-base-content/50 cursor-pointer hover:bg-base-200 transition-all"
+        className="flex gap-2 mt-auto mb-4 dropdown dropdown-top bg-base-100 rounded-lg shadow border border-base-content/50 cursor-pointer hover:bg-base-200 transition-all"
         tabIndex={0}
         role="button"
       >
         {/* profile pic */}
         <div className="btn btn-ghost btn-circle avatar h-9 w-9 ">
-          <div className="w-8 rounded-xl  ">
+          <div className="w-8 rounded-lg  ">
             <img alt="Avatar" src={user.profilePic} />
           </div>
         </div>
