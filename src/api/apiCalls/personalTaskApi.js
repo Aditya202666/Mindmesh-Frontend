@@ -142,6 +142,7 @@ const markAsCompletedPersonalTask = async (id) => {
 const updatePersonalTask = async (id, task) => {
   try {
     const cookie = getHeaderToken();
+    console.log(task);
     const res = await axiosInstance.patch(
       `/personalTask/${id}`,
       { ...task },
@@ -167,7 +168,7 @@ const deletePersonalTask = async (id) => {
 const createProject = async (name) => {
   try {
     const cookie = getHeaderToken();
-
+    
     const res = await axiosInstance.post(`/personalTask/project/create`, { name }, cookie);
     console.log(res);
     if (res) {

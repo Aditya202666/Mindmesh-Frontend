@@ -7,7 +7,7 @@ const TaskTab = ({ style, task }) => {
     <NavLink
       to={style.to}
       className={({ isActive }) =>
-        `flex items-center gap-2 py-1 rounded-lg px-2 font-semibold   hover:scale-105 ${
+        `flex items-center gap-2 py-1 rounded-lg px-2 font-semibold transition-all duration-75 hover:scale-105 ${
           isActive
             ? "bg-amber-300 text-black shadow shadow-amber-300 "
             : `hover:bg-amber-300/65  hover:text-black`

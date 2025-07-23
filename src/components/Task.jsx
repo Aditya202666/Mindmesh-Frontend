@@ -1,8 +1,11 @@
 import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { changePersonalTaskStatusToInProgress, deleteTask } from "../api/apiCalls/personalTaskApi";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  changePersonalTaskStatusToInProgress,
+  deleteTask,
+} from "../api/apiCalls/personalTaskApi";
 
 import { MdDeleteForever } from "react-icons/md";
 import { LuBookOpen } from "react-icons/lu";
@@ -12,9 +15,20 @@ import { HiCalendarDateRange } from "react-icons/hi2";
 import { TiAttachment } from "react-icons/ti";
 import { increaseRefreshToken } from "../store/features/filterSlice";
 import { TbPick } from "react-icons/tb";
+import { GoGoal } from "react-icons/go";
+import { RiTriangularFlagFill } from "react-icons/ri";
+
+const truncate = (str, num = 30) => {
+  if (str.length > num) {
+    return str.slice(0, num) + "...";
+  } else {
+    return str;
+  }
+};
 
 const Task = ({ task }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { bgColors, priorityBadges, statusBadges } = useSelector(
     (state) => state.theme
   );
@@ -27,13 +41,12 @@ const Task = ({ task }) => {
     }
   };
 
-    const handlePickUpTask = async () => {
+  const handlePickUpTask = async () => {
     const res = await changePersonalTaskStatusToInProgress(task._id);
     if (res && res.success) {
       dispatch(increaseRefreshToken());
     }
   };
-
 
   const handleMarkAsCompleted = async () => {
     const res = await markAsCompletedPersonalTask(task._id);
@@ -45,7 +58,7 @@ const Task = ({ task }) => {
 
   const dueDate = new Date(task.dueDate?.split("T")[0]).toDateString();
   // const day  = dueDate?.split("-")
-
+  console.log(task);
   return (
     <div
       className={
@@ -106,30 +119,26 @@ const Task = ({ task }) => {
           </li>
         </ul>
       </div>
-      {/* Badges */}
-      <div className="flex space-x-1 text-sm ">
-        <div>
-          <span className=" text-xs">Status:</span>
-          <span
-            className={
-              "badge badge-sm text-black ml-1 border border-black font-semibold " +
-              statusBadges[task.status]
-            }
-          >
-            {` ` + task.status}
-          </span>
-        </div>
-        <div>
-          <span className=" text-xs">Priority:</span>
-          <span
-            className={
-              "badge badge-sm ml-1 text-black border border-black font-semibold " +
-              priorityBadges[task.priority]
-            }
-          >
-            {` ` + task.priority}
-          </span>
-        </div>
+
+      {/* priority and status */}
+      <div className="">
+        <span className="text-xs label pr-1">Priority: </span>
+        <span
+          className={`badge badge-sm border-black/50 text-black font-semibold  ${
+            priorityBadges[task.priority]
+          }`}
+        >
+          {task.priority}
+        </span>
+        <span className="text-xs label pl-2 pr-1">Status: </span>
+
+        <span
+          className={`badge badge-sm border-black/50 text-black font-semibold ${
+            statusBadges[task.status]
+          }`}
+        >
+          {task.status}
+        </span>
       </div>
 
       {/* title and desc */}
@@ -163,24 +172,42 @@ const Task = ({ task }) => {
         </>
       )}
 
-      {/*  footer */}
-      <div className="flex mt-auto items-baseline">
-        {/* open icon */}
-        <Link
-          to={`/my-tasks/${task._id}`}
-          // target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-0.5 hover:underline transition-all"
-        >
-          <ImNewTab className="size-3 cursor-pointer" title="Open in new tab" />
-          <span className="text-xs">open</span>
-        </Link>
+      {/* project name */}
 
-        {/* date */}
-        <span className="flex items-center text-xs ml-auto font-semibold">
-          <HiCalendarDateRange />
-          {task.dueDate ? `${dueDate}` : "N/A"}
-        </span>
+      {/*  footer */}
+      <div className="flex flex-col gap-1.5 mt-auto items-baseline ">
+        <div className="flex items-center gap-1">
+          <RiTriangularFlagFill className="size-3 " />
+
+          {task.project ? (
+            <span className="text-xs font-semibold hover:underline cursor-pointer" onClick={()=>navigate(`/my-tasks/project/${task.project._id}`)}>
+              {truncate(task.project.name)}
+            </span>
+          ) : (
+            <span className="text-xs font-semibold">NA</span>
+          )}
+        </div>
+        <div className="flex w-full ">
+          {/* open icon */}
+          <Link
+            to={`/my-tasks/${task._id}`}
+            // target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-0.5 hover:underline transition-all"
+          >
+            <ImNewTab
+              className="size-3 cursor-pointer"
+              title="Open"
+            />
+            <span className="text-xs">open</span>
+          </Link>
+
+          {/* date */}
+          <span className="flex items-center text-xs ml-auto font-semibold">
+            <HiCalendarDateRange />
+            {task.dueDate ? `${dueDate}` : "N/A"}
+          </span>
+        </div>
       </div>
     </div>
   );

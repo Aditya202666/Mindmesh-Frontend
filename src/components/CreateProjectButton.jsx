@@ -17,6 +17,7 @@ const CreateProjectButton = ({ heading, maxNameLength }) => {
     e.preventDefault();
 
     // todo:
+    
     const res = await createProject(name);
 
     if (res && res.success) {

@@ -24,7 +24,7 @@ import {
   LuClipboard,
   LuClipboardList,
 } from "react-icons/lu";
-import { RiProgress5Line } from "react-icons/ri";
+import { RiProgress5Line, RiTriangularFlagFill } from "react-icons/ri";
 import { getPersonalTaskDetails } from "../api/apiCalls/personalTaskApi";
 import { addDetails } from "../store/features/personalTaskSlice";
 import TaskTab from "./TaskTab";
@@ -59,9 +59,17 @@ const myTasksTab = {
   overdueTasks: {
     name: "Overdue",
     to: "/my-tasks/overdue-tasks",
-    icon: <LuAlarmClockCheck />,
+    icon: <LuAlarmClockCheck  />,
   },
 };
+
+  const truncate = (str, num = 25) => {
+    if (str.length > num) {
+      return str.slice(0, num) + "...";
+    } else {
+      return str;
+    }
+  };
 
 const Sidebar = () => {
   const user = useSelector((state) => state.user);
@@ -104,7 +112,7 @@ const Sidebar = () => {
       </div>
 
       <div className="divider mb-0"></div>
-      <ul className="mt-2 ml-2  space-y-1">
+      <ul className="mt-2 ml-2  space-y-1 ">
         <TaskTab style={myTasksTab.dashboard} task={0} />
         <TaskTab style={myTasksTab.allTasks} task={details?.allTasks} />
         <TaskTab
@@ -139,7 +147,7 @@ const Sidebar = () => {
               projects.map((prj) => (
                 <NavLink
                   key={prj._id}
-                  to={`/project/${prj._id}`}
+                  to={`/my-tasks/project/${prj._id}`}
                   className={({ isActive }) =>
                     "flex items-center gap-2 font-semibold px-2 py-1 rounded-lg " +
                     (isActive
@@ -147,7 +155,7 @@ const Sidebar = () => {
                       : " hover:bg-secondary/65")
                   }
                 >
-                  <GoTasklist />
+                  <RiTriangularFlagFill />
                   {truncate(prj.name)}
                 </NavLink>
               ))
@@ -167,10 +175,8 @@ const Sidebar = () => {
         role="button"
       >
         {/* profile pic */}
-        <div className="btn btn-ghost btn-circle avatar h-9 w-9 ">
-          <div className="w-8 rounded-lg  ">
-            <img alt="Avatar" src={user.profilePic} />
-          </div>
+        <div className="btn btn-ghost btn-circle avatar h-9 w-9  ml-1">
+            <img alt="Avatar" src={user.profilePic} className="rounded-full object-cover" />
         </div>
         {/* username  */}
         <div className="flex flex-col justify-center items-start text-xs font-semibold">

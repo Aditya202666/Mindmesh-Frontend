@@ -61,11 +61,16 @@ const MyTasksLayout = () => {
     .toUpperCase()
     .replace("-", " ");
 
+    
   if (title.length === 24) {
     title = `Task Id: ${title}`;
   }
 
-  // console.log(personalTaskSlice);
+  if(location.pathname.split("/").length === 4){
+    title = "";
+  }
+
+  console.log();
 
   return (
     <div className="w-screen lg:w-[calc(100vw-16rem)] ] h-screen overflow-y-scroll scrollbar-hide">

@@ -24,6 +24,7 @@ const MyTasksOverviewPage = () => {
     const callGetTaskOverview = async () => {
       const res = await getTaskOverview();
       if (res && res.success) {
+        console.log(res.data);
         dispatch(addDueInSevenDays(res.data.dueInSevenDays));
         dispatch(addOverdueLastMonth(res.data.overdueLastMonth));
         dispatch(addInProgressTasks(res.data.inProgressTasks));
@@ -39,25 +40,25 @@ const MyTasksOverviewPage = () => {
       <TaskOrganizer
         taskList={overdueLastMonth}
         title={"Overdue"}
-        link={"overdue-tasks"}
+        link={"/my-tasks/overdue-tasks"}
         bgColor={"bg-red-500"}
       />
       <TaskOrganizer
         taskList={dueInSevenDays}
         title={"Due in 7 Days"}
-        link={"pending-tasks"}
+        link={"/my-tasks/pending-tasks"}
         bgColor={"bg-orange-500"}
       />
       <TaskOrganizer
         taskList={inProgressTasks}
         title={"In-progress"}
-        link={"in-progress-tasks"}
+        link={"/my-tasks/in-progress-tasks"}
         bgColor={"bg-lime-500"}
       />
       <TaskOrganizer
         taskList={recentTask}
         title={"Recent"}
-        link={"all-tasks"}
+        link={"/my-tasks/all-tasks"}
         bgColor={"bg-sky-500"}
       />
     </div>

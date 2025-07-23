@@ -34,6 +34,7 @@ import CompletedTasksPage from "./pages/myTasksPages/CompletedTasksPage";
 import PendingTasksPage from "./pages/myTasksPages/PendingTasksPage";
 import OverdueTasksPage from "./pages/myTasksPages/OverdueTasksPage";
 import { addAllProjects } from "./store/features/personalTaskSlice";
+import ProjectPage from "./pages/myTasksPages/ProjectPage";
 
 // todo design dashboard layout and related pages, controllers and api calls etc. similar to my tasks
 
@@ -70,7 +71,9 @@ const App = () => {
       console.log("user not logged in" + user);
       return <Navigate to={"/login"} replace />;
     } else if (user.id && !user.isVerified) {
-      return <Navigate to={"/verify-account"} replace />;
+      if (location.pathname !== "/verify-account") {
+        return <Navigate to={"/verify-account"} replace />;
+      }
     }
     return <Outlet />;
   };
@@ -82,14 +85,13 @@ const App = () => {
     if (user.isSigningUp || user.isLoading) {
       // console.log("loading");
       return null;
-    }
-    if (user.id && user.isVerified) {
+    } else if (!user.id ) {
+      if (location.pathname !== "/verify-account") {
+        return <Navigate to={"/login"} replace />;
+      }
+    } else if (user.id && user.isVerified) {
       if (location.pathname !== "/my-tasks/overview") {
         return <Navigate to={"/my-tasks/overview"} replace />;
-      }
-    } else if (user.id && !user.isVerified) {
-      if (location.pathname !== "/verify-account") {
-        return <Navigate to={"/verify-account"} replace />;
       }
     }
     return <Outlet />;
@@ -103,6 +105,10 @@ const App = () => {
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
             <Route path="forgot-password" element={<ForgotPasswordPage />} />
+            <Route
+              path="verify-account"
+              element={<AccountVerificationPage />}
+            />
           </Route>
         </Route>
 
@@ -111,12 +117,6 @@ const App = () => {
 
         {/* MyTasks Routes */}
         <Route element={<ProtectedRoutes />}>
-          <Route element={<AuthLayout />}>
-            <Route
-              path="verify-account"
-              element={<AccountVerificationPage />}
-            />
-          </Route>
           <Route element={<RootLayout />}>
             <Route path="my-tasks" element={<MyTasksLayout />}>
               <Route path="overview" element={<MyTasksOverviewPage />} />
@@ -131,6 +131,8 @@ const App = () => {
               <Route path="completed-tasks" element={<CompletedTasksPage />} />
               <Route path="pending-tasks" element={<PendingTasksPage />} />
               <Route path="overdue-tasks" element={<OverdueTasksPage />} />
+              <Route path="project/:id" element={<ProjectPage/>} />
+              
             </Route>
           </Route>
         </Route>

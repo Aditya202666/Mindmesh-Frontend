@@ -2,23 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   getOneTask,
-  markAsCompletedPersonalTask,
-  markAsCompletedPersonalTaskChecklist,
   updatePersonalTask,
 } from "../../api/apiCalls/personalTaskApi";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import PopUp from "../../components/PopUp";
-
+import { useSelector } from "react-redux";
 
 const EditPersonalTaskPage = () => {
   const params = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { projects } = useSelector((state) => state.personalTask);
 
   const [task, setTask] = useState(null);
+  const [projectId, setProjectId] = useState("");
 
   const today = new Date().toISOString().split("T")[0];
-  const dueDate  = task?.dueDate ? task.dueDate.split("T")[0] : ""
+  const dueDate = task?.dueDate ? task.dueDate.split("T")[0] : "";
 
   const handelRemoveChecklist = (id) => {
     setTask((prev) => {
@@ -31,16 +31,19 @@ const EditPersonalTaskPage = () => {
     });
   };
 
-  const handleUpdateTask = async()=>{
+  console.log(projectId);
 
-    const res = await updatePersonalTask(task._id, {...task, dueDate: new Date(task.dueDate)})
-    if(res && res.success){
-        console.log(task._id, {...task, dueDate: new Date(task.dueDate)})
-        navigate(`/my-tasks/${task._id}`)
+  const handleUpdateTask = async () => {
+    const res = await updatePersonalTask(task._id, {
+      ...task,
+      dueDate: new Date(task.dueDate),
+      project: projectId
+    });
+    if (res && res.success) {
+      console.log(task._id, { ...task, dueDate: new Date(task.dueDate) });
+      navigate(`/my-tasks/${task._id}`);
     }
-
-  }
-
+  };
 
   useEffect(() => {
     const fetchTask = async () => {
@@ -48,6 +51,7 @@ const EditPersonalTaskPage = () => {
 
       if (res && res.success) {
         setTask(res.data);
+        setProjectId(res.data.project?._id || "")
         console.log(res.data);
       }
     };
@@ -121,6 +125,20 @@ const EditPersonalTaskPage = () => {
             />
           </span>
         </div>
+
+        <label className="select select-sm cursor-pointer rounded-lg mt-2">
+          <span className="label  cursor-pointer">Project</span>
+          <select className="w-full max-w-xs rounded-lg" value={projectId} onChange={(e) => setProjectId(e.target.value)}>
+            <option value={""} disabled>
+              Select Project
+            </option>
+            {projects.map((project) => (
+              <option key={project._id} value={project._id}>
+                {project.name}
+              </option>
+            ))}
+          </select>
+        </label>
 
         <div className="p-2 mt-4">
           {/* title & desc  */}
@@ -202,8 +220,8 @@ const EditPersonalTaskPage = () => {
           <PopUp
             buttonCss={"btn-sm bg-red-400 hover:bg-red-500"}
             buttonName={"Cancel"}
-            callbackFunction={()=>navigate(`/my-tasks/${task._id}`)}
-            callbackButtonName = {"Leave"}
+            callbackFunction={() => navigate(`/my-tasks/${task._id}`)}
+            callbackButtonName={"Leave"}
             callbackButtonCss={"bg-red-400 hover:bg-red-500"}
             popUpMessage={`Are you sure you want to leave this page? All unsaved data will be lost.`}
           />

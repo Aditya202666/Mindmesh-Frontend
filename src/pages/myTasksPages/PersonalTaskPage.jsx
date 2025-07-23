@@ -16,6 +16,7 @@ import PopUp from "../../components/PopUp";
 import { MdDeleteForever } from "react-icons/md";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { TbPick } from "react-icons/tb";
+import { RiTriangularFlagFill } from "react-icons/ri";
 
 const PersonalTaskPage = () => {
   const params = useParams();
@@ -85,6 +86,8 @@ const PersonalTaskPage = () => {
     fetchTask();
   }, [params.taskId]);
 
+  console.log(task);
+
   return (
     <div className={`w-full my-6`}>
       {/* task container */}
@@ -130,7 +133,7 @@ const PersonalTaskPage = () => {
           >
             <div className={" bg-transparent m-1 p-0 border-0 "}>
               <BsThreeDotsVertical
-                className={`text-lg hover:scale-110 text-black transition-all `}
+                className={`text-lg hover:scale-110  transition-all `}
               />
             </div>
             <ul className="menu text-base-content dropdown-content bg-base-100 p-1 border border-base-content/50 rounded-md z-1 w-40 text-xs font-medium p ">
@@ -139,16 +142,14 @@ const PersonalTaskPage = () => {
                   <div
                     className="  cursor-pointer rounded-lg "
                     title="Edit Task"
-                    onClick={() =>
-                      navigate(`/my-tasks/${task?._id}/edit`)
-                    }
+                    onClick={() => navigate(`/my-tasks/${task?._id}/edit`)}
                   >
                     <FaEdit />
                     Edit
                   </div>
                 </li>
               )}
-              { task?.status === "To-do" && (
+              {task?.status === "To-do" && (
                 <li onClick={handlePickUpTask}>
                   <div>
                     <TbPick /> PickUp Task
@@ -166,6 +167,21 @@ const PersonalTaskPage = () => {
               </li>
             </ul>
           </div>
+        </div>
+
+        <div className="flex items-center gap-1 mt-1">
+          <RiTriangularFlagFill className="size-4 " />
+
+          {task?.project ? (
+            <span
+              className="text-sm font-semibold hover:underline cursor-pointer"
+              onClick={() => navigate(`/my-tasks/project/${task.project._id}`)}
+            >
+              {task.project.name}
+            </span>
+          ) : (
+            <span className="text-xs font-semibold">NA</span>
+          )}
         </div>
 
         <div className="p-2">
@@ -238,7 +254,7 @@ const PersonalTaskPage = () => {
                   {checklistInput.length > 0 && (
                     <button
                       type="submit"
-                      className="btn btn-sm bg-sky-300 hover:bg-sky-400 text-black rounded-lg border border-base-content/50"
+                      className="btn btn-sm bg-amber-300 hover:bg-amber-400 text-black rounded-lg border border-base-content/50"
                     >
                       Add
                     </button>

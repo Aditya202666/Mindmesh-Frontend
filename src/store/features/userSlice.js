@@ -26,6 +26,8 @@ export const userSlice = createSlice({
         removeUserData: () => {
             return {...initialState, isLoading: false};
         },
+        
+
         setIsSigningUpFalse: (state) => {
             state.isSigningUp = false;
         },
