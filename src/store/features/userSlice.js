@@ -21,6 +21,7 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         registerUserData: (state, action) => {
+            
             return { ...state, ...action.payload , isSigningUp: false, isLoading: false};
         },
         removeUserData: () => {

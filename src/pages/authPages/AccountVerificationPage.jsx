@@ -22,10 +22,10 @@ const AccountVerificationPage = () => {
     
     const handleVerify = async (e) => {
         e.preventDefault();
-        console.log(otp);
+        // console.log(otp);
         setIsVerifying(true);
         const res = await verifyAccount({ otp });
-        console.log(res);
+        // console.log(res);
         if (res && res.success) {
             dispatch(registerUserData(res.data));
             navigate("/my-tasks");
@@ -48,7 +48,7 @@ const AccountVerificationPage = () => {
         }
     }, [user.id]);
     
-    console.log('render')
+    // console.log('render')
     return (
         <div className="flex flex-col items-center justify-center my-8 gap-6 w-full h-full">
             <h1 className="font-bold  text-2xl md:text-4xl">

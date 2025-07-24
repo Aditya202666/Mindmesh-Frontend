@@ -8,13 +8,13 @@ const HomePage = () => {
 
     const user = useSelector(state => state.user)
 
-    console.log(user)
+    // console.log(user)
 
     const navigate = useNavigate()
 
     const handleClick = async()=>{
        const res = await logoutUser()
-       console.log(res)
+      //  console.log(res)
     }
 
   return (

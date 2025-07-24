@@ -24,7 +24,7 @@ const MyTasksOverviewPage = () => {
     const callGetTaskOverview = async () => {
       const res = await getTaskOverview();
       if (res && res.success) {
-        console.log(res.data);
+        // console.log(res.data);
         dispatch(addDueInSevenDays(res.data.dueInSevenDays));
         dispatch(addOverdueLastMonth(res.data.overdueLastMonth));
         dispatch(addInProgressTasks(res.data.inProgressTasks));

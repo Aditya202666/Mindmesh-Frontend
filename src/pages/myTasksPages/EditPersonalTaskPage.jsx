@@ -31,7 +31,7 @@ const EditPersonalTaskPage = () => {
     });
   };
 
-  console.log(projectId);
+  // console.log(projectId);
 
   const handleUpdateTask = async () => {
     const res = await updatePersonalTask(task._id, {
@@ -40,7 +40,7 @@ const EditPersonalTaskPage = () => {
       project: projectId
     });
     if (res && res.success) {
-      console.log(task._id, { ...task, dueDate: new Date(task.dueDate) });
+      // console.log(task._id, { ...task, dueDate: new Date(task.dueDate) });
       navigate(`/my-tasks/${task._id}`);
     }
   };
@@ -52,7 +52,7 @@ const EditPersonalTaskPage = () => {
       if (res && res.success) {
         setTask(res.data);
         setProjectId(res.data.project?._id || "")
-        console.log(res.data);
+        // console.log(res.data);
       }
     };
     fetchTask();

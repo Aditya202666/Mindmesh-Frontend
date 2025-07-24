@@ -142,7 +142,7 @@ const markAsCompletedPersonalTask = async (id) => {
 const updatePersonalTask = async (id, task) => {
   try {
     const cookie = getHeaderToken();
-    console.log(task);
+    // console.log(task);
     const res = await axiosInstance.patch(
       `/personalTask/${id}`,
       { ...task },
@@ -170,7 +170,35 @@ const createProject = async (name) => {
     const cookie = getHeaderToken();
     
     const res = await axiosInstance.post(`/personalTask/project/create`, { name }, cookie);
-    console.log(res);
+    // console.log(res);
+    if (res) {
+      toast(res.data.message);
+      return res.data;
+    }
+  } catch (error) {
+    handleError(error);
+  }
+};
+const changeProjectName = async (name, id) => {
+  try {
+    const cookie = getHeaderToken();
+    
+    const res = await axiosInstance.patch(`/personalTask/project/${id}`, { name }, cookie);
+    // console.log(res);
+    if (res) {
+      toast(res.data.message);
+      return res.data;
+    }
+  } catch (error) {
+    handleError(error);
+  }
+};
+const deleteProject = async ( id) => {
+  try {
+    const cookie = getHeaderToken();
+    
+    const res = await axiosInstance.delete(`/personalTask/project/${id}`, cookie);
+    // console.log(res);
     if (res) {
       toast(res.data.message);
       return res.data;
@@ -194,5 +222,7 @@ export {
   getAllTasks,
   getPersonalTaskDetails,
   changePersonalTaskStatusToInProgress,
-  createProject
+  createProject,
+  changeProjectName,
+  deleteProject
 };

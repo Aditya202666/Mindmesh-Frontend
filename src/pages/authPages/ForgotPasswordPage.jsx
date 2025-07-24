@@ -6,6 +6,7 @@ import { registerUserData } from "../../store/features/userSlice";
 import { useDispatch } from "react-redux";
 import { FaKey, FaMailBulk } from "react-icons/fa";
 import Timer from "../../components/Timer";
+import { addAllProjects } from "../../store/features/personalTaskSlice";
 
 
 const ForgotPasswordPage = () => {
@@ -26,8 +27,10 @@ const ForgotPasswordPage = () => {
         const res = await verifyForgotPasswordOtp({ email, otp });
         // console.log(res);
         if (res && res.success) {
-            dispatch(registerUserData(res.data));
-            navigate("/my-tasks");
+            dispatch(registerUserData(res.data.user));
+            dispatch(addAllProjects(res.data.projects));
+            
+            navigate("/my-tasks/overview");
         }
 
         setIsVerifying(false);
@@ -42,6 +45,7 @@ const ForgotPasswordPage = () => {
         }
     };
 
+    
 
     return (
         <div className="flex flex-col items-center justify-center my-8 gap-6 w-full h-full">

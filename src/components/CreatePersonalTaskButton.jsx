@@ -31,15 +31,17 @@ const CreatePersonalTaskButton = () => {
     const status = form.querySelector("select").value;
     const priority = form.querySelectorAll("select")[1].value;
     const color = form.querySelectorAll("select")[2].value;
-    const project = form.querySelectorAll("select")[3].value;
+    const project = form.querySelectorAll("select")[3].value || null;
     const inputDate = form.querySelector('input[type="date"]').value;
     const dueDate = new Date(inputDate);
     // console.log(dueDate)
     if (dueDate === "") {
       toast.error("Please select a date");
-      console.log("inside");
+      // console.log("inside");
       return;
     }
+
+    // console.log(project, "project");
 
     const res = await createTask({
       title,
@@ -68,7 +70,7 @@ const CreatePersonalTaskButton = () => {
     setTitleLength(0);
   };
 
-  console.log(projects);
+  // console.log(projects);
 
   return (
     <div>

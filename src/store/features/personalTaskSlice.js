@@ -53,6 +53,7 @@ const personalTaskSlice = createSlice({
       state.completedTasks = fetchedAllTasks;
       state.details.completedTasks = taskDetails[0]?.totalTasks || 0;
     },
+
     addPendingTasks: (state, action) => {
       const fetchedAllTasks = action.payload.allTasks;
       const taskDetails = action.payload.taskDetails;
@@ -76,6 +77,7 @@ const personalTaskSlice = createSlice({
       state.projectTasks = fetchedAllTasks;
     },
 
+
     addDueInSevenDays: (state, action) => {
       state.dueInSevenDays = action.payload;
     },
@@ -96,6 +98,20 @@ const personalTaskSlice = createSlice({
       state.details.inProgressTasks = details.inProgressTasks[0]?.count || 0;
       state.details.overdueTasks = details.overdueTasks[0]?.count || 0;
       state.details.pendingTasks = details.pendingTasks[0]?.count || 0;
+    },
+
+    changeProjectNameInStore: (state, action) => {
+      const { _id, name } = action.payload;
+      const project = state.projects.forEach((project) => {
+        if (project._id === _id) {
+          project.name = name;
+        }
+      });
+    },
+
+    removeProject: (state, action) => {
+      const _id = action.payload;
+      state.projects = state.projects.filter((project) => project._id !== _id);
     },
 
     addAllProjects: (state, action) => {
@@ -122,6 +138,9 @@ export const {
   addAllProjects,
   addProject,
   addProjectTasks,
+  changeProjectNameInStore,
+  removeProject,
+  
 } = personalTaskSlice.actions;
 
 export default personalTaskSlice.reducer;

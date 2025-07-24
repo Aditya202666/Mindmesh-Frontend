@@ -41,6 +41,7 @@ import ProjectPage from "./pages/myTasksPages/ProjectPage";
 const App = () => {
   const user = useSelector((state) => state.user);
   const theme = useSelector((state) => state.theme.theme);
+  const projects = useSelector((state) => state.personalTask.projects);
 
   const dispatch = useDispatch();
 
@@ -56,11 +57,16 @@ const App = () => {
       } else {
         dispatch(setIsSigningUpFalse());
         dispatch(setIsLoadingFalse());
-      }
+      } 
     };
 
     getUser();
   }, [dispatch]);
+
+  const CheckProjectProtectedRoute = () => {
+    if (projects.length === 0) return <Navigate to="/my-tasks/overview" replace={true} />;
+    else return <Outlet />;
+  };
 
   const ProtectedRoutes = () => {
     if (user.isSigningUp || user.isLoading) {
@@ -68,7 +74,7 @@ const App = () => {
       return null;
     }
     if (!user.id) {
-      console.log("user not logged in" + user);
+      // console.log("user not logged in" + user);
       return <Navigate to={"/login"} replace />;
     } else if (user.id && !user.isVerified) {
       if (location.pathname !== "/verify-account") {
@@ -82,11 +88,11 @@ const App = () => {
 
   const RedirectFromLogin = () => {
     const location = useLocation();
-    if (user.isSigningUp || user.isLoading) {
+    if (user.isSigningUp) {
       // console.log("loading");
       return null;
-    } else if (!user.id ) {
-      if (location.pathname !== "/verify-account") {
+    } else if (!user.id) {
+      if (location.pathname === "/verify-account") {
         return <Navigate to={"/login"} replace />;
       }
     } else if (user.id && user.isVerified) {
@@ -131,8 +137,9 @@ const App = () => {
               <Route path="completed-tasks" element={<CompletedTasksPage />} />
               <Route path="pending-tasks" element={<PendingTasksPage />} />
               <Route path="overdue-tasks" element={<OverdueTasksPage />} />
-              <Route path="project/:id" element={<ProjectPage/>} />
-              
+              <Route element={<CheckProjectProtectedRoute />}>
+              <Route path="project/:id" element={<ProjectPage />} />
+              </Route>
             </Route>
           </Route>
         </Route>

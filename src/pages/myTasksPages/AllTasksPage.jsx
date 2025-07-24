@@ -85,7 +85,7 @@ const AllTasksPage = () => {
 
       <SearchTasks
         dateInput={dateInput}
-        searchInput={searchInput}
+        searchInput={searchInput} 
         setDateInput={setDateInput}
         setSearchInput={setSearchInput}
         setPageNumber={setPageNumber}

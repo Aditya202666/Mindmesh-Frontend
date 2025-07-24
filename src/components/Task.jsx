@@ -36,7 +36,7 @@ const Task = ({ task }) => {
   const handleDeleteTask = async () => {
     const res = await deleteTask(task._id);
     if (res && res.success) {
-      console.log(res);
+      // console.log(res);
       dispatch(increaseRefreshToken());
     }
   };
@@ -51,14 +51,14 @@ const Task = ({ task }) => {
   const handleMarkAsCompleted = async () => {
     const res = await markAsCompletedPersonalTask(task._id);
     if (res && res.success) {
-      console.log(res);
+      // console.log(res);
       dispatch(increaseRefreshToken());
     }
   };
 
   const dueDate = new Date(task.dueDate?.split("T")[0]).toDateString();
   // const day  = dueDate?.split("-")
-  console.log(task);
+  // console.log(task);
   return (
     <div
       className={

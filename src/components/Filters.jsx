@@ -13,7 +13,7 @@ const Filters = () => {
     const dispatch = useDispatch();
     const filters = useSelector((state) => state.filter);
     const [tempFilter, setTempFilter] = useState({...filters })
-    console.log(filters);
+    // console.log(filters);
     return (
         <details className="dropdown dropdown-end">
           <summary className="btn bg-gray-300 hover:bg-gray-400 text-black btn-sm rounded-lg p-2 border border-base-content/50"><FaFilter/></summary>

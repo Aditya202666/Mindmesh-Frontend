@@ -21,7 +21,7 @@ const CreateProjectButton = ({ heading, maxNameLength }) => {
     const res = await createProject(name);
 
     if (res && res.success) {
-      console.log(res);
+      // console.log(res);
       dispatch(addProject(res.data));
 
     }

@@ -1,9 +1,17 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import mindmeshLogo from "../assets/mindmeshLogo.png";
+import { use } from "react";
+import { useSelector } from "react-redux";
 
 const AuthLayout = () => {
-    console.log("here")
+
+    const user = useSelector((state) => state.user);
+    
+
+    if(user.id) return <Navigate to="/my-tasks/overview" replace={true} />
+
+    console.log("here", user)
     return (
         <div className="h-screen w-screen flex flex-col justify-center items-center mx-auto max-w-7xl">
             <div className="relative shadow-xs shadow-black flex gap-4 w-11/12 h-11/12 bg-base-300 p-2 md:p-4 rounded-xl">

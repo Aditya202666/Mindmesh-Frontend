@@ -86,7 +86,7 @@ const PersonalTaskPage = () => {
     fetchTask();
   }, [params.taskId]);
 
-  console.log(task);
+  // console.log(task);
 
   return (
     <div className={`w-full my-6`}>

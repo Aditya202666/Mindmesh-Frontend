@@ -27,7 +27,7 @@ const LoginPage = () => {
     setIsLogging(true);
     const formData = { username, email, password };
     const res = await loginUser(formData);
-    console.log(res);
+    // console.log(res);
     if (res && res.success) {
       dispatch(registerUserData(res.data.user));
       dispatch(addAllProjects(res.data.projects));

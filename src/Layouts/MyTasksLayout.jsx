@@ -70,7 +70,7 @@ const MyTasksLayout = () => {
     title = "";
   }
 
-  console.log();
+  // console.log();
 
   return (
     <div className="w-screen lg:w-[calc(100vw-16rem)] ] h-screen overflow-y-scroll scrollbar-hide">

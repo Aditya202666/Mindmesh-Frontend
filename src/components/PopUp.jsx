@@ -24,7 +24,7 @@ const PopUp = ({ buttonName, buttonCss, popUpMessage, callbackFunction, callback
       </button>
       <dialog
         className={
-          `fixed flex items-center justify-center w-screen h-screen top-0 z-10 bg-base-content/20 ` +
+          `absolute flex items-center justify-center w-screen h-screen top-0 z-10 bg-base-content/20 ` +
           (open ? "block" : `hidden`)
         }
       >

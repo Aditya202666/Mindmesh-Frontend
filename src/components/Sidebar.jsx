@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   FaBell,
+  FaEdit,
   FaPlus,
   FaRegCheckCircle,
   FaSun,
@@ -11,7 +12,12 @@ import {
 import { FaRegHourglassHalf, FaUserGroup } from "react-icons/fa6";
 import { GoTasklist } from "react-icons/go";
 import { IoMdMoon, IoMdSettings } from "react-icons/io";
-import { MdLogout, MdSpaceDashboard } from "react-icons/md";
+import {
+  MdDeleteForever,
+  MdEdit,
+  MdLogout,
+  MdSpaceDashboard,
+} from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { toggleTheme } from "../store/features/themeSlice";
@@ -29,6 +35,8 @@ import { getPersonalTaskDetails } from "../api/apiCalls/personalTaskApi";
 import { addDetails } from "../store/features/personalTaskSlice";
 import TaskTab from "./TaskTab";
 import { all } from "axios";
+import { BiEdit } from "react-icons/bi";
+import EditProjectButton from "./EditProjectButton";
 
 const myTasksTab = {
   dashboard: {
@@ -39,37 +47,37 @@ const myTasksTab = {
   allTasks: {
     name: "All",
     to: "/my-tasks/all-tasks",
-    icon: <LuClipboardList />,
+    icon: <LuClipboardList className="size-4" />,
   },
   inProgress: {
     name: "In-Progress",
     to: "/my-tasks/in-progress-tasks",
-    icon: <RiProgress5Line />,
+    icon: <RiProgress5Line className="size-4" />,
   },
   completedTasks: {
     name: "Completed",
     to: "/my-tasks/completed-tasks",
-    icon: <FaRegCheckCircle />,
+    icon: <FaRegCheckCircle className="size-4" />,
   },
   pendingTasks: {
     name: "Pending",
     to: "/my-tasks/pending-tasks",
-    icon: <FaRegHourglassHalf />,
+    icon: <FaRegHourglassHalf className="size-4" />,
   },
   overdueTasks: {
     name: "Overdue",
     to: "/my-tasks/overdue-tasks",
-    icon: <LuAlarmClockCheck  />,
+    icon: <LuAlarmClockCheck className="size-4" />,
   },
 };
 
-  const truncate = (str, num = 25) => {
-    if (str.length > num) {
-      return str.slice(0, num) + "...";
-    } else {
-      return str;
-    }
-  };
+const truncate = (str, num = 25) => {
+  if (str.length > num) {
+    return str.slice(0, num) + "...";
+  } else {
+    return str;
+  }
+};
 
 const Sidebar = () => {
   const user = useSelector((state) => state.user);
@@ -145,19 +153,21 @@ const Sidebar = () => {
           <ul className="overflow-y-auto h-64">
             {projects && projects.length > 0 ? (
               projects.map((prj) => (
-                <NavLink
-                  key={prj._id}
-                  to={`/my-tasks/project/${prj._id}`}
-                  className={({ isActive }) =>
-                    "flex items-center gap-2 font-semibold px-2 py-1 rounded-lg " +
-                    (isActive
-                      ? " text-secondary-content bg-secondary shadow border border-base-content/20"
-                      : " hover:bg-secondary/65")
-                  }
-                >
-                  <RiTriangularFlagFill />
-                  {truncate(prj.name)}
-                </NavLink>
+                <div className="flex items-center gap-1 group" key={prj._id}>
+                  <EditProjectButton project={prj} />
+                  <NavLink
+                    
+                    to={`/my-tasks/project/${prj._id}`}
+                    className={({ isActive }) =>
+                      "flex items-center gap-2 font-semibold px-2 py-1 rounded-lg w-full " +
+                      (isActive
+                        ? " text-secondary-content bg-secondary shadow border border-base-content/20"
+                        : " hover:bg-secondary/65")
+                    }
+                  >
+                    {truncate(prj.name)}
+                  </NavLink>
+                </div>
               ))
             ) : (
               <p className="text-center text-sm text-gray-500">
@@ -176,7 +186,11 @@ const Sidebar = () => {
       >
         {/* profile pic */}
         <div className="btn btn-ghost btn-circle avatar h-9 w-9  ml-1">
-            <img alt="Avatar" src={user.profilePic} className="rounded-full object-cover" />
+          <img
+            alt="Avatar"
+            src={user.profilePic}
+            className="rounded-full object-cover"
+          />
         </div>
         {/* username  */}
         <div className="flex flex-col justify-center items-start text-xs font-semibold">
@@ -188,13 +202,6 @@ const Sidebar = () => {
           tabIndex={0}
           className="menu text-xs font-semibold menu-sm dropdown-content bg-base-100 border-r-base-300 rounded-box z-1 mb-2 w-52 p-2 shadow-lg"
         >
-          <li>
-            <Link to={"/profile"} className="flex items-center gap-2 ">
-              {" "}
-              <FaUserCircle />
-              Profile
-            </Link>
-          </li>
           <li>
             <span onClick={handleToggleTheme}>
               <span className="flex items-center gap-2">

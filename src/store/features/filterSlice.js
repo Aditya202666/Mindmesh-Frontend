@@ -14,6 +14,7 @@ const formattedDate = `${yyyy}-${mm}-${dd}`;
 const initialState = {
   refreshToken: 0,
   workspaceRefreshToken: 0,
+  fromDate: formattedDate,
 };
 
 const filterSlice = createSlice({

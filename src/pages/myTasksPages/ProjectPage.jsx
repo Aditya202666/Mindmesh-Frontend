@@ -2,24 +2,29 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Task from "../../components/Task";
 import { getAllTasks } from "../../api/apiCalls/personalTaskApi";
-import { addAllTasks, addProjectTasks } from "../../store/features/personalTaskSlice";
+import {
+  addAllTasks,
+  addProjectTasks,
+} from "../../store/features/personalTaskSlice";
 import Pagination from "../../components/Pagination";
 import SearchTasks from "../../components/SearchTasks";
-import { useLocation } from "react-router-dom";
-
+import { Navigate, useLocation } from "react-router-dom";
+import { RiTriangularFlagFill } from "react-icons/ri";
 
 const ProjectPage = () => {
+  const { projects, projectTasks } = useSelector((state) => state.personalTask);
   const dispatch = useDispatch();
-
+  
   const location = useLocation();
-
+  
   const projectId = location.pathname.split("/").pop();
-
-  const { projectTasks } = useSelector((state) => state.personalTask);
+  let projectName = projects?.filter((project) => project?._id === projectId)[0].name;
+  
   const { fromDate, refreshToken } = useSelector((state) => state.filter);
 
   const [dateInput, setDateInput] = useState(fromDate);
   const [searchInput, setSearchInput] = useState("");
+  
 
   const [showingFrom, setShowingFrom] = useState(null);
   const [showingTo, setShowingTo] = useState(null);
@@ -27,14 +32,13 @@ const ProjectPage = () => {
 
   const [pageNumber, setPageNumber] = useState(1);
 
-  let totalPages = Math.ceil( totalResult / 20);
-  if(totalPages === 0){
-    totalPages = 1
+  let totalPages = Math.ceil(totalResult / 20);
+  if (totalPages === 0) {
+    totalPages = 1;
   }
 
   useEffect(() => {
-
-    if(searchInput) return
+    if (searchInput) return;
     // console.log('normal')
     const handleGetAllTasks = async () => {
       // console.log("here");
@@ -42,38 +46,35 @@ const ProjectPage = () => {
         fromDate: dateInput,
         page: pageNumber,
         status: "All",
-        projectId: projectId
+        projectId: projectId,
       });
       if (res && res.success) {
         dispatch(addProjectTasks(res.data));
         setShowingFrom(res.data.taskDetails[0]?.showingFrom || 0);
         setShowingTo(res.data.taskDetails[0]?.showingTo || 0);
         setTotalResult(res.data.taskDetails[0]?.totalTasks || 0);
-        console.log(res.data);
+        // console.log(res.data);
       }
-    
-
     };
-    handleGetAllTasks()
-  }, [dispatch, dateInput,searchInput, pageNumber, refreshToken, projectId]);
+    handleGetAllTasks();
+  }, [dispatch, dateInput, searchInput, pageNumber, refreshToken, projectId]);
+
+  useEffect(() => {}, [projects, projectId]);
 
   useEffect(() => {
-
-    if(!searchInput) return
+    if (!searchInput) return;
     // console.log('search')
-    const timeoutId = setTimeout(async () => {  
-      
+    const timeoutId = setTimeout(async () => {
       const res = await getAllTasks({
         fromDate: dateInput,
         page: pageNumber,
         status: "All",
         searchQuery: searchInput,
-        projectId: projectId
-
+        projectId: projectId,
       });
       if (res && res.success) {
-        console.log(res.data);
-        dispatch(   (res.data));
+        // console.log(res.data);
+        dispatch(res.data);
         setShowingFrom(res.data.taskDetails[0]?.showingFrom || 0);
         setShowingTo(res.data.taskDetails[0]?.showingTo || 0);
         setTotalResult(res.data.taskDetails[0]?.totalTasks || 0);
@@ -85,10 +86,15 @@ const ProjectPage = () => {
     };
   }, [dispatch, searchInput, pageNumber, refreshToken, dateInput]);
 
-  // console.log(allTasks);
+  // console.log(projectName, "projectName");
 
   return (
     <div className="p-4 rounded-lg border border-base-content/50  bg-base-300 my-4 ">
+
+      <div className="flex  items-center text-xl mb-2 font-semibold  gap-2">
+        <RiTriangularFlagFill/>{projectName}
+      </div>
+
       {/* filters */}
 
       <SearchTasks
