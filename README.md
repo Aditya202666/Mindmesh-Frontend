@@ -7,7 +7,7 @@
 ## 🔐 Test Credentials
 
 * **Username**: `user1`
-* **Password**: `pass-123123123`
+* **Password**: `123123123`
 
 ---
 
