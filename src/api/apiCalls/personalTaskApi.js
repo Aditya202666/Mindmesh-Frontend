@@ -21,6 +21,7 @@ const createTask = async (data) => {
 const getTaskOverview = async () => {
   try {
     const cookie = getHeaderToken();
+    console.log(cookie);
     const res = await axiosInstance.get("/personalTask/overview", cookie);
     return res.data;
   } catch (error) {
