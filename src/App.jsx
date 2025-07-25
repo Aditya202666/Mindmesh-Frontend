@@ -119,13 +119,13 @@ const App = () => {
         </Route>
 
         {/* HomePage */}
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<Navigate to="/my-tasks/overview" replace />} />
 
         {/* MyTasks Routes */}
         <Route element={<ProtectedRoutes />}>
           <Route element={<RootLayout />}>
             <Route path="my-tasks" element={<MyTasksLayout />}>
-              <Route path="overview" element={<MyTasksOverviewPage />} />
+              <Route index path="overview" element={<MyTasksOverviewPage />} />
 
               <Route path=":taskId/edit" element={<EditPersonalTaskPage />} />
               <Route path=":taskId" element={<PersonalTaskPage />} />
