@@ -101,7 +101,7 @@ const Sidebar = () => {
   }, [dispatch, refreshToken]);
 
   return (
-    <div className="hidden border lg:flex flex-col bg-base-300 h-screen w-3xs px-4 transition-all duration-300 border-r border-base-content/50 ">
+    <div className="hidden  lg:flex flex-col bg-base-300 h-screen w-3xs px-4 transition-all duration-300 border-r border-base-content/50 ">
       <div className="flex items-center w-2xs h-10 gap-0">
         <img className="h-10" src={mindmeshLogo} alt="" />
         <h1 className="text-lg font-semibold ">MindMesh</h1>

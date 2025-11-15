@@ -7,7 +7,9 @@ const handleError = (error, notify = true) => {
         "Something went wrong";
     // console.log(`error: ${error}`);
     // console.log(`message: ${message}`);
-    if (notify) toast(message);
+    if (notify) {
+        console.log(error)
+    };
 
     return error.response?.data || { success:false, message }
 };
