@@ -8,7 +8,8 @@ const handleError = (error, notify = true) => {
     // console.log(`error: ${error}`);
     // console.log(`message: ${message}`);
     if (notify) {
-        console.log(error)
+        if(error.response?.status === 500) toast("Server Error");
+        else toast(message);
     };
 
     return error.response?.data || { success:false, message }
