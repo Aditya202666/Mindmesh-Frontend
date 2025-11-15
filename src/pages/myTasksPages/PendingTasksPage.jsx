@@ -84,7 +84,7 @@ const PendingTasksPage = () => {
   // console.log(allTasks);
 
   return (
-    <div className="p-4 rounded-lg border border-base-content/50  bg-base-300 my-4">
+    <div className="p-4 h-full rounded-lg border border-base-content/50  bg-base-300 my-4">
       {/* filters */}
 
       <SearchTasks
@@ -103,7 +103,18 @@ const PendingTasksPage = () => {
           ? pendingTasks.map((taskItem) => (
               <Task key={taskItem._id} task={taskItem} />
             ))
-          : ""}
+          : (
+            <div className="mt-40 flex flex-col justify-center text-center ">
+              <h1 className="text-2xl font-bold text-center">
+                No completed tasks found :(
+                  
+                
+              </h1>
+              <p>
+                Please Change your filters and try again
+              </p>
+            </div>
+          )}
       </div>
 
       <Pagination

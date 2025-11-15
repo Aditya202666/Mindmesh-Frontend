@@ -89,7 +89,7 @@ const ProjectPage = () => {
   // console.log(projectName, "projectName");
 
   return (
-    <div className="p-4 rounded-lg border border-base-content/50  bg-base-300 my-4 ">
+    <div className="p-4 h-full rounded-lg border border-base-content/50  bg-base-300 my-4 ">
 
       <div className="flex  items-center text-xl mb-2 font-semibold  gap-2">
         <RiTriangularFlagFill/>{projectName}

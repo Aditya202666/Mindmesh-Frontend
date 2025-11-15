@@ -76,7 +76,7 @@ const MyTasksLayout = () => {
     <div className="w-screen lg:w-[calc(100vw-16rem)] ] h-screen overflow-y-scroll scrollbar-hide">
       <BreadcrumbNavbar tab={"my-tasks"} />
       {/* breadcrumb Navbar */}
-      <div className="px-4">
+      <div className="px-4 h-[calc(100vh-6rem)]" >
         <div>
           {/* title and create task button */}
           <div className="flex items-center justify-between mt-2">

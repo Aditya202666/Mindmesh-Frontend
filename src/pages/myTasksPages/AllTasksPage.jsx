@@ -16,9 +16,9 @@ const AllTasksPage = () => {
   const [dateInput, setDateInput] = useState(fromDate);
   const [searchInput, setSearchInput] = useState("");
 
-  const [showingFrom, setShowingFrom] = useState(null);
-  const [showingTo, setShowingTo] = useState(null);
-  const [totalResult, setTotalResult] = useState(null);
+  const [showingFrom, setShowingFrom] = useState();
+  const [showingTo, setShowingTo] = useState();
+  const [totalResult, setTotalResult] = useState();
 
   const [pageNumber, setPageNumber] = useState(1);
 
@@ -80,7 +80,7 @@ const AllTasksPage = () => {
   // console.log(allTasks);
 
   return (
-    <div className="p-4 rounded-lg border border-base-content/50  bg-base-300 my-4 ">
+    <div className="h-full p-4 rounded-lg border border-base-content/50  bg-base-300 my-4 ">
       {/* filters */}
 
       <SearchTasks
@@ -99,7 +99,18 @@ const AllTasksPage = () => {
           ? allTasks.map((taskItem) => (
               <Task key={taskItem._id} task={taskItem} />
             ))
-          : ""}
+          : (
+            <div className="mt-40 flex flex-col justify-center text-center ">
+              <h1 className="text-2xl font-bold text-center">
+                No completed tasks found :(
+                  
+                
+              </h1>
+              <p>
+                Please Change your filters and try again
+              </p>
+            </div>
+          )}
       </div>
 
       <Pagination

@@ -35,6 +35,7 @@ import PendingTasksPage from "./pages/myTasksPages/PendingTasksPage";
 import OverdueTasksPage from "./pages/myTasksPages/OverdueTasksPage";
 import { addAllProjects } from "./store/features/personalTaskSlice";
 import ProjectPage from "./pages/myTasksPages/ProjectPage";
+import NotFound from "./pages/Not-Found";
 
 // todo design dashboard layout and related pages, controllers and api calls etc. similar to my tasks
 
@@ -119,7 +120,7 @@ const App = () => {
         </Route>
 
         {/* HomePage */}
-        <Route path="/" element={<Navigate to="/my-tasks/overview" replace />} />
+        <Route path="/" element={<HomePage />} />
 
         {/* MyTasks Routes */}
         <Route element={<ProtectedRoutes />}>
@@ -143,6 +144,8 @@ const App = () => {
             </Route>
           </Route>
         </Route>
+        // not-found route
+        <Route path="*" element={<NotFound />} />
       </>
     )
   );

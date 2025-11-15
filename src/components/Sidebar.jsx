@@ -1,25 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, } from "react";
 import {
-  FaBell,
-  FaEdit,
-  FaPlus,
   FaRegCheckCircle,
   FaSun,
   FaTasks,
-  FaUserCircle,
-  FaUsers,
 } from "react-icons/fa";
-import { FaRegHourglassHalf, FaUserGroup } from "react-icons/fa6";
-import { GoTasklist } from "react-icons/go";
-import { IoMdMoon, IoMdSettings } from "react-icons/io";
+import { FaRegHourglassHalf } from "react-icons/fa6";
+import { IoMdMoon } from "react-icons/io";
 import {
-  MdDeleteForever,
-  MdEdit,
   MdLogout,
-  MdSpaceDashboard,
 } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import {  NavLink, useNavigate } from "react-router-dom";
 import { toggleTheme } from "../store/features/themeSlice";
 import { logoutUser } from "../api/apiCalls/authApi";
 import { removeUserData } from "../store/features/userSlice";
@@ -27,15 +18,12 @@ import mindmeshLogo from "../assets/mindmeshLogo.png";
 import CreateProjectButton from "./CreateProjectButton";
 import {
   LuAlarmClockCheck,
-  LuClipboard,
   LuClipboardList,
 } from "react-icons/lu";
-import { RiProgress5Line, RiTriangularFlagFill } from "react-icons/ri";
+import { RiProgress5Line } from "react-icons/ri";
 import { getPersonalTaskDetails } from "../api/apiCalls/personalTaskApi";
 import { addDetails } from "../store/features/personalTaskSlice";
 import TaskTab from "./TaskTab";
-import { all } from "axios";
-import { BiEdit } from "react-icons/bi";
 import EditProjectButton from "./EditProjectButton";
 
 const myTasksTab = {
@@ -113,7 +101,7 @@ const Sidebar = () => {
   }, [dispatch, refreshToken]);
 
   return (
-    <div className="hidden lg:flex flex-col bg-base-300 h-screen w-3xs px-4 transition-all duration-300 border-r border-base-content/50 ">
+    <div className="hidden border lg:flex flex-col bg-base-300 h-screen w-3xs px-4 transition-all duration-300 border-r border-base-content/50 ">
       <div className="flex items-center w-2xs h-10 gap-0">
         <img className="h-10" src={mindmeshLogo} alt="" />
         <h1 className="text-lg font-semibold ">MindMesh</h1>

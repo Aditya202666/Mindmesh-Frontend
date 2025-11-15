@@ -36,8 +36,9 @@ const SearchTasks = ({
         <h3 className="font-bold text-sm">
           Viewing {showingFrom} to{" "}
           {showingTo > totalResult ? `${totalResult}` : `${showingTo}`} of{" "}
-          {totalResult} results.
+          {totalResult} results. 
         </h3>
+        <p className="text-xs">Filter by date: {dateInput}</p>
       </div>
 
       <div className="flex  items-center space-x-2 ">
